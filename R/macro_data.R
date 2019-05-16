@@ -1,5 +1,10 @@
 #' @import data.table
-
+# TODO current account to GDP from AMECO
+# TODO public debt to GDP from AMECO
+# TODO Population (UNPD)
+# TODO OECD: household and corporate debt
+# TODO IMF directions of trade, insb. trade balances
+# TODO complexity
 if (!exists("download_data")){
   download_data <- FALSE
 }
