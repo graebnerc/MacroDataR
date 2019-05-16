@@ -48,6 +48,10 @@ Here goes the documentation of the data set. Note that you can also look at `dat
 | rulc                    | Real unit labour costs: total economy (Ratio compensation per employee to nominal GDP per pers employed.)   | 2010=100             | [AMECO][16]       |
 | nulc_nac                | Nominal unit labour costs: total economy (Ratio compensation per employee to real GDP per pers employed.)   | Loc curr: 2010 = 100 | [AMECO][16]       |
 | nulc_eur                | Nominal unit labour costs: total economy (Ratio compensation per employee to real GDP per pers employed.)   | EUR: 2010 = 100      | [AMECO][16]       |
+| eci_harv                | Economic Complexity Index (ECI)           | Index | [Harvard][17] |
+| eci_rank_harv           | Rank of the country according to the ECI  | Index | [Harvard][17] |
+| eci_mit                | Economic Complexity Index (ECI)           | Index | [MIT][18] |
+| eci_rank_mit           | Rank of the country according to the ECI  | Index | [MIT][18] |
 
 
 [1]: https://unstats.un.org/unsd/tradekb/knowledgebase/country-code
@@ -66,6 +70,8 @@ Here goes the documentation of the data set. Note that you can also look at `dat
 [14]: https://data.worldbank.org/indicator/NY.GDP.MKTP.PP.CD
 [15]: https://data.worldbank.org/indicator/NY.GDP.PCAP.PP.CD
 [16]: https://ec.europa.eu/info/business-economy-euro/indicators-statistics/economic-databases/macro-economic-database-ameco/download-annual-data-set-macro-economic-database-ameco_en
+[17]: http://atlas.cid.harvard.edu/downloads
+[18]: https://atlas.media.mit.edu/en/resources/data/
 
 ## Open issues
 
