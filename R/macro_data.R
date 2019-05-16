@@ -16,6 +16,41 @@ print("World Bank data...")
 # Natural resource rents
 # https://data.worldbank.org/indicator/ny.gdp.totl.rt.zs
 
+# Real GDP (constant LCU)
+# https://data.worldbank.org/indicator/NY.GDP.MKTP.KN
+# Real GDP growth (constant LCU)
+# https://data.worldbank.org/indicator/NY.GDP.MKTP.KD.ZG
+
+# Real GDP per capita (constant LCU)
+# https://data.worldbank.org/indicator/NY.GDP.PCAP.KD.ZG
+# Real GDP per capita growth (constant LCU)
+# https://data.worldbank.org/indicator/NY.GDP.PCAP.KD.ZG
+
+# Real GDP (constant 2010 US$)
+# https://data.worldbank.org/indicator/NY.GDP.MKTP.KD
+
+# Real GDP per capita (constant 2010 US$)
+# https://data.worldbank.org/indicator/NY.GDP.PCAP.KD
+
+# Nominal GDP (current LCU)
+# https://data.worldbank.org/indicator/NY.GDP.MKTP.CN
+# Nominal GDP per capita (current LCU)
+# https://data.worldbank.org/indicator/NY.GDP.PCAP.CN
+
+# Nominal GDP (current US$)
+# https://data.worldbank.org/indicator/NY.GDP.MKTP.CD
+# Nominal GDP per capita (current US$)
+# https://data.worldbank.org/indicator/NY.GDP.PCAP.CD
+
+# GDP, PPP (constant 2011 int $)
+# https://data.worldbank.org/indicator/NY.GDP.MKTP.PP.KD
+# GDP, PPP per capita (constant 2011 int $)
+# https://data.worldbank.org/indicator/NY.GDP.PCAP.PP.KD
+# GDP, PPP (current int $)
+# https://data.worldbank.org/indicator/NY.GDP.MKTP.PP.CD
+# GDP, PPP per capita (current int $)
+# https://data.worldbank.org/indicator/NY.GDP.PCAP.PP.CD
+
 wb_file_name <- "data-raw/wb_data.csv"
 if (download_data){
   wb_raw_data <- data.table::as.data.table(
