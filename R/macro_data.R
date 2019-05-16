@@ -9,16 +9,19 @@ countries_considered <- countrycode::countrycode(strsplit(
   "LU, SE, FI, DK, FR, NL, BE, SI, DE, AT, LV, EE, SK, CZ, PL, HU, GB, IE, PT, GR, ES, IT",
   ", ")[[1]], "iso2c", "iso3c")
 
+first_year <- 1962
+last_year <- 2018
+
 # World Bank data==============================================================
 print("World Bank data...")
 # TODO Add export_GDP
 # TODO Download all countries and filter those we do not need
-# Natural resource rents
-# https://data.worldbank.org/indicator/ny.gdp.totl.rt.zs
-wb_gdp_vars <- c(
+#
+wb_vars <- c(
+  "ny.gdp.totl.rt.zs", # Natural resource rents: https://data.worldbank.org/indicator/ny.gdp.totl.rt.zs
   "NY.GDP.MKTP.KN", # Real GDP (constant LCU): https://data.worldbank.org/indicator/NY.GDP.MKTP.KN
   "NY.GDP.MKTP.KD.ZG", # Real GDP growth (constant LCU): https://data.worldbank.org/indicator/NY.GDP.MKTP.KD.ZG
-  "NY.GDP.PCAP.KD.ZG", # Real GDP per capita (constant LCU): https://data.worldbank.org/indicator/NY.GDP.PCAP.KD.ZG
+  "NY.GDP.PCAP.KN", # Real GDP per capita (constant LCU): https://data.worldbank.org/indicator/NY.GDP.PCAP.KN
   "NY.GDP.PCAP.KD.ZG", # Real GDP per capita growth (constant LCU): https://data.worldbank.org/indicator/NY.GDP.PCAP.KD.ZG
   "NY.GDP.MKTP.KD", # Real GDP (constant 2010 US$): https://data.worldbank.org/indicator/NY.GDP.MKTP.KD
   "NY.GDP.PCAP.KD", # Real GDP per capita (constant 2010 US$): https://data.worldbank.org/indicator/NY.GDP.PCAP.KD
@@ -32,25 +35,31 @@ wb_gdp_vars <- c(
   "NY.GDP.PCAP.PP.CD" # GDP, PPP per capita (current int $): https://data.worldbank.org/indicator/NY.GDP.PCAP.PP.CD
 )
 
-
-wb_file_name <- "data-raw/wb_data_gdp.csv"
-if (download_data){
-  wb_raw_data <- data.table::as.data.table(
-    WDI::WDI(country = countrycode::countrycode(countries_considered,
-                                                "iso3c", "iso2c"),
-             indicator = "ny.gdp.totl.rt.zs",
-             start = 1962, end = 2016)
-  )
-  data.table::fwrite(wb_raw_data, wb_file_name)
-}
+wb_var_names <- c(
+  "res_rents", # Natural resource rents: https://data.worldbank.org/indicator/ny.gdp.totl.rt.zs
+  "gdp_real_lcu", # Real GDP (constant LCU): https://data.worldbank.org/indicator/NY.GDP.MKTP.KN
+  "gdp_real_lcu_growth", # Real GDP growth (constant LCU): https://data.worldbank.org/indicator/NY.GDP.MKTP.KD.ZG
+  "gdp_real_pc_lcu", # Real GDP per capita (constant LCU): https://data.worldbank.org/indicator/NY.GDP.PCAP.KN
+  "gdp_real_pc_lcu_growth", # Real GDP per capita growth (constant LCU): https://data.worldbank.org/indicator/NY.GDP.PCAP.KD.ZG
+  "gdp_real_usd", # Real GDP (constant 2010 US$): https://data.worldbank.org/indicator/NY.GDP.MKTP.KD
+  "gdp_real_pc_usd", # Real GDP per capita (constant 2010 US$): https://data.worldbank.org/indicator/NY.GDP.PCAP.KD
+  "gdp_nom_lcu", # Nominal GDP (current LCU): https://data.worldbank.org/indicator/NY.GDP.MKTP.CN
+  "gdp_nom_pc_lcu", # Nominal GDP per capita (current LCU): https://data.worldbank.org/indicator/NY.GDP.PCAP.CN
+  "gdp_nom_usd", # Nominal GDP (current US$): https://data.worldbank.org/indicator/NY.GDP.MKTP.CD
+  "gdp_nom_pc_usd", # Nominal GDP per capita (current US$): https://data.worldbank.org/indicator/NY.GDP.PCAP.CD
+  "gdp_real_ppp", # GDP, PPP (constant 2011 int $): https://data.worldbank.org/indicator/NY.GDP.MKTP.PP.KD
+  "gdp_real_pc_ppp", # GDP, PPP per capita (constant 2011 int $): https://data.worldbank.org/indicator/NY.GDP.PCAP.PP.KD
+  "gdp_nom_ppp", # GDP, PPP (current int $): https://data.worldbank.org/indicator/NY.GDP.MKTP.PP.CD
+  "gdp_nom_pc_ppp" # GDP, PPP per capita (current int $): https://data.worldbank.org/indicator/NY.GDP.PCAP.PP.CD
+)
 
 wb_file_name <- "data-raw/wb_data.csv"
 if (download_data){
   wb_raw_data <- data.table::as.data.table(
     WDI::WDI(country = countrycode::countrycode(countries_considered,
                                                 "iso3c", "iso2c"),
-             indicator = "ny.gdp.totl.rt.zs",
-             start = 1962, end = 2016)
+             indicator = wb_vars,
+             start = first_year, end = last_year)
     )
   data.table::fwrite(wb_raw_data, wb_file_name)
 } else {# TODO Test whether file exists
@@ -58,8 +67,8 @@ if (download_data){
     warning("File for world bank data does not exist. Download from www...")
     wb_raw_data <- data.table::as.data.table(
       WDI::WDI(country = countries_considered,
-               indicator = "ny.gdp.totl.rt.zs",
-               start = 1962, end = 2016)
+               indicator = wb_vars,
+               start = first_year, end = last_year)
       )
     data.table::fwrite(wb_raw_data, wb_file_name)
   } else {
@@ -67,10 +76,10 @@ if (download_data){
   }
 }
 
-wb_data <- wb_raw_data[, res_rents:=ny.gdp.totl.rt.zs
-                       ][, iso3c:=countrycode::countrycode(iso2c,
+data.table::setnames(wb_raw_data, old = wb_vars, new = wb_var_names)
+wb_data <- wb_raw_data[, iso3c:=countrycode::countrycode(iso2c,
                                                            "iso2c", "iso3c")
-                         ][, .(iso3c, year,res_rents)]
+                         ][, c("iso2c", "country"):=NULL]
 print("finished.")
 
 # Gini data from Solt==========================================================
