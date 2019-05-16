@@ -22,26 +22,54 @@ knitr::opts_chunk$set(
 Here goes the documentation of the data set. Note that you can also look at `data-raw/macro_data.R` to see how the data gets constructed.
 
 
-| Variable         | Description                                                                                                      | Unit                          | Source           |
-| -----------------|:----------------------------------------------------------------------------------------------------------------:| :----------------------------:|:----------------:|
-| iso3c            | The iso3 country code                                                                                            | iso3c                         | [Info][1]        |
-| year             | The year of observation                                                                                          |   NA                          |                  |
-| res_rents        | Natural ressource rents                                                                                          | % of GDP                      | [World Bank][2]  |
-| cpi              | Harmonised consumer price index (all items)                                                                      | 2015 = 100                    | [AMECO][3]       |
-| unemp_rate       | Unemployment rate                                                                                                | % of active population        | [AMECO][3]       |
-| cap_form         | Gross fixed capital formation, total economy                                                                     | current prices                | [AMECO][3]       |
-| wage_share       | Adjusted wage share                                                                                              | % of GDP                      | [AMECO][3]       |
-| rulc             | Real unit labour costs: total economy (Ratio of compensation per employee to nominal GDP per person employed.)   | 2010=100                      | [AMECO][3]       |
-| nulc_nac         | Nominal unit labour costs: total economy (Ratio of compensation per employee to real GDP per person employed.)   | National currency: 2010 = 100 | [AMECO][3]       |
-| nulc_eur         | Nominal unit labour costs: total economy (Ratio of compensation per employee to real GDP per person employed.)   | EUR: 2010 = 100               | [AMECO][3]       |
+| Variable         | Description                                  | Unit                          | Source           |
+| -----------------|:--------------------------------------------:| :----------------------------:|:----------------:|
+| iso3c                   | The iso3 country code                                                                                       | iso3c    | [Info][1] |
+| year                    | The year of observation                                                                                     |   NA     |  |
+| res_rents               | Natural ressource rents                                                                                     | % of GDP | [World Bank][2]
+| gdp_real_lcu            | Real GDP in constant LCU                                                                                    | constant LCU | [World Bank][3]
+| gdp_real_lcu_growth     | Real GDP growth (constant LCU)                                                                              | % change | [World Bank][2]
+| gdp_real_pc_lcu         | Real GDP per capita (constant LCU)                                                                          | constant LCU per capita | [World Bank][2]
+| gdp_real_pc_lcu_growth  | Real GDP per capita growth (constant LCU)                                                                   | % change | [World Bank][2]
+| gdp_real_usd            | Real GDP (constant 2010 US$)                                                                                | constant 2010 US$ | [World Bank][2]
+| gdp_real_pc_usd         | Real GDP per capita (constant 2010 US$)                                                                     | constant 2010 US$ per capita | [World Bank][2]
+| gdp_nom_lcu             | Nominal GDP (current LCU)                                                                                   | current LCU | [World Bank][2]
+| gdp_nom_pc_lcu          | Nominal GDP per capita (current LCU)                                                                        | current LCU per capita | [World Bank][2]
+| gdp_nom_usd             | Nominal GDP (current US$)                                                                                   | current US$ | [World Bank][2]
+| gdp_nom_pc_usd          | Nominal GDP per capita (current US$)                                                                        | current US$ per capita | [World Bank][2]
+| gdp_real_ppp            | GDP, PPP (constant 2011 int $)                                                                              | constant 2011 int $ | [World Bank][2]
+| gdp_real_pc_ppp         | GDP, PPP per capita (constant 2011 int $)                                                                   | constant 2011 int $ per capita | [World Bank][2]
+| gdp_nom_ppp             | GDP, PPP (current int $)                                                                                    | current int $ | [World Bank][2]
+| gdp_nom_pc_ppp          | GDP, PPP per capita (current int $)                                                                         | current int $ per capita | [World Bank][2]     
+| cpi                     | Harmonised consumer price index (all items)                                                                 | 2015 = 100           | [AMECO][16]       |
+| unemp_rate              | Unemployment rate                                                                                           | % of active population | [AMECO][16]     |
+| cap_form                | Gross fixed capital formation, total economy                                                                | current prices       | [AMECO][16]       |
+| wage_share              | Adjusted wage share                                                                                         | % of GDP             | [AMECO][16]       |
+| rulc                    | Real unit labour costs: total economy (Ratio compensation per employee to nominal GDP per pers employed.)   | 2010=100             | [AMECO][16]       |
+| nulc_nac                | Nominal unit labour costs: total economy (Ratio compensation per employee to real GDP per pers employed.)   | Loc curr: 2010 = 100 | [AMECO][16]       |
+| nulc_eur                | Nominal unit labour costs: total economy (Ratio compensation per employee to real GDP per pers employed.)   | EUR: 2010 = 100      | [AMECO][16]       |
 
 
 [1]: https://unstats.un.org/unsd/tradekb/knowledgebase/country-code
 [2]: https://data.worldbank.org/indicator/ny.gdp.totl.rt.zs
-[3]: https://ec.europa.eu/info/business-economy-euro/indicators-statistics/economic-databases/macro-economic-database-ameco/download-annual-data-set-macro-economic-database-ameco_en
+[3]: https://data.worldbank.org/indicator/NY.GDP.MKTP.KN
+[4]: https://data.worldbank.org/indicator/NY.GDP.PCAP.KN
+[5]: https://data.worldbank.org/indicator/NY.GDP.PCAP.KD.ZG
+[6]: https://data.worldbank.org/indicator/NY.GDP.MKTP.KD
+[7]: https://data.worldbank.org/indicator/NY.GDP.PCAP.KD
+[8]: https://data.worldbank.org/indicator/NY.GDP.MKTP.CN
+[9]: https://data.worldbank.org/indicator/NY.GDP.PCAP.CN
+[10]:https://data.worldbank.org/indicator/NY.GDP.MKTP.CD
+[11]: https://data.worldbank.org/indicator/NY.GDP.PCAP.CD
+[12]: https://data.worldbank.org/indicator/NY.GDP.MKTP.PP.KD
+[13]: https://data.worldbank.org/indicator/NY.GDP.PCAP.PP.KD
+[14]: https://data.worldbank.org/indicator/NY.GDP.MKTP.PP.CD
+[15]: https://data.worldbank.org/indicator/NY.GDP.PCAP.PP.CD
+[16]: https://ec.europa.eu/info/business-economy-euro/indicators-statistics/economic-databases/macro-economic-database-ameco/download-annual-data-set-macro-economic-database-ameco_en
 
 ## Open issues
 
+* Fix units for new World Bank data
 * Where did **Current account balance to GDP' come from** It says AMECO, but I could not find it.
 * Where did **Public debt to GDP** come from? It says AMECO, but I could not find it.
 * Add more tests for duplicated rows, just as with AMECO
