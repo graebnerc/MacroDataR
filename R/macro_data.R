@@ -86,8 +86,6 @@ if (download_data | !file.exists(ameco_file)){
   unzip(tmp, exdir = "data-raw/ameco")
 }
 
-
-
 # unemployment---------------------------------------------------------------
 # Remark: two observations exist for 1991 for Germany and West Germany;
 # Here the mean is used
@@ -187,6 +185,25 @@ ameco03 <- rbind(ameco03, ameco03_germany)
 if (sum(duplicated(ameco03, by = c("COUNTRY", "year")))>0){
   warning("Duplicated rows in ameco03!")
 }
+
+# GDP growth-------------------------------------------------------------------
+# TODO: Einheiten noch fixen, aber vielleicht besser von Weltbank wg coverage
+print("..ameco06..")
+ameco06 <- data.table::fread("data-raw/ameco/AMECO6.TXT",
+                             fill = TRUE, header = TRUE)
+gdp_vars <- c(
+  "Gross domestic product at current prices",
+  "Gross domestic product at 2010 reference levels",
+  "Gross domestic product at current prices per head of population",
+  "Gross domestic product at 2010 reference levels per head of population"
+)
+ameco06_GDP <- ameco06[
+  TITLE%in%gdp_vars
+  ][!COUNTRY%in%c("European Union", "European Union excluding UK",
+                  "European Union (15 countries)", "Euro area",
+                  "Euro area (12 countries)", "EU15 (including D_W West-Germany)",
+                  "EA12 (including D_W West-Germany)")
+    ]
 
 # Ameco 7--------------------------------------------------------------------
 print("...ameco07...")
