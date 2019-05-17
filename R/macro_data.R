@@ -409,8 +409,9 @@ ameco_full <- Reduce(function(...) merge(..., all=TRUE,
                                          by = c("COUNTRY", "year")),
                      list(ameco01, ameco02, ameco03, ameco07_wage_share,
                           ameco07_rulc, ameco07_nulc))
-ameco_full <- ameco_full[, .(year=as.double(year), iso3c=COUNTRY, unemp_rate,
-                             cpi, cap_form, wage_share, rulc, nulc_eur,
+ameco_full <- ameco_full[, .(year=as.double(as.character(year)),
+                             iso3c=COUNTRY, unemp_rate, cpi,
+                             cap_form, wage_share, rulc, nulc_eur,
                              nulc_nac)]
 print("....finished.")
 
