@@ -14,8 +14,8 @@
 if (!exists("download_data")){
   download_data <- FALSE
 }
-download_data_exports_mit <- TRUE
-download_data_exports_harv <- TRUE
+download_data_exports_mit <- FALSE
+download_data_exports_harv <- FALSE
 
 countries_considered <- countrycode::countrycode(strsplit(
   "LU, SE, FI, DK, FR, NL, BE, SI, DE, AT, LV, EE, SK, CZ, PL, HU, GB, IE, PT, GR, ES, IT",
@@ -68,7 +68,7 @@ oecd_debt_data <- data.table::dcast(oecd_debt_data_raw,
                                     LOCATION + obsTime ~ INDICATOR,
                                     value.var="obsValue")
 old_names <- c("LOCATION", "obsTime", oecd_debt_vars)
-new_names <- c("country", "year",
+new_names <- c("iso3c", "year",
                "total_debt_percGDP",
                "debt_corp_nf_percGDP",
                "debt_corp_f_percGDP",
@@ -76,8 +76,8 @@ new_names <- c("country", "year",
                "debt_hh_npish_percGDI")
 data.table::setnames(oecd_debt_data, old = old_names, new = new_names)
 oecd_debt_data[,
-               (setdiff(new_names, "country")):= lapply(.SD, as.double),
-               .SDcols = setdiff(new_names, "country")
+               (setdiff(new_names, "iso3c")):= lapply(.SD, as.double),
+               .SDcols = setdiff(new_names, "iso3c")
                ]
 
 # Public debt to GDP
@@ -476,7 +476,7 @@ export_data_raw[, year:=as.double(year)
 
 print("Merging data...")
 macro_data <- Reduce(function(...) merge(..., all=TRUE, by = c("iso3c", "year")),
-                     list(wb_data, swiid_raw, ameco_full))
+                     list(wb_data, swiid_raw, ameco_full, oecd_debt_data))
 save(macro_data, file = "data/macro_data.rdata")
 data.table::fwrite(macro_data, file = "data/macro_data.csv")
 print("finished.")
