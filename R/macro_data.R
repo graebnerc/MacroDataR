@@ -25,15 +25,13 @@ first_year <- 1962
 last_year <- 2018
 # OECD data====================================================================
 
-# https://data.oecd.org/trade/current-account-balance.htm
-
-
 oecd_debt_file_name <- "data-raw/oecd_debt_data.csv"
+oecd_debt_vars <- c("DBTS1GDP", "DBTS11GDP", "DBTS12GDP",
+                    "DBTS13GDP", "DBTS14_S15GDI")
 if (download_data){
   filter_list <- list(countries_considered,
-                      c("DBTS1GDP", "DBTS11GDP", "DBTS12GDP",
-                        "DBTS13GDP", "DBTS14_S15GDI")
-  )
+                      oecd_debt_vars
+                      )
 
   oecd_debt_data_raw <- OECD::get_dataset(dataset = "FIN_IND_FBS",
                                           start_time = first_year,
@@ -44,13 +42,13 @@ if (download_data){
                                         "TIME_FORMAT", "UNIT", "POWERCODE")
   )
   data.table::fwrite(oecd_debt_data_raw, oecd_debt_file_name)
+  oecd_debt_data_raw <- data.table::as.data.table(oecd_debt_data_raw)
 } else {# TODO Test whether file exists
   if (!file.exists(oecd_debt_file_name)){
     warning("File for OECD debt data does not exist. Download from www...")
     filter_list <- list(countries_considered,
-                        c("DBTS1GDP", "DBTS11GDP", "DBTS12GDP",
-                          "DBTS13GDP", "DBTS14_S15GDI")
-    )
+                        oecd_debt_vars
+                        )
 
     oecd_debt_data_raw <- OECD::get_dataset(dataset = "FIN_IND_FBS",
                                             start_time = first_year,
@@ -61,17 +59,29 @@ if (download_data){
                                           "TIME_FORMAT", "UNIT", "POWERCODE")
     )
     data.table::fwrite(oecd_debt_data_raw, oecd_debt_file_name)
+    oecd_debt_data_raw <- data.table::as.data.table(oecd_debt_data_raw)
   } else {
     oecd_debt_data_raw <- data.table::fread(oecd_debt_file_name)
   }
 }
-
-
+oecd_debt_data <- data.table::dcast(oecd_debt_data_raw,
+                                    LOCATION + obsTime ~ INDICATOR,
+                                    value.var="obsValue")
+old_names <- c("LOCATION", "obsTime", oecd_debt_vars)
+new_names <- c("country", "year",
+               "total_debt_percGDP",
+               "debt_corp_nf_percGDP",
+               "debt_corp_f_percGDP",
+               "debt_gen_gov_percGDP",
+               "debt_hh_npish_percGDI")
+data.table::setnames(oecd_debt_data, old = old_names, new = new_names)
+oecd_debt_data[,
+               (setdiff(new_names, "country")):= lapply(.SD, as.double),
+               .SDcols = setdiff(new_names, "country")
+               ]
 
 # Public debt to GDP
 # https://data.oecd.org/gga/general-government-debt.htm
-# Household debt
-# https://data.oecd.org/hha/household-debt.htm
 
 # World Bank data==============================================================
 print("World Bank data...")
