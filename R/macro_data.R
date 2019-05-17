@@ -2,9 +2,15 @@
 # TODO current account to GDP from AMECO
 # TODO public debt to GDP from AMECO
 # TODO Population (UNPD)
-# TODO OECD: household and corporate debt
 # TODO IMF directions of trade, insb. trade balances
 # TODO complexity
+
+# World Bank
+# Population
+# https://data.worldbank.org/indicator/SP.POP.TOTL
+# Current account balance (% of GDP)
+# https://data.worldbank.org/indicator/BN.CAB.XOKA.GD.ZS
+
 if (!exists("download_data")){
   download_data <- FALSE
 }
@@ -17,6 +23,55 @@ countries_considered <- countrycode::countrycode(strsplit(
 
 first_year <- 1962
 last_year <- 2018
+# OECD data====================================================================
+
+# https://data.oecd.org/trade/current-account-balance.htm
+
+
+oecd_debt_file_name <- "data-raw/oecd_debt_data.csv"
+if (download_data){
+  filter_list <- list(countries_considered,
+                      c("DBTS1GDP", "DBTS11GDP", "DBTS12GDP",
+                        "DBTS13GDP", "DBTS14_S15GDI")
+  )
+
+  oecd_debt_data_raw <- OECD::get_dataset(dataset = "FIN_IND_FBS",
+                                          start_time = first_year,
+                                          end_time = last_year,
+                                          filter = filter_list)
+  oecd_debt_data_raw <- dplyr::select(oecd_debt_data_raw,
+                                      -dplyr::one_of(
+                                        "TIME_FORMAT", "UNIT", "POWERCODE")
+  )
+  data.table::fwrite(oecd_debt_data_raw, oecd_debt_file_name)
+} else {# TODO Test whether file exists
+  if (!file.exists(oecd_debt_file_name)){
+    warning("File for OECD debt data does not exist. Download from www...")
+    filter_list <- list(countries_considered,
+                        c("DBTS1GDP", "DBTS11GDP", "DBTS12GDP",
+                          "DBTS13GDP", "DBTS14_S15GDI")
+    )
+
+    oecd_debt_data_raw <- OECD::get_dataset(dataset = "FIN_IND_FBS",
+                                            start_time = first_year,
+                                            end_time = last_year,
+                                            filter = filter_list)
+    oecd_debt_data_raw <- dplyr::select(oecd_debt_data_raw,
+                                        -dplyr::one_of(
+                                          "TIME_FORMAT", "UNIT", "POWERCODE")
+    )
+    data.table::fwrite(oecd_debt_data_raw, oecd_debt_file_name)
+  } else {
+    oecd_debt_data_raw <- data.table::fread(oecd_debt_file_name)
+  }
+}
+
+
+
+# Public debt to GDP
+# https://data.oecd.org/gga/general-government-debt.htm
+# Household debt
+# https://data.oecd.org/hha/household-debt.htm
 
 # World Bank data==============================================================
 print("World Bank data...")
