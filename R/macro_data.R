@@ -352,7 +352,8 @@ ameco07_wage_share[, c("CODE", "SUB-CHAPTER", "TITLE", "UNIT",  "V67"):=NULL]
 ameco07_wage_share <- ameco07_wage_share[, COUNTRY2:=countrycode::countrycode(COUNTRY,
                                                                               "country.name", "iso3c"
 )
-][!is.na(COUNTRY) & COUNTRY != "DEU"]
+][!is.na(COUNTRY) & COUNTRY != "DEU"][, COUNTRY:=NULL]
+data.table::setnames(ameco07_wage_share, old = "COUNTRY2", new = "COUNTRY")
 
 ameco07_wage_share <- data.table::melt(ameco07_wage_share,
                                        id.vars=c("COUNTRY"),
