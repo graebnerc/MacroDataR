@@ -447,58 +447,58 @@ ameco_full <- ameco_full[, .(year=as.double(as.character(year)),
 print("....finished.")
 # TODO check for duplicates
 
-# Get export data from MIT=====================================================
-# https://atlas.media.mit.edu/en/resources/data/
-if (download_data_exports_mit==TRUE){
-  export_data_mit_file_name <- "data/mit_export_data.fst" # TODO in zip ändern
-  if (update_data){
-    web_link_mit <- "https://atlas.media.mit.edu/static/db/raw/year_origin_sitc_rev2.tsv.bz2"
-    web_link_countries <- "https://atlas.media.mit.edu/static/db/raw/country_names.tsv.bz2"
-    mit_country_names <- as.data.frame(fread(web_link_countries))
-    export_data_raw <- fread(web_link_mit,
-                             colClasses = c("double", rep("character", 2),
-                                            rep("double", 4)),
-                             select = c("year", "origin", "sitc",
-                                        "export_val"))
-    export_data_raw[, location_code:=countrycode(
-      countrycode(origin, "id_3char", "name",
-                  custom_dict = mit_country_names),
-      "country.name", "iso3c")] # TODO Fix location code
-    export_data_raw <- export_data_raw[location_code %in% countrycode(
-      countries_considered, "iso2c", "iso3c"),
-      .(year, export_value=export_val, location_code, sitc_product_code=sitc)]
-    fst::write.fst(x = export_data_raw,
-                   path = export_data_mit_file_name, compress = 100)
-  } else{
-    export_data_raw <- fst::read.fst(export_data_mit_file_name,
-                                     as.data.table = T)
-  }
-}
-
-# Get export data from Harvard=================================================
-# http://atlas.cid.harvard.edu/downloads
-if (download_data_exports_harv==TRUE){
-  export_data_file_name <- "data/hrvd_complexity_atlas.fst" # TODO in zip umwandeln
-  if (update_data){
-    web_link <- "https://intl-atlas-downloads.s3.amazonaws.com/country_sitcproduct4digit_year.csv.zip"
-    export_data_raw <- fread(cmd = paste0("curl ", web_link, " | funzip"),
-                             colClasses = c(rep("double", 11),
-                                            rep("character", 4)),
-                             select = c("year", "export_value",
-                                        "location_code", "sitc_product_code"))
-    export_data_raw <- export_data_raw[location_code%in%countrycode(
-      countries_considered, "iso2c", "iso3c")]
-    fst::write.fst(x = export_data_raw,
-                   path = export_data_file_name, compress = 100)
-  } else{
-    export_data_raw <- fst::read.fst(export_data_file_name,
-                                     as.data.table = T)
-  }
-}
-export_data_raw[, year:=as.double(year)
-                ][, export_value:=as.double(export_value)
-                  ][, total_exports:=sum(export_value, na.rm = T),
-                    .(location_code, year)]
+# # Get export data from MIT=====================================================
+# # https://atlas.media.mit.edu/en/resources/data/
+# if (download_data_exports_mit==TRUE){
+#   export_data_mit_file_name <- "data/mit_export_data.fst" # TODO in zip ändern
+#   if (update_data){
+#     web_link_mit <- "https://atlas.media.mit.edu/static/db/raw/year_origin_sitc_rev2.tsv.bz2"
+#     web_link_countries <- "https://atlas.media.mit.edu/static/db/raw/country_names.tsv.bz2"
+#     mit_country_names <- as.data.frame(fread(web_link_countries))
+#     export_data_raw <- fread(web_link_mit,
+#                              colClasses = c("double", rep("character", 2),
+#                                             rep("double", 4)),
+#                              select = c("year", "origin", "sitc",
+#                                         "export_val"))
+#     export_data_raw[, location_code:=countrycode(
+#       countrycode(origin, "id_3char", "name",
+#                   custom_dict = mit_country_names),
+#       "country.name", "iso3c")] # TODO Fix location code
+#     export_data_raw <- export_data_raw[location_code %in% countrycode(
+#       countries_considered, "iso2c", "iso3c"),
+#       .(year, export_value=export_val, location_code, sitc_product_code=sitc)]
+#     fst::write.fst(x = export_data_raw,
+#                    path = export_data_mit_file_name, compress = 100)
+#   } else{
+#     export_data_raw <- fst::read.fst(export_data_mit_file_name,
+#                                      as.data.table = T)
+#   }
+# }
+#
+# # Get export data from Harvard=================================================
+# # http://atlas.cid.harvard.edu/downloads
+# if (download_data_exports_harv==TRUE){
+#   export_data_file_name <- "data/hrvd_complexity_atlas.fst" # TODO in zip umwandeln
+#   if (update_data){
+#     web_link <- "https://intl-atlas-downloads.s3.amazonaws.com/country_sitcproduct4digit_year.csv.zip"
+#     export_data_raw <- fread(cmd = paste0("curl ", web_link, " | funzip"),
+#                              colClasses = c(rep("double", 11),
+#                                             rep("character", 4)),
+#                              select = c("year", "export_value",
+#                                         "location_code", "sitc_product_code"))
+#     export_data_raw <- export_data_raw[location_code%in%countrycode(
+#       countries_considered, "iso2c", "iso3c")]
+#     fst::write.fst(x = export_data_raw,
+#                    path = export_data_file_name, compress = 100)
+#   } else{
+#     export_data_raw <- fst::read.fst(export_data_file_name,
+#                                      as.data.table = T)
+#   }
+# }
+# export_data_raw[, year:=as.double(year)
+#                 ][, export_value:=as.double(export_value)
+#                   ][, total_exports:=sum(export_value, na.rm = T),
+#                     .(location_code, year)]
 # TODO Das noch kombinieren und Exportdatan separat speichern
 # weiter unten dann nur Komplexitätswerte nehmen
 # Die aber vielleicht sowieso immer erheben
