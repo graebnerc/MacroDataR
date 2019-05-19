@@ -168,7 +168,7 @@ if (!download_data & file.exists(swiid_file)){
          recursive = T)
   swiid_raw <- data.table::fread(swiid_file)
   swiid_raw <- swiid_raw[, country:=countrycode::countrycode(
-    country, "country.name", "iso3c"
+    country, "country.name", "iso3c", warn = FALSE
   )][!is.na(country), .(iso3c=country, year=as.double(year),
                         gini_post_tax=gini_disp, gini_pre_tax=gini_mkt)]
   swiid_raw <- unique(swiid_raw, by = c("iso3c", "year"))
@@ -475,7 +475,8 @@ if (!download_data & file.exists(paste0(complexity_harv_file_name, ".gz"))){
   complexity_harv <- unique(complexity_harv, by = c("year", "location_code"))
   data.table::fwrite(x = complexity_harv, file = complexity_harv_file_name)
   R.utils::gzip(paste0(complexity_harv_file_name),
-                destname=paste0(complexity_harv_file_name, ".gz"))
+                destname=paste0(complexity_harv_file_name, ".gz"),
+                overwrite = TRUE)
 }
 
 complexity_mit_url <- "https://atlas.media.mit.edu/en/rankings/country/eci/?download=true&download_all=true"
@@ -509,7 +510,8 @@ if (!download_data & file.exists(paste0(complexity_harv_file_name, ".gz"))){
 
   data.table::fwrite(x = complexity_mit, file = complexity_mit_file_name)
   R.utils::gzip(paste0(complexity_mit_file_name),
-                destname=paste0(complexity_mit_file_name, ".gz"))
+                destname=paste0(complexity_mit_file_name, ".gz"),
+                overwrite = TRUE)
 }
 
 complexity_data <- data.table::as.data.table(
