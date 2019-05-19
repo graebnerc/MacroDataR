@@ -209,7 +209,8 @@ ameco01 <- data.table::fread("data-raw/ameco/AMECO1.TXT",
                              fill = TRUE, header = TRUE,
                              stringsAsFactors = FALSE)
 ameco01 <- ameco01[
-  TITLE=="Unemployment rate: total :- Member States: definition EUROSTAT"][
+  TITLE=="Unemployment rate: total :- Member States: definition EUROSTAT"
+  ][
     !COUNTRY %in% aggregates_2be_eliminated
   ]
 
@@ -252,7 +253,9 @@ print("...ameco02...")
 ameco02 <- data.table::fread("data-raw/ameco/AMECO2.TXT",
                              fill = TRUE, header = TRUE)
 ameco02 <- ameco02[
-  TITLE=="Harmonised consumer price index (All-items)"]
+  TITLE=="Harmonised consumer price index (All-items)"][
+    !COUNTRY %in% aggregates_2be_eliminated
+  ]
 ameco02 <- ameco02[, COUNTRY:=countrycode::countrycode(COUNTRY,
                                                        "country.name", "iso3c"
 )
@@ -275,7 +278,10 @@ print("...ameco03...")
 ameco03 <- data.table::fread("data-raw/ameco/AMECO3.TXT",
                              fill = TRUE, header = TRUE)
 ameco03 <- ameco03[
-  TITLE%in%c("Gross fixed capital formation at current prices: total economy")]
+  TITLE%in%c("Gross fixed capital formation at current prices: total economy")
+  ][
+    !COUNTRY %in% aggregates_2be_eliminated
+  ]
 ameco03 <- ameco03[UNIT=="Mrd ECU/EUR"]
 ameco03_germany <- ameco03[COUNTRY %in% c("Germany", "West Germany")]
 ameco03_germany[, c("CODE", "SUB-CHAPTER", "TITLE", "UNIT",  "V67"):=NULL]
@@ -318,10 +324,8 @@ gdp_vars <- c(
 )
 ameco06_GDP <- ameco06[
   TITLE%in%gdp_vars
-  ][!COUNTRY%in%c("European Union", "European Union excluding UK",
-                  "European Union (15 countries)", "Euro area",
-                  "Euro area (12 countries)", "EU15 (including D_W West-Germany)",
-                  "EA12 (including D_W West-Germany)")
+  ][
+    !COUNTRY %in% aggregates_2be_eliminated
     ]
 
 # Ameco 7--------------------------------------------------------------------
@@ -333,10 +337,8 @@ ameco07 <- data.table::fread("data-raw/ameco/AMECO7.TXT",
 print("...wage share...")
 ameco07_wage_share <- ameco07[
   TITLE=="Adjusted wage share: total economy: as percentage of GDP at current prices (Compensation per employee as percentage of GDP at market prices per person employed.)"
-  ][!COUNTRY%in%c("European Union", "European Union excluding UK",
-                  "European Union (15 countries)", "Euro area",
-                  "Euro area (12 countries)", "EU15 (including D_W West-Germany)",
-                  "EA12 (including D_W West-Germany)")
+  ][
+    !COUNTRY %in% aggregates_2be_eliminated
     ]
 
 ameco07_wage_share_germany <-data.table::copy(ameco07_wage_share)
@@ -381,10 +383,8 @@ if (sum(duplicated(ameco01, by = c("COUNTRY", "year")))>0){
 print("...RULC...")
 ameco07_rulc <- ameco07[
   TITLE=="Real unit labour costs: total economy (Ratio of compensation per employee to nominal GDP per person employed.)"
-  ][!COUNTRY%in%c("European Union",
-                  "European Union excluding UK", "Euro area",
-                  "EU15 (including DEL \"linked\" Germany)" ,
-                  "EA12 (including DEL \"linked\" Germany)")
+  ][
+    !COUNTRY%in%aggregates_2be_eliminated
     ][ , COUNTRY:=countrycode::countrycode(COUNTRY, "country.name", "iso3c")]
 ameco07_rulc[, c("CODE", "SUB-CHAPTER", "TITLE", "UNIT",  "V67"):=NULL]
 ameco07_rulc <- data.table::melt(ameco07_rulc,
@@ -399,10 +399,8 @@ if (sum(duplicated(ameco07_rulc, by = c("COUNTRY", "year")))>0){
 print("...NULC...")
 ameco07_nulc <- ameco07[
   TITLE=="Nominal unit labour costs: total economy (Ratio of compensation per employee to real GDP per person employed.)"
-  ][!COUNTRY%in%c("European Union",
-                  "European Union excluding UK", "Euro area",
-                  "EU15 (including DEL \"linked\" Germany)" ,
-                  "EA12 (including DEL \"linked\" Germany)")
+  ][
+    !COUNTRY %in% aggregates_2be_eliminated
     ][ , COUNTRY:=countrycode::countrycode(COUNTRY, "country.name", "iso3c")]
 ameco07_nulc[, c("CODE", "SUB-CHAPTER", "TITLE"):=NULL]
 ameco07_nulc <- data.table::melt(ameco07_nulc,
