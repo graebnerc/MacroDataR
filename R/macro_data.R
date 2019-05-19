@@ -385,7 +385,17 @@ ameco07_rulc <- ameco07[
   TITLE=="Real unit labour costs: total economy (Ratio of compensation per employee to nominal GDP per person employed.)"
   ][
     !COUNTRY%in%aggregates_2be_eliminated
-    ][ , COUNTRY:=countrycode::countrycode(COUNTRY, "country.name", "iso3c")]
+    ][
+      !COUNTRY %in% c(
+        'EU15 (including DEL "linked" Germany)',
+        'EA12 (including DEL "linked" Germany)',
+        'EU15 (including DEL "linked" Germany)',
+        'EA12 (including DEL "linked" Germany)'
+      )
+    ]
+
+# for: ameco07_rulc
+ameco07_rulc[ , COUNTRY:=countrycode::countrycode(COUNTRY, "country.name", "iso3c")]
 ameco07_rulc[, c("CODE", "SUB-CHAPTER", "TITLE", "UNIT",  "V67"):=NULL]
 ameco07_rulc <- data.table::melt(ameco07_rulc,
                                  id.vars=c("COUNTRY"),
