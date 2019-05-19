@@ -512,7 +512,19 @@ if (!download_data & file.exists(paste0(complexity_harv_file_name, ".gz"))){
                 destname=paste0(complexity_mit_file_name, ".gz"))
 }
 
-
+complexity_data <- data.table::as.data.table(
+  dplyr::full_join(
+    complexity_mit[iso3c %in% countries_considered],
+    complexity_harv[location_code %in% countries_considered],
+    by = c("Year"="year", "iso3c" = "location_code")
+  )
+)
+data.table::setnames(complexity_data,
+                     old = c("Year", "ECI", "ECI+", "iso3c", "hs_eci",
+                             "hs_coi", "sitc_eci", "sitc_coi"),
+                     new = c("year", "eci_mit", "eci_mit_plus", "iso3c",
+                             "eci_harv_hs", "eci_harc_coi_hs",
+                             "eci_harv_sitc", "eci_harc_coi_sitc"))
 print("finished.")
 
 
