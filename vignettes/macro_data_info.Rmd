@@ -28,19 +28,19 @@ Here goes the documentation of the data set. Note that you can also look at `dat
 | year                    | The year of observation                                                                                     |   NA     |  |
 | res_rents               | Natural ressource rents                                                                                     | % of GDP | [World Bank][2]
 | gdp_real_lcu            | Real GDP in constant LCU                                                                                    | constant LCU | [World Bank][3]
-| gdp_real_lcu_growth     | Real GDP growth (constant LCU)                                                                              | % change | [World Bank][2]
-| gdp_real_pc_lcu         | Real GDP per capita (constant LCU)                                                                          | constant LCU per capita | [World Bank][2]
-| gdp_real_pc_lcu_growth  | Real GDP per capita growth (constant LCU)                                                                   | % change | [World Bank][2]
-| gdp_real_usd            | Real GDP (constant 2010 US$)                                                                                | constant 2010 US$ | [World Bank][2]
-| gdp_real_pc_usd         | Real GDP per capita (constant 2010 US$)                                                                     | constant 2010 US$ per capita | [World Bank][2]
-| gdp_nom_lcu             | Nominal GDP (current LCU)                                                                                   | current LCU | [World Bank][2]
-| gdp_nom_pc_lcu          | Nominal GDP per capita (current LCU)                                                                        | current LCU per capita | [World Bank][2]
-| gdp_nom_usd             | Nominal GDP (current US$)                                                                                   | current US$ | [World Bank][2]
-| gdp_nom_pc_usd          | Nominal GDP per capita (current US$)                                                                        | current US$ per capita | [World Bank][2]
-| gdp_real_ppp            | GDP, PPP (constant 2011 int $)                                                                              | constant 2011 int $ | [World Bank][2]
-| gdp_real_pc_ppp         | GDP, PPP per capita (constant 2011 int $)                                                                   | constant 2011 int $ per capita | [World Bank][2]
-| gdp_nom_ppp             | GDP, PPP (current int $)                                                                                    | current int $ | [World Bank][2]
-| gdp_nom_pc_ppp          | GDP, PPP per capita (current int $)                                                                         | current int $ per capita | [World Bank][2]     
+| gdp_real_lcu_growth     | Real GDP growth (constant LCU)                                                                              | % change | [World Bank][4]
+| gdp_real_pc_lcu         | Real GDP per capita (constant LCU)                                                                          | constant LCU per capita | [World Bank][5]
+| gdp_real_pc_lcu_growth  | Real GDP per capita growth (constant LCU)                                                                   | % change | [World Bank][6]
+| gdp_real_usd            | Real GDP (constant 2010 US$)                                                                                | constant 2010 US$ | [World Bank][7]
+| gdp_real_pc_usd         | Real GDP per capita (constant 2010 US$)                                                                     | constant 2010 US$ per capita | [World Bank][8]
+| gdp_nom_lcu             | Nominal GDP (current LCU)                                                                                   | current LCU | [World Bank][9]
+| gdp_nom_pc_lcu          | Nominal GDP per capita (current LCU)                                                                        | current LCU per capita | [World Bank][10]
+| gdp_nom_usd             | Nominal GDP (current US$)                                                                                   | current US$ | [World Bank][11]
+| gdp_nom_pc_usd          | Nominal GDP per capita (current US$)                                                                        | current US$ per capita | [World Bank][12]
+| gdp_real_ppp            | GDP, PPP (constant 2011 int $)                                                                              | constant 2011 int $ | [World Bank][13]
+| gdp_real_pc_ppp         | GDP, PPP per capita (constant 2011 int $)                                                                   | constant 2011 int $ per capita | [World Bank][14]
+| gdp_nom_ppp             | GDP, PPP (current int $)                                                                                    | current int $ | [World Bank][15]
+| gdp_nom_pc_ppp          | GDP, PPP per capita (current int $)                                                                         | current int $ per capita | [World Bank][16]     
 | cpi                     | Harmonised consumer price index (all items)                                                                 | 2015 = 100           | [AMECO][16]       |
 | unemp_rate              | Unemployment rate                                                                                           | % of active population | [AMECO][16]     |
 | cap_form                | Gross fixed capital formation, total economy                                                                | current prices       | [AMECO][16]       |
@@ -52,6 +52,10 @@ Here goes the documentation of the data set. Note that you can also look at `dat
 | eci_rank_harv           | Rank of the country according to the ECI  | Index | [Harvard][17] |
 | eci_mit                | Economic Complexity Index (ECI)           | Index | [MIT][18] |
 | eci_rank_mit           | Rank of the country according to the ECI  | Index | [MIT][18] |
+| current_account_GDP           | Sum of net exports of goods and services, net primary income, and net secondary income.  | % of GDP | [World Bank][19] |
+| population           | Total population (midyear estimates).  | % of GDP | [World Bank][20] |
+
+
 
 
 [1]: https://unstats.un.org/unsd/tradekb/knowledgebase/country-code
@@ -72,11 +76,12 @@ Here goes the documentation of the data set. Note that you can also look at `dat
 [16]: https://ec.europa.eu/info/business-economy-euro/indicators-statistics/economic-databases/macro-economic-database-ameco/download-annual-data-set-macro-economic-database-ameco_en
 [17]: http://atlas.cid.harvard.edu/downloads
 [18]: https://atlas.media.mit.edu/en/resources/data/
+[19]: https://data.worldbank.org/indicator/BN.CAB.XOKA.GD.ZS
+[20]: https://data.worldbank.org/indicator/SP.POP.TOTL
 
 ## Open issues
 
 * Fix units for new World Bank data
-* Where did **Current account balance to GDP' come from** It says AMECO, but I could not find it.
 * Where did **Public debt to GDP** come from? It says AMECO, but I could not find it.
 * Add more tests for duplicated rows, just as with AMECO
 

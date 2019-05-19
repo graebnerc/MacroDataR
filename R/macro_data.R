@@ -1,15 +1,8 @@
 #' @import data.table
 # TODO current account to GDP from AMECO
 # TODO public debt to GDP from AMECO
-# TODO Population (UNPD)
 # TODO IMF directions of trade, insb. trade balances
 # TODO complexity
-
-# World Bank
-# Population
-# https://data.worldbank.org/indicator/SP.POP.TOTL
-# Current account balance (% of GDP)
-# https://data.worldbank.org/indicator/BN.CAB.XOKA.GD.ZS
 
 if (!exists("download_data")){
   download_data <- FALSE
@@ -89,6 +82,8 @@ print("World Bank data...")
 # TODO Download all countries and filter those we do not need
 #
 wb_vars <- c(
+  "BN.CAB.XOKA.GD.ZS", # Current account balance (% of GDP): https://data.worldbank.org/indicator/BN.CAB.XOKA.GD.ZS
+  "SP.POP.TOTL", # Population: https://data.worldbank.org/indicator/SP.POP.TOTL
   "ny.gdp.totl.rt.zs", # Natural resource rents: https://data.worldbank.org/indicator/ny.gdp.totl.rt.zs
   "NY.GDP.MKTP.KN", # Real GDP (constant LCU): https://data.worldbank.org/indicator/NY.GDP.MKTP.KN
   "NY.GDP.MKTP.KD.ZG", # Real GDP growth (constant LCU): https://data.worldbank.org/indicator/NY.GDP.MKTP.KD.ZG
@@ -107,6 +102,8 @@ wb_vars <- c(
 )
 
 wb_var_names <- c(
+  "current_account_GDP", # Current account balance (% of GDP): https://data.worldbank.org/indicator/BN.CAB.XOKA.GD.ZS
+  "population", # Population: https://data.worldbank.org/indicator/SP.POP.TOTL
   "res_rents", # Natural resource rents: https://data.worldbank.org/indicator/ny.gdp.totl.rt.zs
   "gdp_real_lcu", # Real GDP (constant LCU): https://data.worldbank.org/indicator/NY.GDP.MKTP.KN
   "gdp_real_lcu_growth", # Real GDP growth (constant LCU): https://data.worldbank.org/indicator/NY.GDP.MKTP.KD.ZG
