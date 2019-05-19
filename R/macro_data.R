@@ -365,7 +365,7 @@ ameco07_wage_share[, c("CODE", "SUB-CHAPTER", "TITLE", "UNIT",  "V67"):=NULL]
 ameco07_wage_share <- ameco07_wage_share[, COUNTRY2:=countrycode::countrycode(COUNTRY,
                                                                               "country.name", "iso3c"
 )
-][!is.na(COUNTRY) & COUNTRY != "DEU"][, COUNTRY:=NULL]
+][!is.na(COUNTRY) & COUNTRY2 != "DEU"][, COUNTRY:=NULL]
 data.table::setnames(ameco07_wage_share, old = "COUNTRY2", new = "COUNTRY")
 
 ameco07_wage_share <- data.table::melt(ameco07_wage_share,
@@ -446,8 +446,9 @@ ameco_full <- Reduce(function(...) merge(..., all=TRUE,
 ameco_full <- ameco_full[, .(year=as.double(as.character(year)),
                              iso3c=COUNTRY, unemp_rate, cpi,
                              cap_form, wage_share, rulc, nulc_eur,
-                             nulc_nac)]
+                             nulc_lcu)]
 print("....finished.")
+# TODO check for duplicates
 
 # Get export data from MIT=====================================================
 # https://atlas.media.mit.edu/en/resources/data/
