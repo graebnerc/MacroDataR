@@ -477,6 +477,42 @@ if (!download_data & file.exists(paste0(complexity_harv_file_name, ".gz"))){
   R.utils::gzip(paste0(complexity_harv_file_name),
                 destname=paste0(complexity_harv_file_name, ".gz"))
 }
+
+complexity_mit_url <- "https://atlas.media.mit.edu/en/rankings/country/eci/?download=true&download_all=true"
+complexity_mit_country_names_url <- "https://atlas.media.mit.edu/static/db/raw/country_names.tsv.bz2"
+complexity_mit_file_name <- "data-raw/complexity_mit.csv"
+complexity_mit_origin_zip_file <- "country_sitcproductsection_year.csv"
+
+if (!download_data & file.exists(paste0(complexity_harv_file_name, ".gz"))){
+  complexity_mit <- data.table::fread(
+    paste0(complexity_mit_file_name, ".gz")
+  )
+} else {
+  tmp <- tempfile(fileext = ".csv")
+  download.file(complexity_mit_url,
+                tmp,
+                quiet = FALSE)
+  complexity_mit_raw <- data.table::fread(tmp)
+
+  tmp2 <- tempfile(fileext = ".bz2")
+  download.file(complexity_mit_country_names_url,
+                tmp2,
+                quiet = FALSE)
+  complexity_mit_country_names <- data.table::fread(tmp2)
+
+  complexity_mit <- data.table::copy(complexity_mit_raw)
+
+  complexity_mit[, iso3c:=toupper(countrycode::countrycode(
+    Country, "name", "id_3char",
+    custom_dict = as.data.frame(complexity_mit_country_names)))
+    ][, c("Country", "Country ID"):=NULL]
+
+  data.table::fwrite(x = complexity_mit, file = complexity_mit_file_name)
+  R.utils::gzip(paste0(complexity_mit_file_name),
+                destname=paste0(complexity_mit_file_name, ".gz"))
+}
+
+
 print("finished.")
 
 
