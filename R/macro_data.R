@@ -447,6 +447,40 @@ ameco_full <- ameco_full[, .(year=as.double(as.character(year)),
 print("....finished.")
 # TODO check for duplicates
 
+# Complexity data==============================================================
+print("Complexity data...")
+complexity_harvard_url <- "https://intl-atlas-downloads.s3.amazonaws.com/country_sitcproductsection_year.csv.zip"
+complexity_harv_file_name <- "data-raw/complexity_harv.csv"
+complexity_harv_origin_zip_file <- "country_sitcproductsection_year.csv"
+
+if (!download_data & file.exists(paste0(complexity_harv_file_name, ".gz"))){
+  complexity_harv <- data.table::fread(
+    paste0(complexity_harv_file_name, ".gz")
+    )
+} else {
+  tmp <- tempfile(fileext = ".zip")
+  download.file(complexity_harvard_url,
+                tmp,
+                quiet = FALSE)
+  unzip(tmp, exdir = "data-raw", files = complexity_harv_origin_zip_file)
+  file.rename(paste0("data-raw/", complexity_harv_origin_zip_file),
+              complexity_harv_file_name)
+  unlink(paste0("data-raw/", complexity_harv_origin_zip_file),
+         recursive = T)
+  complexity_harv_raw <- data.table::fread(complexity_harv_file_name)
+  complexity_harv <- complexity_harv_raw[
+    !is.na(countrycode::countrycode(location_code, "iso3c", "country.name",
+                                    warn = FALSE)),
+    .(year, hs_eci, hs_coi, sitc_eci, sitc_coi, location_code)]
+  complexity_harv <- unique(complexity_harv, by = c("year", "location_code"))
+  data.table::fwrite(x = complexity_harv, file = complexity_harv_file_name)
+  R.utils::gzip(paste0(complexity_harv_file_name),
+                destname=paste0(complexity_harv_file_name, ".gz"))
+}
+print("finished.")
+
+
+
 # # Get export data from MIT=====================================================
 # # https://atlas.media.mit.edu/en/resources/data/
 # if (download_data_exports_mit==TRUE){
