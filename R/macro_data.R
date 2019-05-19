@@ -194,6 +194,13 @@ if (download_data | !file.exists(ameco_file)){
   unzip(tmp, exdir = "data-raw/ameco")
 }
 
+aggregates_2be_eliminated <- c(
+  "European Union", "European Union excluding UK",
+  "European Union (15 countries)", "Euro area",
+  "Euro area (12 countries)", "EU15 (including D_W West-Germany)",
+  "EA12 (including D_W West-Germany)"
+)
+
 # unemployment---------------------------------------------------------------
 # Remark: two observations exist for 1991 for Germany and West Germany;
 # Here the mean is used
@@ -202,7 +209,10 @@ ameco01 <- data.table::fread("data-raw/ameco/AMECO1.TXT",
                              fill = TRUE, header = TRUE,
                              stringsAsFactors = FALSE)
 ameco01 <- ameco01[
-  TITLE=="Unemployment rate: total :- Member States: definition EUROSTAT"]
+  TITLE=="Unemployment rate: total :- Member States: definition EUROSTAT"
+  ][
+    !COUNTRY %in% aggregates_2be_eliminated
+  ]
 
 ameco01_germany <-data.table::copy(ameco01)
 ameco01_germany <- ameco01_germany[COUNTRY %in% c("Germany", "West Germany")]
@@ -220,18 +230,20 @@ ameco01_germany <- ameco01_germany[, COUNTRY:=countrycode::countrycode(COUNTRY,
 ameco01_germany[, unemp_rate:=mean(unemp_rate, na.rm = T), year]
 ameco01_germany <- unique(ameco01_germany)
 
-ameco01 <- ameco01[COUNTRY != "DEU"]
+ameco01 <- ameco01[!COUNTRY %in% c("Germany", "West Germany")]
 ameco01[, c("CODE", "SUB-CHAPTER", "TITLE", "UNIT",  "V67"):=NULL]
 ameco01 <- ameco01[, COUNTRY2:=countrycode::countrycode(COUNTRY,
                                                         "country.name", "iso3c"
 )
-][!is.na(COUNTRY)]
+][!is.na(COUNTRY)][!is.na(COUNTRY2)][, COUNTRY:=NULL]
+data.table::setnames(ameco01, old = "COUNTRY2", new = "COUNTRY")
+
 ameco01 <- data.table::melt(ameco01, id.vars=c("COUNTRY"),
                             variable.name="year",
                             value.name = "unemp_rate")
 
 ameco01 <- rbind(ameco01, ameco01_germany)
-ameco01[, unemp_rate:=as.double(unemp_rate)]
+ameco01[, unemp_rate:=as.double(as.character(unemp_rate))]
 if (sum(duplicated(ameco01, by = c("COUNTRY", "year")))>0){
   warning("Duplicated rows in ameco01!")
 }
@@ -241,7 +253,9 @@ print("...ameco02...")
 ameco02 <- data.table::fread("data-raw/ameco/AMECO2.TXT",
                              fill = TRUE, header = TRUE)
 ameco02 <- ameco02[
-  TITLE=="Harmonised consumer price index (All-items)"]
+  TITLE=="Harmonised consumer price index (All-items)"][
+    !COUNTRY %in% aggregates_2be_eliminated
+  ]
 ameco02 <- ameco02[, COUNTRY:=countrycode::countrycode(COUNTRY,
                                                        "country.name", "iso3c"
 )
@@ -264,7 +278,10 @@ print("...ameco03...")
 ameco03 <- data.table::fread("data-raw/ameco/AMECO3.TXT",
                              fill = TRUE, header = TRUE)
 ameco03 <- ameco03[
-  TITLE%in%c("Gross fixed capital formation at current prices: total economy")]
+  TITLE%in%c("Gross fixed capital formation at current prices: total economy")
+  ][
+    !COUNTRY %in% aggregates_2be_eliminated
+  ]
 ameco03 <- ameco03[UNIT=="Mrd ECU/EUR"]
 ameco03_germany <- ameco03[COUNTRY %in% c("Germany", "West Germany")]
 ameco03_germany[, c("CODE", "SUB-CHAPTER", "TITLE", "UNIT",  "V67"):=NULL]
@@ -307,10 +324,8 @@ gdp_vars <- c(
 )
 ameco06_GDP <- ameco06[
   TITLE%in%gdp_vars
-  ][!COUNTRY%in%c("European Union", "European Union excluding UK",
-                  "European Union (15 countries)", "Euro area",
-                  "Euro area (12 countries)", "EU15 (including D_W West-Germany)",
-                  "EA12 (including D_W West-Germany)")
+  ][
+    !COUNTRY %in% aggregates_2be_eliminated
     ]
 
 # Ameco 7--------------------------------------------------------------------
@@ -322,10 +337,8 @@ ameco07 <- data.table::fread("data-raw/ameco/AMECO7.TXT",
 print("...wage share...")
 ameco07_wage_share <- ameco07[
   TITLE=="Adjusted wage share: total economy: as percentage of GDP at current prices (Compensation per employee as percentage of GDP at market prices per person employed.)"
-  ][!COUNTRY%in%c("European Union", "European Union excluding UK",
-                  "European Union (15 countries)", "Euro area",
-                  "Euro area (12 countries)", "EU15 (including D_W West-Germany)",
-                  "EA12 (including D_W West-Germany)")
+  ][
+    !COUNTRY %in% aggregates_2be_eliminated
     ]
 
 ameco07_wage_share_germany <-data.table::copy(ameco07_wage_share)
@@ -352,7 +365,8 @@ ameco07_wage_share[, c("CODE", "SUB-CHAPTER", "TITLE", "UNIT",  "V67"):=NULL]
 ameco07_wage_share <- ameco07_wage_share[, COUNTRY2:=countrycode::countrycode(COUNTRY,
                                                                               "country.name", "iso3c"
 )
-][!is.na(COUNTRY) & COUNTRY != "DEU"]
+][!is.na(COUNTRY) & COUNTRY2 != "DEU"][, COUNTRY:=NULL]
+data.table::setnames(ameco07_wage_share, old = "COUNTRY2", new = "COUNTRY")
 
 ameco07_wage_share <- data.table::melt(ameco07_wage_share,
                                        id.vars=c("COUNTRY"),
@@ -369,11 +383,20 @@ if (sum(duplicated(ameco01, by = c("COUNTRY", "year")))>0){
 print("...RULC...")
 ameco07_rulc <- ameco07[
   TITLE=="Real unit labour costs: total economy (Ratio of compensation per employee to nominal GDP per person employed.)"
-  ][!COUNTRY%in%c("European Union",
-                  "European Union excluding UK", "Euro area",
-                  "EU15 (including DEL \"linked\" Germany)" ,
-                  "EA12 (including DEL \"linked\" Germany)")
-    ][ , COUNTRY:=countrycode::countrycode(COUNTRY, "country.name", "iso3c")]
+  ][
+    !COUNTRY%in%aggregates_2be_eliminated
+    ][
+      !COUNTRY %in% c(
+        'EU15 (including DEL "linked" Germany)',
+        'EA12 (including DEL "linked" Germany)',
+        'EU15 (including DEL "linked" Germany)',
+        'EA12 (including DEL "linked" Germany)'
+      )
+    ]
+
+# for: ameco07_rulc
+ameco07_rulc[ , COUNTRY:=countrycode::countrycode(
+  COUNTRY, "country.name", "iso3c")]
 ameco07_rulc[, c("CODE", "SUB-CHAPTER", "TITLE", "UNIT",  "V67"):=NULL]
 ameco07_rulc <- data.table::melt(ameco07_rulc,
                                  id.vars=c("COUNTRY"),
@@ -387,18 +410,29 @@ if (sum(duplicated(ameco07_rulc, by = c("COUNTRY", "year")))>0){
 print("...NULC...")
 ameco07_nulc <- ameco07[
   TITLE=="Nominal unit labour costs: total economy (Ratio of compensation per employee to real GDP per person employed.)"
-  ][!COUNTRY%in%c("European Union",
-                  "European Union excluding UK", "Euro area",
-                  "EU15 (including DEL \"linked\" Germany)" ,
-                  "EA12 (including DEL \"linked\" Germany)")
-    ][ , COUNTRY:=countrycode::countrycode(COUNTRY, "country.name", "iso3c")]
-ameco07_nulc[, c("CODE", "SUB-CHAPTER", "TITLE"):=NULL]
+  ][
+    !COUNTRY%in%aggregates_2be_eliminated
+    ][
+      !COUNTRY %in% c(
+        'EU15 (including DEL "linked" Germany)',
+        'EA12 (including DEL "linked" Germany)',
+        'EU15 (including DEL "linked" Germany)',
+        'EA12 (including DEL "linked" Germany)'
+      )
+      ]
+ameco07_nulc[ , COUNTRY:=countrycode::countrycode(
+  COUNTRY, "country.name", "iso3c")]
+ameco07_nulc[, c("CODE", "SUB-CHAPTER", "TITLE", "V67"):=NULL]
 ameco07_nulc <- data.table::melt(ameco07_nulc,
                                  id.vars=c("COUNTRY", "UNIT"),
                                  variable.name="year",
-                                 value.name = "rulc")
-ameco07_nulc <- data.table::dcast(ameco07_nulc, COUNTRY+year~UNIT, value.var="rulc")
-names(ameco07_nulc) <- c("COUNTRY", "year", "nulc_eur", "nulc_nac")
+                                 value.name = "nulc")
+ameco07_nulc <- data.table::dcast(ameco07_nulc, COUNTRY+year~UNIT, value.var="nulc")
+data.table::setnames(ameco07_nulc,
+                     old = c("COUNTRY", "year", "(EUR: 2010 = 100)",
+                             "(National currency: 2010 = 100)"),
+                     new = c("COUNTRY", "year", "nulc_eur", "nulc_lcu")
+                     )
 if (sum(duplicated(ameco07_nulc, by = c("COUNTRY", "year")))>0){
   warning("Duplicated rows in ameco07_nulc!")
 }
@@ -412,8 +446,9 @@ ameco_full <- Reduce(function(...) merge(..., all=TRUE,
 ameco_full <- ameco_full[, .(year=as.double(as.character(year)),
                              iso3c=COUNTRY, unemp_rate, cpi,
                              cap_form, wage_share, rulc, nulc_eur,
-                             nulc_nac)]
+                             nulc_lcu)]
 print("....finished.")
+# TODO check for duplicates
 
 # Get export data from MIT=====================================================
 # https://atlas.media.mit.edu/en/resources/data/
