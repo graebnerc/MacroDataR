@@ -590,8 +590,11 @@ print("finished.")
 # TODO Testen ob es keine Dopplungen gibt
 
 print("Merging data...")
-macro_data <- Reduce(function(...) merge(..., all=TRUE, by = c("iso3c", "year")),
-                     list(wb_data, swiid_raw, ameco_full, oecd_debt_data))
+macro_data <- Reduce(function(...) merge(..., all=TRUE,
+                                         by = c("iso3c", "year")),
+                     list(wb_data, swiid_raw, ameco_full, oecd_debt_data,
+                          complexity_data)
+                     )
 save(macro_data, file = "data/macro_data.rdata")
 data.table::fwrite(macro_data, file = "data/macro_data.csv")
 print("finished.")
