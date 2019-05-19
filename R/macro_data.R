@@ -235,7 +235,7 @@ ameco01[, c("CODE", "SUB-CHAPTER", "TITLE", "UNIT",  "V67"):=NULL]
 ameco01 <- ameco01[, COUNTRY2:=countrycode::countrycode(COUNTRY,
                                                         "country.name", "iso3c"
 )
-][!is.na(COUNTRY)][!is.na(COUNTRY2)]#[, COUNTRY:=NULL]
+][!is.na(COUNTRY)][!is.na(COUNTRY2)][, COUNTRY:=NULL]
 data.table::setnames(ameco01, old = "COUNTRY2", new = "COUNTRY")
 
 ameco01 <- data.table::melt(ameco01, id.vars=c("COUNTRY"),
