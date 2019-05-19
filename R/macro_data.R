@@ -194,6 +194,13 @@ if (download_data | !file.exists(ameco_file)){
   unzip(tmp, exdir = "data-raw/ameco")
 }
 
+aggregates_2be_eliminated <- c(
+  "European Union", "European Union excluding UK",
+  "European Union (15 countries)", "Euro area",
+  "Euro area (12 countries)", "EU15 (including D_W West-Germany)",
+  "EA12 (including D_W West-Germany)"
+)
+
 # unemployment---------------------------------------------------------------
 # Remark: two observations exist for 1991 for Germany and West Germany;
 # Here the mean is used
@@ -202,7 +209,9 @@ ameco01 <- data.table::fread("data-raw/ameco/AMECO1.TXT",
                              fill = TRUE, header = TRUE,
                              stringsAsFactors = FALSE)
 ameco01 <- ameco01[
-  TITLE=="Unemployment rate: total :- Member States: definition EUROSTAT"]
+  TITLE=="Unemployment rate: total :- Member States: definition EUROSTAT"][
+    !COUNTRY %in% aggregates_2be_eliminated
+  ]
 
 ameco01_germany <-data.table::copy(ameco01)
 ameco01_germany <- ameco01_germany[COUNTRY %in% c("Germany", "West Germany")]
@@ -220,18 +229,20 @@ ameco01_germany <- ameco01_germany[, COUNTRY:=countrycode::countrycode(COUNTRY,
 ameco01_germany[, unemp_rate:=mean(unemp_rate, na.rm = T), year]
 ameco01_germany <- unique(ameco01_germany)
 
-ameco01 <- ameco01[COUNTRY != "DEU"]
+ameco01 <- ameco01[!COUNTRY %in% c("Germany", "West Germany")]
 ameco01[, c("CODE", "SUB-CHAPTER", "TITLE", "UNIT",  "V67"):=NULL]
 ameco01 <- ameco01[, COUNTRY2:=countrycode::countrycode(COUNTRY,
                                                         "country.name", "iso3c"
 )
-][!is.na(COUNTRY)]
+][!is.na(COUNTRY)][!is.na(COUNTRY2)]#[, COUNTRY:=NULL]
+data.table::setnames(ameco01, old = "COUNTRY2", new = "COUNTRY")
+
 ameco01 <- data.table::melt(ameco01, id.vars=c("COUNTRY"),
                             variable.name="year",
                             value.name = "unemp_rate")
 
 ameco01 <- rbind(ameco01, ameco01_germany)
-ameco01[, unemp_rate:=as.double(unemp_rate)]
+ameco01[, unemp_rate:=as.double(as.character(unemp_rate))]
 if (sum(duplicated(ameco01, by = c("COUNTRY", "year")))>0){
   warning("Duplicated rows in ameco01!")
 }
