@@ -395,7 +395,8 @@ ameco07_rulc <- ameco07[
     ]
 
 # for: ameco07_rulc
-ameco07_rulc[ , COUNTRY:=countrycode::countrycode(COUNTRY, "country.name", "iso3c")]
+ameco07_rulc[ , COUNTRY:=countrycode::countrycode(
+  COUNTRY, "country.name", "iso3c")]
 ameco07_rulc[, c("CODE", "SUB-CHAPTER", "TITLE", "UNIT",  "V67"):=NULL]
 ameco07_rulc <- data.table::melt(ameco07_rulc,
                                  id.vars=c("COUNTRY"),
@@ -410,15 +411,28 @@ print("...NULC...")
 ameco07_nulc <- ameco07[
   TITLE=="Nominal unit labour costs: total economy (Ratio of compensation per employee to real GDP per person employed.)"
   ][
-    !COUNTRY %in% aggregates_2be_eliminated
-    ][ , COUNTRY:=countrycode::countrycode(COUNTRY, "country.name", "iso3c")]
-ameco07_nulc[, c("CODE", "SUB-CHAPTER", "TITLE"):=NULL]
+    !COUNTRY%in%aggregates_2be_eliminated
+    ][
+      !COUNTRY %in% c(
+        'EU15 (including DEL "linked" Germany)',
+        'EA12 (including DEL "linked" Germany)',
+        'EU15 (including DEL "linked" Germany)',
+        'EA12 (including DEL "linked" Germany)'
+      )
+      ]
+ameco07_nulc[ , COUNTRY:=countrycode::countrycode(
+  COUNTRY, "country.name", "iso3c")]
+ameco07_nulc[, c("CODE", "SUB-CHAPTER", "TITLE", "V67"):=NULL]
 ameco07_nulc <- data.table::melt(ameco07_nulc,
                                  id.vars=c("COUNTRY", "UNIT"),
                                  variable.name="year",
-                                 value.name = "rulc")
-ameco07_nulc <- data.table::dcast(ameco07_nulc, COUNTRY+year~UNIT, value.var="rulc")
-names(ameco07_nulc) <- c("COUNTRY", "year", "nulc_eur", "nulc_nac")
+                                 value.name = "nulc")
+ameco07_nulc <- data.table::dcast(ameco07_nulc, COUNTRY+year~UNIT, value.var="nulc")
+data.table::setnames(ameco07_nulc,
+                     old = c("COUNTRY", "year", "(EUR: 2010 = 100)",
+                             "(National currency: 2010 = 100)"),
+                     new = c("COUNTRY", "year", "nulc_eur", "nulc_lcu")
+                     )
 if (sum(duplicated(ameco07_nulc, by = c("COUNTRY", "year")))>0){
   warning("Duplicated rows in ameco07_nulc!")
 }
