@@ -98,7 +98,7 @@ wb_vars <- c(
 )
 
 wb_var_names <- c(
-  "current_account_GDP", # Current account balance (% of GDP): https://data.worldbank.org/indicator/BN.CAB.XOKA.GD.ZS
+  "current_account_GDP_WB", # Current account balance (% of GDP): https://data.worldbank.org/indicator/BN.CAB.XOKA.GD.ZS
   "population", # Population: https://data.worldbank.org/indicator/SP.POP.TOTL
   "res_rents", # Natural resource rents: https://data.worldbank.org/indicator/ny.gdp.totl.rt.zs
   "gdp_real_lcu", # Real GDP (constant LCU): https://data.worldbank.org/indicator/NY.GDP.MKTP.KN
@@ -430,16 +430,70 @@ if (sum(duplicated(ameco07_nulc, by = c("COUNTRY", "year")))>0){
   warning("Duplicated rows in ameco07_nulc!")
 }
 
+# Current account--------------------------------------------------------------
+print("...Current Account...")
+ameco10 <- data.table::fread("data-raw/ameco/AMECO10.TXT",
+                             fill = TRUE, header = TRUE)
+ameco10 <- ameco10[
+  TITLE=="Balance on current transactions with the rest of the world (National accounts)" &
+    UNIT=="(Percentage of gross domestic product at current prices)"
+  ][
+    !COUNTRY%in%aggregates_2be_eliminated
+    ]
+
+ameco10_germany <-data.table::copy(ameco10)
+ameco10_germany <- ameco10_germany[
+  COUNTRY %in% c("Germany", "West Germany")]
+
+ameco10_germany[, c("CODE", "SUB-CHAPTER", "TITLE", "UNIT",  "V67"):=NULL]
+
+ameco10_germany <- data.table::melt(
+  ameco10_germany, id.vars=c("COUNTRY"),
+  variable.name="year",
+  value.name = "current_account_GDP_ameco")
+
+ameco10_germany[, year:=as.double(as.character(year))]
+ameco10_germany[COUNTRY=="West Germany" & year>1990, current_account_GDP_ameco:=NA]
+ameco10_germany <- ameco10_germany[, COUNTRY:=countrycode::countrycode(
+  COUNTRY, "country.name", "iso3c"
+  )]
+ameco10_germany[, current_account_GDP_ameco:=mean(current_account_GDP_ameco, na.rm = T), year]
+ameco10_germany <- unique(ameco10_germany)
+
+ameco10[, c("CODE", "SUB-CHAPTER", "TITLE", "UNIT",  "V67"):=NULL]
+ameco10 <- ameco10[, COUNTRY2:=countrycode::countrycode(COUNTRY, "country.name", "iso3c"
+)
+][!is.na(COUNTRY) & COUNTRY2 != "DEU"][, COUNTRY:=NULL]
+data.table::setnames(ameco10, old = "COUNTRY2", new = "COUNTRY")
+
+ameco10 <- data.table::melt(ameco10,
+                                       id.vars=c("COUNTRY"),
+                                       variable.name="year",
+                                       value.name = "current_account_GDP_ameco")
+
+ameco10 <- rbind(ameco10, ameco10_germany)
+ameco10[, current_account_GDP_ameco:=as.double(current_account_GDP_ameco)]
+if (sum(duplicated(ameco10, by = c("COUNTRY", "year")))>0){
+  warning("Duplicated rows in ameco10!")
+}
+
 # Merge all AMECO tables-----------------------------------------------------
 print("...merge all AMECO...")
 ameco_full <- Reduce(function(...) merge(..., all=TRUE,
                                          by = c("COUNTRY", "year")),
                      list(ameco01, ameco02, ameco03, ameco07_wage_share,
-                          ameco07_rulc, ameco07_nulc))
+                          ameco07_rulc, ameco07_nulc, ameco10))
 ameco_full <- ameco_full[, .(year=as.double(as.character(year)),
-                             iso3c=COUNTRY, unemp_rate, cpi,
-                             cap_form, wage_share, rulc, nulc_eur,
-                             nulc_lcu)]
+                             iso3c=COUNTRY,
+                             cap_form,
+                             cpi,
+                             current_account_GDP_ameco,
+                             nulc_eur,
+                             nulc_lcu,
+                             rulc,
+                             unemp_rate,
+                             wage_share)
+                         ]
 print("....finished.")
 # TODO check for duplicates
 
