@@ -529,8 +529,6 @@ data.table::setnames(complexity_data,
                              "eci_harv_sitc", "eci_harc_coi_sitc"))
 print("finished.")
 
-# IMF Direction of Trade statistics============================================
-
 # # Get export data from MIT===================================================
 # # https://atlas.media.mit.edu/en/resources/data/
 # if (download_data_exports_mit==TRUE){
