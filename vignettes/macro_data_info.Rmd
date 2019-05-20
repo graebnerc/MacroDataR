@@ -54,9 +54,11 @@ Here goes the documentation of the data set. Note that you can also look at `dat
 | eci_rank_mit           | Rank of the country according to the ECI  | Index | [MIT][18] |
 | current_account_GDP           | Sum of net exports of goods and services, net primary income, and net secondary income.  | % of GDP | [World Bank][19] |
 | population           | Total population (midyear estimates).  | % of GDP | [World Bank][20] |
-
-
-
+| debt_corp_nf_percGDP  | Debt of non-financial corporations (`DBTS11GDP`).  | % of GDP | [OECD (FIN_IND_FBS)][21]|
+| debt_corp_f_percGDP   | Debt of financial corporations (`DBTS12GDP`).  | % of GDP | [OECD (FIN_IND_FBS)][21]|
+| debt_gen_gov_percGDP  | Debt of general government (`DBTS13GDP`).  | % of GDP | [OECD (FIN_IND_FBS)][21] |
+| debt_hh_npish_percGDI | Debts of households and NPISHs (`DBTS14_S15GDI`).  | % of GDI | [OECD (FIN_IND_FBS)][21]|
+| total_debt_percGDP    | Debt of the total economy (`DBTS1GDP`).  | % of GDP | [OECD (FIN_IND_FBS)][21] |
 
 [1]: https://unstats.un.org/unsd/tradekb/knowledgebase/country-code
 [2]: https://data.worldbank.org/indicator/ny.gdp.totl.rt.zs
@@ -78,11 +80,10 @@ Here goes the documentation of the data set. Note that you can also look at `dat
 [18]: https://atlas.media.mit.edu/en/resources/data/
 [19]: https://data.worldbank.org/indicator/BN.CAB.XOKA.GD.ZS
 [20]: https://data.worldbank.org/indicator/SP.POP.TOTL
+[21]: https://stats.oecd.org/Index.aspx?DataSetCode=FIN_IND_FBS
 
 ## Open issues
 
-* Fix units for new World Bank data
-* Where did **Public debt to GDP** come from? It says AMECO, but I could not find it.
 * Add more tests for duplicated rows, just as with AMECO
 
 
