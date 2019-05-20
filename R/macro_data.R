@@ -529,29 +529,6 @@ data.table::setnames(complexity_data,
                              "eci_harv_sitc", "eci_harc_coi_sitc"))
 print("finished.")
 
-# IMF Direction of Trade statistics============================================
-dots_url <- FALSE
-dots_file_name <- "data-raw/DOTS.rds"
-
-if (!download_data & file.exists(paste0(dots_file_name, ".gz"))){
-  con <- gzfile(paste0(dots_file_name, ".gz"))
-  dots <- readRDS(con)
-  close(con)
-} else {
-  if (!file.exists(paste0(dots_file_name, ".gz"))) {
-    stop("DOTS data cannot be downloaded at the moment,
-         and no downloaded data is available!")
-  }
-  warning("DOTS cannot be downloaded, must refer to downloaded data!")
-  con <- gzfile(paste0(dots_file_name, ".gz"))
-  dots <- readRDS(con)
-  close(con)
-}
-
-# "TMG_CIF_USD" : Importe
-# "TXG_FOB_USD" : Exporte
-
-
 # # Get export data from MIT===================================================
 # # https://atlas.media.mit.edu/en/resources/data/
 # if (download_data_exports_mit==TRUE){
