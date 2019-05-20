@@ -529,9 +529,9 @@ data.table::setnames(complexity_data,
                              "eci_harv_sitc", "eci_harc_coi_sitc"))
 print("finished.")
 
+# IMF Direction of Trade statistics============================================
 
-
-# # Get export data from MIT=====================================================
+# # Get export data from MIT===================================================
 # # https://atlas.media.mit.edu/en/resources/data/
 # if (download_data_exports_mit==TRUE){
 #   export_data_mit_file_name <- "data/mit_export_data.fst" # TODO in zip ändern
