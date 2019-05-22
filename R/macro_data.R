@@ -78,6 +78,13 @@ print("World Bank data...")
 # TODO Download all countries and filter those we do not need
 #
 wb_vars <- c(
+  "sl.ind.empl.zs", # Employment in industry (% of total employment): https://data.worldbank.org/indicator/sl.ind.empl.zs
+  "SL.AGR.EMPL.ZS", # Employment in agriculture (% of total employment): https://data.worldbank.org/indicator/SL.AGR.EMPL.ZS
+  "SL.SRV.EMPL.ZS", # Employment in services (% of total employment): https://data.worldbank.org/indicator/SL.SRV.EMPL.ZS
+  "SL.EMP.SELF.ZS", # Self-employed (% of total employment): https://data.worldbank.org/indicator/SL.EMP.SELF.ZS
+  "SL.UEM.NEET.ZS", # Share of youth not in education, employment of training (% of youth population): https://data.worldbank.org/indicator/SL.UEM.NEET.ZS
+  "NV.IND.TOTL.ZS", # Industry (including construction), value added (% of GDP): https://data.worldbank.org/indicator/NV.IND.TOTL.ZS
+  "NV.IND.MANF.ZS", # Manufacturing, value added (% of GDP): https://data.worldbank.org/indicator/NV.IND.MANF.ZS
   "BN.CAB.XOKA.GD.ZS", # Current account balance (% of GDP): https://data.worldbank.org/indicator/BN.CAB.XOKA.GD.ZS
   "SP.POP.TOTL", # Population: https://data.worldbank.org/indicator/SP.POP.TOTL
   "ny.gdp.totl.rt.zs", # Natural resource rents: https://data.worldbank.org/indicator/ny.gdp.totl.rt.zs
@@ -98,6 +105,13 @@ wb_vars <- c(
 )
 
 wb_var_names <- c(
+  "empl_ind", # Employment in industry (% of total employment): https://data.worldbank.org/indicator/sl.ind.empl.zs
+  "empl_agr", # Employment in agriculture (% of total employment): https://data.worldbank.org/indicator/SL.AGR.EMPL.ZS
+  "empl_serv", # Employment in services (% of total employment): https://data.worldbank.org/indicator/SL.SRV.EMPL.ZS
+  "empl_self", # Self-employed (% of total employment): https://data.worldbank.org/indicator/SL.EMP.SELF.ZS
+  "unemp_youth_neet", # Share of youth not in education, employment of training (% of youth population): https://data.worldbank.org/indicator/SL.UEM.NEET.ZS
+  "VA_industry_gdp", # Industry (including construction), value added (% of GDP): https://data.worldbank.org/indicator/NV.IND.TOTL.ZS
+  "VA_manufct_gdp", # Manufacturing, value added (% of GDP): https://data.worldbank.org/indicator/NV.IND.MANF.ZS
   "current_account_GDP_WB", # Current account balance (% of GDP): https://data.worldbank.org/indicator/BN.CAB.XOKA.GD.ZS
   "population", # Population: https://data.worldbank.org/indicator/SP.POP.TOTL
   "res_rents", # Natural resource rents: https://data.worldbank.org/indicator/ny.gdp.totl.rt.zs

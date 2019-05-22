@@ -60,6 +60,13 @@ Here goes the documentation of the data set. Note that you can also look at `dat
 | debt_gen_gov_percGDP  | Debt of general government (`DBTS13GDP`).  | % of GDP | [OECD (FIN_IND_FBS)][21] |
 | debt_hh_npish_percGDI | Debts of households and NPISHs (`DBTS14_S15GDI`).  | % of GDI | [OECD (FIN_IND_FBS)][21]|
 | total_debt_percGDP    | Debt of the total economy (`DBTS1GDP`).  | % of GDP | [OECD (FIN_IND_FBS)][21] |
+| empl_ind | Employment in industry | % of total employment | [World Bank][22] |
+| empl_agr | Employment in agriculture | % of total employment | [World Bank][23] |
+| empl_serv | Employment in services | % of total employment | [World Bank][24] |
+| empl_self | Self-employed | % of total employment | [World Bank][25] |
+| unemp_youth_neet | Share of youth not in education, employment of training |  % of youth population | [World Bank][26] |
+| VA_industry_gdp | Value added of industry (including construction) |  % of GDP |  [World Bank][27] |
+| VA_manufct_gdp | Value added of manufacturing | % of GDP |  [World Bank][28] |
 
 [1]: https://unstats.un.org/unsd/tradekb/knowledgebase/country-code
 [2]: https://data.worldbank.org/indicator/ny.gdp.totl.rt.zs
@@ -82,7 +89,13 @@ Here goes the documentation of the data set. Note that you can also look at `dat
 [19]: https://data.worldbank.org/indicator/BN.CAB.XOKA.GD.ZS
 [20]: https://data.worldbank.org/indicator/SP.POP.TOTL
 [21]: https://stats.oecd.org/Index.aspx?DataSetCode=FIN_IND_FBS
-
+[22]: https://data.worldbank.org/indicator/sl.ind.empl.zs
+[23]: https://data.worldbank.org/indicator/SL.AGR.EMPL.ZS
+[24]: https://data.worldbank.org/indicator/SL.SRV.EMPL.ZS
+[25]: https://data.worldbank.org/indicator/SL.EMP.SELF.ZS
+[26]: https://data.worldbank.org/indicator/SL.UEM.NEET.ZS
+[27]: https://data.worldbank.org/indicator/NV.IND.TOTL.ZS
+[28]: https://data.worldbank.org/indicator/NV.IND.MANF.ZS
 ## Open issues
 
 * Add more tests for duplicated rows, just as with AMECO
