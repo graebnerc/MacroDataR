@@ -67,6 +67,22 @@ Here goes the documentation of the data set. Note that you can also look at `dat
 | unemp_youth_neet | Share of youth not in education, employment of training |  % of youth population | [World Bank][26] |
 | VA_industry_gdp | Value added of industry (including construction) |  % of GDP |  [World Bank][27] |
 | VA_manufct_gdp | Value added of manufacturing | % of GDP |  [World Bank][28] |
+| wgi_accountability | Voice and Accountability captures perceptions of the extent to which a country's citizens are able to participate in selecting their government, as well as freedom of expression, freedom of association, and a free media (this is the estimate, errors and percentiles are also [available][29]). | Index (-2.5 to 2.5) | WGI [home][29]  [API][30] |
+| wgi_control_corrupt | Control of Corruption captures perceptions of the extent to which public power is exercised for private gain, including both petty and grand forms of corruption, as well as "capture" of the state by elites and private interests (this is the estimate, errors and percentiles are also [available][29]). | Index (-2.5 to 2.5) | WGI [home][29]  [API][30] |
+| wgi_gov_effectvn | Government Effectiveness captures perceptions of the quality of public services, the quality of the civil service and the degree of its independence from political pressures, the quality of policy formulation and implementation, and the credibility of the government's commitment to such policies (this is the estimate, errors and percentiles are also [available][29]). | Index (-2.5 to 2.5) | WGI [home][29]  [API][30] |
+| wgi_pol_stability | Political Stability and Absence of Violence/Terrorism captures perceptions of the likelihood that the government will be destabilized or overthrown by unconstitutional or violent means, including politically-motivated violence and terrorism (this is the estimate, errors and percentiles are also [available][29]). | Index (-2.5 to 2.5) | WGI [home][29]  [API][30] |
+| wgi_rule_of_law | Rule of Law captures perceptions of the extent to which agents have confidence in and abide by the rules of society, and in particular the quality of contract enforcement, property rights, the police, and the courts, as well as the likelihood of crime and violence. (this is the estimate, errors and percentiles are also [available][29]). | Index (-2.5 to 2.5) | WGI [home][29]  [API][30] |
+| wgi_regul_quality | Regulatory Quality captures perceptions of the ability of the government to formulate and implement sound policies and regulations that permit and promote private sector development (this is the estimate, errors and percentiles are also [available][29]). | Index (-2.5 to 2.5) | WGI [home][29]  [API][30] |
+| fdi_net_inflow_GDP | Foreign direct investment, net inflows | % of GDP |  [World Bank][31] | 
+| fdi_net_outflow_GDP | Foreign direct investment, net outflows | % of GDP |  [World Bank][32] |  
+| tax_rev_total_GDP | Tax revenue | % of GDP |  [World Bank][33] | 
+| tax_rev_trade_TAX | Taxes on international trade | % of revenue |  [World Bank][34] | 
+| tax_rev_inc_profits_TAX | Taxes on income, profits and capital gains | % of revenue |  [World Bank][35] | 
+| trade_total_GDP | Trade is the sum of exports and imports of goods and services measured as a share of gross domestic product | % of GDP | [World Bank][36] |  
+| trade_exp_GDP | Exports of goods and services | % of GDP |  [World Bank][37] | 
+| trade_imp_GDP | Imports of goods and services | % of GDP |  [World Bank][38] | 
+| RD_expend_GDP | Research and development expenditure | % of GDP |  [World Bank][39] | 
+| RD_scientists | The number of researchers engaged in Research &Development (R&D) | Persons per per million people |  [World Bank][40] |
 
 [1]: https://unstats.un.org/unsd/tradekb/knowledgebase/country-code
 [2]: https://data.worldbank.org/indicator/ny.gdp.totl.rt.zs
@@ -96,6 +112,19 @@ Here goes the documentation of the data set. Note that you can also look at `dat
 [26]: https://data.worldbank.org/indicator/SL.UEM.NEET.ZS
 [27]: https://data.worldbank.org/indicator/NV.IND.TOTL.ZS
 [28]: https://data.worldbank.org/indicator/NV.IND.MANF.ZS
+[29]: https://info.worldbank.org/governance/wgi/#home
+[30]: https://api.worldbank.org/v2/sources/3/indicators
+[31]: https://data.worldbank.org/indicator/BX.KLT.DINV.WD.GD.ZS
+[32]: https://data.worldbank.org/indicator/BM.KLT.DINV.WD.GD.ZS
+[33]: https://data.worldbank.org/indicator/GC.TAX.TOTL.GD.ZS
+[34]: https://data.worldbank.org/indicator/GC.TAX.INTT.RV.ZS
+[35]: https://data.worldbank.org/indicator/GC.TAX.YPKG.RV.ZS
+[36]: https://data.worldbank.org/indicator/NE.TRD.GNFS.ZS
+[37]: https://data.worldbank.org/indicator/NE.EXP.GNFS.ZS
+[38]: https://data.worldbank.org/indicator/NE.IMP.GNFS.ZS
+[39]: https://data.worldbank.org/indicator/GB.XPD.RSDV.GD.ZS
+[40]: https://data.worldbank.org/indicator/SP.POP.SCIE.RD.P6
+
 ## Open issues
 
 * Add more tests for duplicated rows, just as with AMECO

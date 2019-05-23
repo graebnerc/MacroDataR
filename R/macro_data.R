@@ -78,6 +78,22 @@ print("World Bank data...")
 # TODO Download all countries and filter those we do not need
 #
 wb_vars <- c(
+  "BX.KLT.DINV.WD.GD.ZS", # Foreign direct investment, net inflows (% of GDP): https://data.worldbank.org/indicator/BX.KLT.DINV.WD.GD.ZS
+  "BM.KLT.DINV.WD.GD.ZS", # Foreign direct investment, net outflows (% of GDP): https://data.worldbank.org/indicator/BM.KLT.DINV.WD.GD.ZS
+  "GC.TAX.TOTL.GD.ZS", # Tax revenue (% of GDP): https://data.worldbank.org/indicator/GC.TAX.TOTL.GD.ZS
+  "GC.TAX.INTT.RV.ZS", # Taxes on international trade (% of revenue): https://data.worldbank.org/indicator/GC.TAX.INTT.RV.ZS
+  "GC.TAX.YPKG.RV.ZS", # Taxes on income, profits and capital gains (% of revenue): https://data.worldbank.org/indicator/GC.TAX.YPKG.RV.ZS
+  "NE.TRD.GNFS.ZS", # Trade is the sum of exports and imports of goods and services measured as a share of gross domestic product: https://data.worldbank.org/indicator/NE.TRD.GNFS.ZS
+  "NE.EXP.GNFS.ZS", # Exports of goods and services (% of GDP): https://data.worldbank.org/indicator/NE.EXP.GNFS.ZS
+  "NE.IMP.GNFS.ZS", # Imports of goods and services (% of GDP): https://data.worldbank.org/indicator/NE.IMP.GNFS.ZS
+  "GB.XPD.RSDV.GD.ZS", # Research and development expenditure (% of GDP): https://data.worldbank.org/indicator/GB.XPD.RSDV.GD.ZS
+  "SP.POP.SCIE.RD.P6", # The number of researchers engaged in Research &Development (R&D), expressed as per million: SP.POP.SCIE.RD.P6
+  "VA.EST", # WGI: Voice and Accountability; WGI home: https://info.worldbank.org/governance/wgi/#home API: https://api.worldbank.org/v2/sources/3/indicators
+  "RQ.EST", # WGI: Regulatory Quality
+  "RL.EST", # WGI: Rule of Law
+  "PV.EST", # WGI: Political Stability and Absence of Violence/Terrorism
+  "GE.EST", # WGI: Government Effectiveness
+  "CC.EST", # WGI: Control of Corruption
   "sl.ind.empl.zs", # Employment in industry (% of total employment): https://data.worldbank.org/indicator/sl.ind.empl.zs
   "SL.AGR.EMPL.ZS", # Employment in agriculture (% of total employment): https://data.worldbank.org/indicator/SL.AGR.EMPL.ZS
   "SL.SRV.EMPL.ZS", # Employment in services (% of total employment): https://data.worldbank.org/indicator/SL.SRV.EMPL.ZS
@@ -105,6 +121,22 @@ wb_vars <- c(
 )
 
 wb_var_names <- c(
+  "fdi_net_inflow_GDP", # Foreign direct investment, net inflows (% of GDP): https://data.worldbank.org/indicator/BX.KLT.DINV.WD.GD.ZS
+  "fdi_net_outflow_GDP", # Foreign direct investment, net outflows (% of GDP): https://data.worldbank.org/indicator/BM.KLT.DINV.WD.GD.ZS
+  "tax_rev_total_GDP", # Tax revenue (% of GDP): https://data.worldbank.org/indicator/GC.TAX.TOTL.GD.ZS
+  "tax_rev_trade_TAX", # Taxes on international trade (% of revenue): https://data.worldbank.org/indicator/GC.TAX.INTT.RV.ZS
+  "tax_rev_inc_profits_TAX", # Taxes on income, profits and capital gains (% of revenue): https://data.worldbank.org/indicator/GC.TAX.YPKG.RV.ZS
+  "trade_total_GDP", # Trade is the sum of exports and imports of goods and services measured as a share of gross domestic product: https://data.worldbank.org/indicator/NE.TRD.GNFS.ZS
+  "trade_exp_GDP", # Exports of goods and services (% of GDP): https://data.worldbank.org/indicator/NE.EXP.GNFS.ZS
+  "trade_imp_GDP", # Imports of goods and services (% of GDP): https://data.worldbank.org/indicator/NE.IMP.GNFS.ZS
+  "RD_expend_GDP", # Research and development expenditure (% of GDP): https://data.worldbank.org/indicator/GB.XPD.RSDV.GD.ZS
+  "RD_scientists", # The number of researchers engaged in Research &Development (R&D), expressed as per million: SP.POP.SCIE.RD.P6
+  "wgi_accountability", # WGI: Voice and Accountability; WGI home: https://info.worldbank.org/governance/wgi/#home API: https://api.worldbank.org/v2/sources/3/indicators
+  "wgi_regul_quality", # WGI: Regulatory Quality
+  "wgi_rule_of_law", # WGI: Rule of Law
+  "wgi_pol_stability", # WGI: Political Stability and Absence of Violence/Terrorism
+  "wgi_gov_effectvn", # WGI: Government Effectiveness
+  "wgi_control_corrupt", # WGI: Control of Corruption
   "empl_ind", # Employment in industry (% of total employment): https://data.worldbank.org/indicator/sl.ind.empl.zs
   "empl_agr", # Employment in agriculture (% of total employment): https://data.worldbank.org/indicator/SL.AGR.EMPL.ZS
   "empl_serv", # Employment in services (% of total employment): https://data.worldbank.org/indicator/SL.SRV.EMPL.ZS

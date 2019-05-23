@@ -35,24 +35,14 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Missing from WDI
 
-* FDI to GDP
-* Tax revenues to GDP
-* Imports to GDP
-* Exports to GDP
-* Trade to GDP
-* RD costs
+Diese müssen selbst berechnet werden:
 * WTS
-# CTS
+* CTS
 * WTS Pop
 * Lietal
 * Alcala
 * Frankel
 
-Dann die WGI indicators:
-* Control of curroption
-* Government effectiveness
-* Role of Law
-* Political stability
 
 ## Missinhg from OECD
 
