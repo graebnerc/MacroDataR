@@ -58,8 +58,38 @@ oecd_debt_data[,
                .SDcols = setdiff(new_names, "iso3c")
                ]
 
-# Public debt to GDP
-# https://data.oecd.org/gga/general-government-debt.htm
+# OECD: Public debt to GDP-----------------------------------------------------
+oecd_pub_debt_file_name <- "data-raw/oecd_pub_debt_data.csv"
+
+if (download_data | !file.exists(oecd_pub_debt_file_name)){
+  if (!download_data){
+    warning(
+      warning("File for OECD public debt data does not exist. Download from www...")
+    )
+  }
+  filter_list <- list(
+    countries_considered,
+    "DBTS13GDP"
+  )
+
+  oecd_pub_debt_data_raw <- OECD::get_dataset(dataset = "NAAG",
+                                          start_time = first_year,
+                                          end_time = last_year,
+                                          filter = filter_list)
+  oecd_pub_debt_data_raw <- data.table::as.data.table(oecd_pub_debt_data_raw)
+  oecd_pub_debt_data <- oecd_pub_debt_data_raw[, .(LOCATION, obsTime, obsValue)]
+  data.table::fwrite(oecd_pub_debt_data, oecd_debt_file_name)
+} else {
+  oecd_pub_debt_data <- data.table::fread(oecd_pub_debt_file_name)
+}
+
+old_names <- c("LOCATION", "obsTime", "obsValue")
+new_names <- c("iso3c", "year", "debt_gen_gvt_gross")
+data.table::setnames(oecd_pub_debt_data, old = old_names, new = new_names)
+oecd_pub_debt_data[,
+                   (setdiff(new_names, "iso3c")):= lapply(.SD, as.double),
+                   .SDcols = setdiff(new_names, "iso3c")
+                   ]
 
 # OECD finance data-------------------------------------------------------
 oecd_finance_file_name <- "data-raw/oecd_finance_data.csv"
@@ -138,7 +168,8 @@ oecd_wage_data[,
 # Merge OECD data--------------------------------------------------------------
 oecd_data <- Reduce(function(...) merge(..., all=TRUE,
                                            by = c("iso3c", "year")),
-                       list(oecd_finance_data, oecd_debt_data, oecd_wage_data)
+                       list(oecd_finance_data, oecd_debt_data, oecd_wage_data,
+                            oecd_pub_debt_data)
   )
 
 # World Bank data==============================================================
