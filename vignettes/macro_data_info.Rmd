@@ -83,6 +83,7 @@ Here goes the documentation of the data set. Note that you can also look at `dat
 | trade_imp_GDP | Imports of goods and services | % of GDP |  [World Bank][38] | 
 | RD_expend_GDP | Research and development expenditure | % of GDP |  [World Bank][39] | 
 | RD_scientists | The number of researchers engaged in Research &Development (R&D) | Persons per per million people |  [World Bank][40] |
+| interest_long_term | Interest rates of long term (in most cases 10 year) government bonds (`IRLT`). | Per cent | [OECD (MEI_FIN)][41] |
 
 [1]: https://unstats.un.org/unsd/tradekb/knowledgebase/country-code
 [2]: https://data.worldbank.org/indicator/ny.gdp.totl.rt.zs
@@ -124,7 +125,7 @@ Here goes the documentation of the data set. Note that you can also look at `dat
 [38]: https://data.worldbank.org/indicator/NE.IMP.GNFS.ZS
 [39]: https://data.worldbank.org/indicator/GB.XPD.RSDV.GD.ZS
 [40]: https://data.worldbank.org/indicator/SP.POP.SCIE.RD.P6
-
+[41]: https://stats.oecd.org/Index.aspx?DataSetCode=MEI_FIN
 ## Open issues
 
 * Add more tests for duplicated rows, just as with AMECO

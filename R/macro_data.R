@@ -72,6 +72,52 @@ oecd_debt_data[,
 # Public debt to GDP
 # https://data.oecd.org/gga/general-government-debt.htm
 
+# OECD finance data-------------------------------------------------------
+oecd_finance_file_name <- "data-raw/oecd_finance_data.csv"
+
+if (download_data | !file.exists(oecd_finance_file_name)){
+  if (!download_data){
+    warning(
+      "File for OECD finance data does not exist. Download from www..."
+    )
+  }
+  filter_list <- list(
+    "IRLT",
+    countries_considered,
+    "A")
+
+  oecd_finance_data_raw <- OECD::get_dataset(dataset = "MEI_FIN",
+                                             start_time = first_year,
+                                             end_time = last_year,
+                                             filter = filter_list)
+  oecd_finance_data_raw <- data.table::as.data.table(oecd_finance_data_raw)
+  oecd_finance_data <- oecd_finance_data_raw[,
+                                             .(LOCATION, obsTime, obsValue)
+                                             ]
+  data.table::fwrite(oecd_finance_data,
+                     oecd_finance_file_name)
+} else {
+  oecd_finance_data <- data.table::fread(oecd_finance_file_name)
+}
+
+old_names <- c("LOCATION", "obsTime", "obsValue")
+new_names <- c("iso3c", "year",
+               "interest_long_term")
+data.table::setnames(oecd_finance_data, old = old_names, new = new_names)
+oecd_finance_data[,
+                  (setdiff(new_names, "iso3c")):= lapply(.SD, as.double),
+                  .SDcols = setdiff(new_names, "iso3c")
+                  ]
+
+# Merge OECD data--------------------------------------------------------------
+oecd_finance_data
+oecd_debt_data
+
+oecd_data <- Reduce(function(...) merge(..., all=TRUE,
+                                           by = c("iso3c", "year")),
+                       list(oecd_finance_data, oecd_debt_data)
+  )
+
 # World Bank data==============================================================
 print("World Bank data...")
 # TODO Add export_GDP
@@ -688,7 +734,7 @@ print("finished.")
 print("Merging data...")
 macro_data <- Reduce(function(...) merge(..., all=TRUE,
                                          by = c("iso3c", "year")),
-                     list(wb_data, swiid_raw, ameco_full, oecd_debt_data,
+                     list(wb_data, swiid_raw, ameco_full, oecd_data,
                           complexity_data)
                      )
 save(macro_data, file = "data/macro_data.rdata")
