@@ -46,8 +46,6 @@ Diese müssen selbst berechnet werden:
 
 ## Missinhg from OECD
 
-* Unemployment statistics
-* Long-term interest rate
 * Relative CPI
 * Tax revenue composition
 * Employment protection
@@ -57,6 +55,12 @@ Diese müssen selbst berechnet werden:
 * HPI: house price stuff
 * Union density
 * ICT investment
+
+```{r}
+dataset_list <- OECD::get_datasets()
+OECD::search_dataset("finance", data = dataset_list)
+```
+
 
 
 ## ISD variables
