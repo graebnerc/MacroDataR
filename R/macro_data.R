@@ -78,7 +78,7 @@ if (download_data | !file.exists(oecd_pub_debt_file_name)){
                                           filter = filter_list)
   oecd_pub_debt_data_raw <- data.table::as.data.table(oecd_pub_debt_data_raw)
   oecd_pub_debt_data <- oecd_pub_debt_data_raw[, .(LOCATION, obsTime, obsValue)]
-  data.table::fwrite(oecd_pub_debt_data, oecd_debt_file_name)
+  data.table::fwrite(oecd_pub_debt_data, oecd_pub_debt_file_name)
 } else {
   oecd_pub_debt_data <- data.table::fread(oecd_pub_debt_file_name)
 }
