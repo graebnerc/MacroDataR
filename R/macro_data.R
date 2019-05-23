@@ -109,13 +109,47 @@ oecd_finance_data[,
                   .SDcols = setdiff(new_names, "iso3c")
                   ]
 
-# Merge OECD data--------------------------------------------------------------
-oecd_finance_data
-oecd_debt_data
+# OECD: Average wages----------------------------------------------------------
+oecd_wage_data_raw_file <- "data-raw/oecd_wage_data.csv"
 
+if (download_data | !file.exists(oecd_wage_data_raw_file)){
+  if (!download_data){
+    warning(
+      "File for OECD wage data does not exist. Download from www..."
+    )
+  }
+  filter_list <- list(
+    countries_considered,
+    c("USDPPP")
+  )
+
+  oecd_wage_data_raw <- OECD::get_dataset(dataset = "AV_AN_WAGE",
+                                          start_time = first_year,
+                                          end_time=last_year,
+                                          filter = filter_list)
+
+  oecd_wage_data_raw <- data.table::as.data.table(oecd_wage_data_raw)
+  oecd_wage_data <- oecd_wage_data_raw[, .(COUNTRY, obsTime, obsValue)]
+  data.table::fwrite(oecd_wage_data,
+                     oecd_wage_data_raw_file)
+} else {
+  oecd_wage_data <- data.table::fread(oecd_wage_data_raw_file)
+}
+
+old_names <- c("COUNTRY", "obsTime", "obsValue")
+new_names <- c("iso3c", "year",
+               "average_wages")
+data.table::setnames(oecd_wage_data, old = old_names, new = new_names)
+oecd_wage_data[,
+                  (setdiff(new_names, "iso3c")):= lapply(.SD, as.double),
+                  .SDcols = setdiff(new_names, "iso3c")
+                  ]
+
+
+# Merge OECD data--------------------------------------------------------------
 oecd_data <- Reduce(function(...) merge(..., all=TRUE,
                                            by = c("iso3c", "year")),
-                       list(oecd_finance_data, oecd_debt_data)
+                       list(oecd_finance_data, oecd_debt_data, oecd_wage_data)
   )
 
 # World Bank data==============================================================
