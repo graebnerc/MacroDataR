@@ -17,10 +17,16 @@ last_year <- 2018
 oecd_debt_file_name <- "data-raw/oecd_debt_data.csv"
 oecd_debt_vars <- c("DBTS1GDP", "DBTS11GDP", "DBTS12GDP",
                     "DBTS13GDP", "DBTS14_S15GDI")
-if (download_data){
+
+if (download_data | !file.exists(oecd_debt_file_name)){
+  if (!download_data){
+    warning(
+      warning("File for OECD debt data does not exist. Download from www...")
+    )
+  }
   filter_list <- list(countries_considered,
                       oecd_debt_vars
-                      )
+  )
 
   oecd_debt_data_raw <- OECD::get_dataset(dataset = "FIN_IND_FBS",
                                           start_time = first_year,
@@ -32,27 +38,10 @@ if (download_data){
   )
   data.table::fwrite(oecd_debt_data_raw, oecd_debt_file_name)
   oecd_debt_data_raw <- data.table::as.data.table(oecd_debt_data_raw)
-} else {# TODO Test whether file exists
-  if (!file.exists(oecd_debt_file_name)){
-    warning("File for OECD debt data does not exist. Download from www...")
-    filter_list <- list(countries_considered,
-                        oecd_debt_vars
-                        )
-
-    oecd_debt_data_raw <- OECD::get_dataset(dataset = "FIN_IND_FBS",
-                                            start_time = first_year,
-                                            end_time = last_year,
-                                            filter = filter_list)
-    oecd_debt_data_raw <- dplyr::select(oecd_debt_data_raw,
-                                        -dplyr::one_of(
-                                          "TIME_FORMAT", "UNIT", "POWERCODE")
-    )
-    data.table::fwrite(oecd_debt_data_raw, oecd_debt_file_name)
-    oecd_debt_data_raw <- data.table::as.data.table(oecd_debt_data_raw)
-  } else {
-    oecd_debt_data_raw <- data.table::fread(oecd_debt_file_name)
-  }
+} else {
+  oecd_debt_data_raw <- data.table::fread(oecd_debt_file_name)
 }
+
 oecd_debt_data <- data.table::dcast(oecd_debt_data_raw,
                                     LOCATION + obsTime ~ INDICATOR,
                                     value.var="obsValue")
