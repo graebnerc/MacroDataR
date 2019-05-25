@@ -643,6 +643,31 @@ ameco_full <- ameco_full[, .(year=as.double(as.character(year)),
 print("....finished.")
 # TODO check for duplicates
 
+# Add Barro Lee education data=================================================
+print("Barro-Lee educational data...")
+barro_lee_url <- "http://www.barrolee.com/data/BL_v2.2/BL2013_MF1599_v2.2.csv"
+barro_lee_file <- "data-raw/barro_lee.csv"
+if (download_data | !file.exists(barro_lee_file)){
+  tmp <- tempfile(fileext = ".csv")
+  download.file(barro_lee_url, tmp,
+                quiet = FALSE)
+  barro_lee_raw <- data.table::fread(tmp)
+  barro_lee_raw <- barro_lee_raw[, .(year, WBcode, lsc, lhc, yr_sch)]
+  data.table::fwrite(barro_lee_raw, barro_lee_file)
+} else {
+  barro_lee_raw <- data.table::fread(barro_lee_file)
+}
+barro_lee <- barro_lee_raw[, .(iso3c=countrycode::countrycode(WBcode,
+                                                              "wb", "iso3c"),
+                               year=as.double(year),
+                               school_agv_yrs=as.double(yr_sch),
+                               school_share_sec=as.double(lsc),
+                               school_share_sec=as.double(lhc))
+                           ][
+                             iso3c %in% countries_considered
+                             ]
+print("finished.")
+
 # Complexity data==============================================================
 print("Complexity data...")
 complexity_harvard_url <- "https://intl-atlas-downloads.s3.amazonaws.com/country_sitcproductsection_year.csv.zip"
@@ -789,7 +814,7 @@ print("Merging data...")
 macro_data <- Reduce(function(...) merge(..., all=TRUE,
                                          by = c("iso3c", "year")),
                      list(wb_data, swiid_raw, ameco_full, oecd_data,
-                          complexity_data)
+                          complexity_data, barro_lee)
                      )
 save(macro_data, file = "data/macro_data.rdata")
 data.table::fwrite(macro_data, file = "data/macro_data.csv")

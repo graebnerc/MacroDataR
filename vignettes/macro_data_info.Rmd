@@ -86,6 +86,9 @@ Here goes the documentation of the data set. Note that you can also look at `dat
 | interest_long_term | Interest rates of long term (in most cases 10 year) government bonds (`IRLT`). | Per cent | [OECD (MEI_FIN)][41] |
 | average_wages | Average annual wages per full-time and full-year equivalent employee in the total economy. | 2017 USD PPPs| [OECD (AV_AN_WAGE)][42] |
 | debt_gen_gvt_gross | Government gross debt-to-GDP ratio (`DBTS13GDP`). | % of GDP | [OECD (NAAG)][43] |
+| school_agv_yrs | Average Years of Schooling Attained | Share of population over 15 | [Barro-Lee][44] |
+| school_share_sec | Percentage of Complete Secondary Schooling Attained | Share of population over 15 | [Barro-Lee][44] |
+| school_share_sec | Percentage of Complete Tertiary Schooling Attained | Share of population over 15 | [Barro-Lee][44] |
 
 [1]: https://unstats.un.org/unsd/tradekb/knowledgebase/country-code
 [2]: https://data.worldbank.org/indicator/ny.gdp.totl.rt.zs
@@ -130,6 +133,7 @@ Here goes the documentation of the data set. Note that you can also look at `dat
 [41]: https://stats.oecd.org/Index.aspx?DataSetCode=MEI_FIN
 [42]: https://stats.oecd.org/Index.aspx?DataSetCode=AV_AN_WAGE
 [43]: https://stats.oecd.org/Index.aspx?DataSetCode=NAAG
+[44]: http://www.barrolee.com/
 
 ## Open issues
 
