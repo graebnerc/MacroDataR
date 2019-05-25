@@ -54,7 +54,8 @@ Here goes the documentation of the data set. Note that you can also look at `dat
 | eci_rank_mit           | Rank of the country according to the ECI  | Index | [MIT][18] |
 | current_account_GDP_WB           | Sum of net exports of goods and services, net primary income, and net secondary income.  | % of GDP | [World Bank][19] |
 | current_account_GDP_ameco           | Sum of net exports of goods and services, net primary income, and net secondary income.  | % of GDP | [AMECO][16] |
-| population           | Total population (midyear estimates).  | % of GDP | [World Bank][20] |
+| population           | Total population (midyear estimates).  | People | [World Bank][20] |
+| population_ameco           | Total population (more years but less countries than WB).  | 1000 people | [AMECO][16] |
 | debt_corp_nf_percGDP  | Debt of non-financial corporations (`DBTS11GDP`).  | % of GDP | [OECD (FIN_IND_FBS)][21]|
 | debt_corp_f_percGDP   | Debt of financial corporations (`DBTS12GDP`).  | % of GDP | [OECD (FIN_IND_FBS)][21]|
 | debt_gen_gov_percGDP  | Debt of general government (`DBTS13GDP`).  | % of GDP | [OECD (FIN_IND_FBS)][21] |

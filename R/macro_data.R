@@ -367,47 +367,88 @@ print("...ameco01...")
 ameco01 <- data.table::fread("data-raw/ameco/AMECO1.TXT.gz",
                              fill = TRUE, header = TRUE,
                              stringsAsFactors = FALSE)
-ameco01 <- ameco01[
-  TITLE=="Unemployment rate: total :- Member States: definition EUROSTAT"
+ameco01_unemp <- ameco01[
+  TITLE%in%c("Unemployment rate: total :- Member States: definition EUROSTAT")
   ][
     !COUNTRY %in% aggregates_2be_eliminated
   ]
 
-ameco01_germany <-data.table::copy(ameco01)
-ameco01_germany <- ameco01_germany[COUNTRY %in% c("Germany", "West Germany")]
+ameco01_unemp_germany <-data.table::copy(ameco01_unemp)
+ameco01_unemp_germany <- ameco01_unemp_germany[COUNTRY %in% c("Germany", "West Germany")]
 
-ameco01_germany[, c("CODE", "SUB-CHAPTER", "TITLE", "UNIT",  "V67"):=NULL]
+ameco01_unemp_germany[, c("CODE", "SUB-CHAPTER", "TITLE", "UNIT",  "V67"):=NULL]
 
-ameco01_germany <- data.table::melt(ameco01_germany, id.vars=c("COUNTRY"),
+ameco01_unemp_germany <- data.table::melt(ameco01_unemp_germany, id.vars=c("COUNTRY"),
                                     variable.name="year",
                                     value.name = "unemp_rate")
-ameco01_germany[, year:=as.double(as.character(year))]
-ameco01_germany[COUNTRY=="West Germany" & year>1990, unemp_rate:=NA]
-ameco01_germany <- ameco01_germany[, COUNTRY:=countrycode::countrycode(COUNTRY,
+ameco01_unemp_germany[, year:=as.double(as.character(year))]
+ameco01_unemp_germany[COUNTRY=="West Germany" & year>1990, unemp_rate:=NA]
+ameco01_unemp_germany <- ameco01_unemp_germany[, COUNTRY:=countrycode::countrycode(COUNTRY,
                                                                        "country.name", "iso3c"
 )]
-ameco01_germany[, unemp_rate:=mean(unemp_rate, na.rm = T), year]
-ameco01_germany <- unique(ameco01_germany)
+ameco01_unemp_germany[, unemp_rate:=mean(unemp_rate, na.rm = T), year]
+ameco01_unemp_germany <- unique(ameco01_unemp_germany)
 
-ameco01 <- ameco01[!COUNTRY %in% c("Germany", "West Germany")]
-ameco01[, c("CODE", "SUB-CHAPTER", "TITLE", "UNIT",  "V67"):=NULL]
-ameco01 <- ameco01[, COUNTRY2:=countrycode::countrycode(COUNTRY,
+ameco01_unemp <- ameco01_unemp[!COUNTRY %in% c("Germany", "West Germany")]
+ameco01_unemp[, c("CODE", "SUB-CHAPTER", "TITLE", "UNIT",  "V67"):=NULL]
+ameco01_unemp <- ameco01_unemp[, COUNTRY2:=countrycode::countrycode(COUNTRY,
                                                         "country.name", "iso3c"
 )
 ][!is.na(COUNTRY)][!is.na(COUNTRY2)][, COUNTRY:=NULL]
-data.table::setnames(ameco01, old = "COUNTRY2", new = "COUNTRY")
+data.table::setnames(ameco01_unemp, old = "COUNTRY2", new = "COUNTRY")
 
-ameco01 <- data.table::melt(ameco01, id.vars=c("COUNTRY"),
+ameco01_unemp <- data.table::melt(ameco01_unemp, id.vars=c("COUNTRY"),
                             variable.name="year",
                             value.name = "unemp_rate")
 
-ameco01 <- rbind(ameco01, ameco01_germany)
-ameco01[, unemp_rate:=as.double(as.character(unemp_rate))]
-if (sum(duplicated(ameco01, by = c("COUNTRY", "year")))>0){
-  warning("Duplicated rows in ameco01!")
+ameco01_unemp <- rbind(ameco01_unemp, ameco01_unemp_germany)
+ameco01_unemp[, unemp_rate:=as.double(as.character(unemp_rate))]
+if (sum(duplicated(ameco01_unemp, by = c("COUNTRY", "year")))>0){
+  warning("Duplicated rows in ameco01_unemp!")
 }
 
-# Harmonised consumer price index (All-items) (2015 = 100)-------------------
+# Population-------------------------------------------------------------------
+ameco01_pop <- ameco01[
+  TITLE%in%c("Total population (National accounts)")
+  ][
+    !COUNTRY %in% aggregates_2be_eliminated
+    ]
+
+ameco01_pop_germany <-data.table::copy(ameco01_pop)
+ameco01_pop_germany <- ameco01_pop_germany[COUNTRY %in% c("Germany", "West Germany")]
+
+ameco01_pop_germany[, c("CODE", "SUB-CHAPTER", "TITLE", "UNIT",  "V67"):=NULL]
+
+ameco01_pop_germany <- data.table::melt(ameco01_pop_germany, id.vars=c("COUNTRY"),
+                                          variable.name="year",
+                                          value.name = "population_ameco")
+ameco01_pop_germany[, year:=as.double(as.character(year))]
+ameco01_pop_germany[COUNTRY=="West Germany" & year>1990, population_ameco:=NA]
+ameco01_pop_germany <- ameco01_pop_germany[, COUNTRY:=countrycode::countrycode(COUNTRY,
+                                                                                   "country.name", "iso3c"
+)]
+ameco01_pop_germany[, population_ameco:=mean(population_ameco, na.rm = T), year]
+ameco01_pop_germany <- unique(ameco01_pop_germany)
+
+ameco01_pop <- ameco01_pop[!COUNTRY %in% c("Germany", "West Germany")]
+ameco01_pop[, c("CODE", "SUB-CHAPTER", "TITLE", "UNIT",  "V67"):=NULL]
+ameco01_pop <- ameco01_pop[, COUNTRY2:=countrycode::countrycode(COUNTRY,
+                                                                    "country.name", "iso3c"
+)
+][!is.na(COUNTRY)][!is.na(COUNTRY2)][, COUNTRY:=NULL]
+data.table::setnames(ameco01_pop, old = "COUNTRY2", new = "COUNTRY")
+
+ameco01_pop <- data.table::melt(ameco01_pop, id.vars=c("COUNTRY"),
+                                  variable.name="year",
+                                  value.name = "population_ameco")
+
+ameco01_pop <- rbind(ameco01_pop, ameco01_pop_germany)
+ameco01_pop[, population_ameco:=as.double(as.character(population_ameco))]
+if (sum(duplicated(ameco01_pop, by = c("COUNTRY", "year")))>0){
+  warning("Duplicated rows in ameco01_pop!")
+}
+
+# Harmonised consumer price index (All-items) (2015 = 100)---------------------
 print("...ameco02...")
 ameco02 <- data.table::fread("data-raw/ameco/AMECO2.TXT.gz",
                              fill = TRUE, header = TRUE)
@@ -534,7 +575,7 @@ ameco07_wage_share <- data.table::melt(ameco07_wage_share,
 
 ameco07_wage_share <- rbind(ameco07_wage_share, ameco07_wage_share_germany)
 ameco07_wage_share[, wage_share:=as.double(wage_share)]
-if (sum(duplicated(ameco01, by = c("COUNTRY", "year")))>0){
+if (sum(duplicated(ameco07_wage_share, by = c("COUNTRY", "year")))>0){
   warning("Duplicated rows in ameco07_wage_share!")
 }
 
@@ -647,8 +688,9 @@ if (sum(duplicated(ameco10, by = c("COUNTRY", "year")))>0){
 print("...merge all AMECO...")
 ameco_full <- Reduce(function(...) merge(..., all=TRUE,
                                          by = c("COUNTRY", "year")),
-                     list(ameco01, ameco02, ameco03, ameco07_wage_share,
-                          ameco07_rulc, ameco07_nulc, ameco10))
+                     list(ameco01_pop, ameco01_unemp, ameco02, ameco03,
+                          ameco07_wage_share, ameco07_rulc, ameco07_nulc,
+                          ameco10))
 ameco_full <- ameco_full[, .(year=as.double(as.character(year)),
                              iso3c=COUNTRY,
                              cap_form,
@@ -656,6 +698,7 @@ ameco_full <- ameco_full[, .(year=as.double(as.character(year)),
                              current_account_GDP_ameco,
                              nulc_eur,
                              nulc_lcu,
+                             population_ameco,
                              rulc,
                              unemp_rate,
                              wage_share)
@@ -765,7 +808,7 @@ if (download_data | !file.exists((paste0(barro_lee_file, ".gz")))){
   barro_lee_raw <- data.table::fread(paste0(barro_lee_file, ".gz"))
 }
 barro_lee <- barro_lee_raw[, .(iso3c=countrycode::countrycode(WBcode,
-                                                              "wb", "iso3c"),
+                                                            "wb", "iso3c"),
                                year=as.double(year),
                                school_agv_yrs=as.double(yr_sch),
                                school_share_sec=as.double(lsc),
