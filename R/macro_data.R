@@ -575,7 +575,7 @@ ameco07_wage_share <- data.table::melt(ameco07_wage_share,
 
 ameco07_wage_share <- rbind(ameco07_wage_share, ameco07_wage_share_germany)
 ameco07_wage_share[, wage_share:=as.double(wage_share)]
-if (sum(duplicated(ameco01, by = c("COUNTRY", "year")))>0){
+if (sum(duplicated(ameco07_wage_share, by = c("COUNTRY", "year")))>0){
   warning("Duplicated rows in ameco07_wage_share!")
 }
 
