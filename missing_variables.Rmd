@@ -17,14 +17,6 @@ knitr::opts_chunk$set(echo = TRUE)
 * WU member
 * HBOOM
 
-## KOF Variables
-
-
-## Barro-Lee (ggf auch WB)
-
-* Years of schooling
-* Percent of people with secondary and tertiary education
-
 ## EU KLEMS
 * Share of finance: employment, gross output, value added
 
@@ -55,13 +47,6 @@ Diese müssen selbst berechnet werden:
 * HPI: house price stuff
 * Union density
 * ICT investment
-
-```{r}
-dataset_list <- OECD::get_datasets()
-OECD::search_dataset("finance", data = dataset_list)
-```
-
-
 
 ## ISD variables
 Einfach nochmal checken welche wir da nehmen.
