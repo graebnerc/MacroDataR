@@ -698,7 +698,7 @@ if (download_data | !file.exists((paste0(kof_file, ".gz")))){
 }
 
 kof <- kof_raw[, .(
-  code,
+  iso3c = code,
   year = as.double(year),
   kof_G = as.double(KOFGI), # KOF Globalisation Index
   kof_G_df = as.double(KOFGIdf), # "KOF Globalisation Index, de facto
