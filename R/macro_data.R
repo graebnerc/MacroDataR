@@ -698,6 +698,7 @@ ameco_full <- ameco_full[, .(year=as.double(as.character(year)),
                              current_account_GDP_ameco,
                              nulc_eur,
                              nulc_lcu,
+                             population_ameco,
                              rulc,
                              unemp_rate,
                              wage_share)
@@ -807,7 +808,7 @@ if (download_data | !file.exists((paste0(barro_lee_file, ".gz")))){
   barro_lee_raw <- data.table::fread(paste0(barro_lee_file, ".gz"))
 }
 barro_lee <- barro_lee_raw[, .(iso3c=countrycode::countrycode(WBcode,
-                                                              "wb", "iso3c"),
+                                                            "wb", "iso3c"),
                                year=as.double(year),
                                school_agv_yrs=as.double(yr_sch),
                                school_share_sec=as.double(lsc),
