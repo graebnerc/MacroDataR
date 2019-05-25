@@ -279,29 +279,22 @@ wb_var_names <- c(
 )
 
 wb_file_name <- "data-raw/wb_data.csv"
-if (download_data){
+if (download_data | !file.exists(paste0(wb_file_name, ".gz"))){
+  if (!download_data){
+    warning("File for World Bank data does not exist. Download from www...")
+  }
   wb_raw_data <- data.table::as.data.table(
     WDI::WDI(country = countrycode::countrycode(countries_considered,
                                                 "iso3c", "iso2c"),
              indicator = wb_vars,
              start = first_year, end = last_year)
-    )
+  )
   data.table::fwrite(wb_raw_data, wb_file_name)
   R.utils::gzip(paste0(wb_file_name),
                 destname=paste0(wb_file_name, ".gz"),
                 overwrite = TRUE)
-} else {# TODO Test whether file exists
-  if (!file.exists(wb_file_name)){
-    warning("File for world bank data does not exist. Download from www...")
-    wb_raw_data <- data.table::as.data.table(
-      WDI::WDI(country = countries_considered,
-               indicator = wb_vars,
-               start = first_year, end = last_year)
-      )
-    data.table::fwrite(wb_raw_data, wb_file_name)
-  } else {
-    wb_raw_data <- data.table::fread(paste0(wb_file_name, ".gz"))
-  }
+} else {
+  wb_raw_data <- data.table::fread(paste0(wb_file_name, ".gz"))
 }
 
 data.table::setnames(wb_raw_data, old = wb_vars, new = wb_var_names)
