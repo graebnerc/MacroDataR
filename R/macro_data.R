@@ -807,7 +807,8 @@ if (download_data | !file.exists((paste0(barro_lee_file, ".gz")))){
 } else {
   barro_lee_raw <- data.table::fread(paste0(barro_lee_file, ".gz"))
 }
-barro_lee <- barro_lee_raw[, .(iso3c=countrycode::countrycode(WBcode,
+barro_lee <- barro_lee_raw[!WBcode%in%c("REU", "ROM", "SER"),
+                           .(iso3c=countrycode::countrycode(WBcode,
                                                             "wb", "iso3c"),
                                year=as.double(year),
                                school_agv_yrs=as.double(yr_sch),
