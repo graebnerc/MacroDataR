@@ -19,7 +19,7 @@ oecd_debt_file_name <- "data-raw/oecd_debt_data.csv"
 oecd_debt_vars <- c("DBTS1GDP", "DBTS11GDP", "DBTS12GDP",
                     "DBTS13GDP", "DBTS14_S15GDI")
 
-if (download_data | !file.exists(oecd_debt_file_name)){
+if (download_data | !file.exists((paste0(oecd_debt_file_name, ".gz")))){
   if (!download_data){
     warning(
       warning("File for OECD debt data does not exist. Download from www...")
@@ -65,7 +65,7 @@ oecd_debt_data[,
 # OECD: Public debt to GDP-----------------------------------------------------
 oecd_pub_debt_file_name <- "data-raw/oecd_pub_debt_data.csv"
 
-if (download_data | !file.exists(oecd_pub_debt_file_name)){
+if (download_data | !file.exists(paste0(oecd_pub_debt_file_name, ".gz"))){
   if (!download_data){
     warning(
       warning("File for OECD public debt data does not exist. Download from www...")
@@ -103,7 +103,7 @@ oecd_pub_debt_data[,
 # OECD finance data-------------------------------------------------------
 oecd_finance_file_name <- "data-raw/oecd_finance_data.csv"
 
-if (download_data | !file.exists(oecd_finance_file_name)){
+if (download_data | !file.exists(paste0(oecd_finance_file_name, ".gz"))){
   if (!download_data){
     warning(
       "File for OECD finance data does not exist. Download from www..."
@@ -143,7 +143,7 @@ oecd_finance_data[,
 # OECD: Average wages----------------------------------------------------------
 oecd_wage_data_raw_file <- "data-raw/oecd_wage_data.csv"
 
-if (download_data | !file.exists(oecd_wage_data_raw_file)){
+if (download_data | !file.exists(paste0(oecd_wage_data_raw_file, ".gz"))){
   if (!download_data){
     warning(
       "File for OECD wage data does not exist. Download from www..."
@@ -316,7 +316,7 @@ swiid_link <- "https://dataverse.harvard.edu/api/access/datafile/3376371"
 swiid_file <- "data-raw/swiid8_0_summary.csv"
 swiid_origin_zip_file <- "swiid8_0/swiid8_0_summary.csv"
 
-if (!download_data & file.exists(swiid_file)){
+if (!download_data & file.exists(paste0(swiid_file, ".gz"))){
   swiid_raw <- data.table::fread(paste0(swiid_file, ".gz"))
 } else {
   tmp <- tempfile(fileext = ".zip")
@@ -668,7 +668,7 @@ print("....finished.")
 print("Barro-Lee educational data...")
 barro_lee_url <- "http://www.barrolee.com/data/BL_v2.2/BL2013_MF1599_v2.2.csv"
 barro_lee_file <- "data-raw/barro_lee.csv"
-if (download_data | !file.exists(barro_lee_file)){
+if (download_data | !file.exists((paste0(barro_lee_file, ".gz")))){
   tmp <- tempfile(fileext = ".csv")
   download.file(barro_lee_url, tmp,
                 quiet = FALSE)
