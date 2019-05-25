@@ -24,3 +24,10 @@ By setting `updata_full=TRUE` the function downloads all data from the API of th
 
 In case you want a new variable included or have any comments, please feel free to submit an issue.
 All input is highly appreciated.
+
+## Citation
+
+Please cite the original data sources. 
+
+In case of the Barro-Lee education data (`school_agv_yrs`, `school_share_sec`, `school_share_sec`), please cite the following article: 
+Barro, Robert and Jong-Wha Lee, 2013, "A New Data Set of Educational Attainment in the World, 1950-2010." *Journal of Development Economics*, vol 104, pp.184-198.
