@@ -20,3 +20,7 @@ Please note that currently only a development version is available.
 You can update the data via the function `update_macro_data`. 
 By setting `updata_full=TRUE` the function downloads all data from the API of the original data sources.
 
+## Open issues
+
+In case you want a new variable included or have any comments, please feel free to submit an issue.
+All input is highly appreciated.
