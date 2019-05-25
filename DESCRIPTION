@@ -14,7 +14,8 @@ Imports:
     WDI,
     countrycode,
     OECD,
-    R.utils
+    R.utils,
+    haven
 RoxygenNote: 6.1.1
 Suggests: 
     knitr,
