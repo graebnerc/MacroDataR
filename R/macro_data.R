@@ -688,8 +688,9 @@ if (sum(duplicated(ameco10, by = c("COUNTRY", "year")))>0){
 print("...merge all AMECO...")
 ameco_full <- Reduce(function(...) merge(..., all=TRUE,
                                          by = c("COUNTRY", "year")),
-                     list(ameco01, ameco02, ameco03, ameco07_wage_share,
-                          ameco07_rulc, ameco07_nulc, ameco10))
+                     list(ameco01_pop, ameco01_unemp, ameco02, ameco03,
+                          ameco07_wage_share, ameco07_rulc, ameco07_nulc,
+                          ameco10))
 ameco_full <- ameco_full[, .(year=as.double(as.character(year)),
                              iso3c=COUNTRY,
                              cap_form,
