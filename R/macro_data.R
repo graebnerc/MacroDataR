@@ -335,16 +335,22 @@ print("finished.")
 # AMECO data===================================================================
 print("AMECO data...")
 ameco_link <- "http://ec.europa.eu/economy_finance/db_indicators/ameco/documents/ameco0.zip"
-ameco_file <- "data-raw/ameco/AMECO1.TXT"
+ameco_file <- "data-raw/ameco/AMECO1.TXT.gz"
+ameco_file_dir <- "data-raw/ameco"
 
 if (download_data | !file.exists(ameco_file)){
   tmp <- tempfile(fileext = ".zip")
   download.file(ameco_link, tmp,
                 quiet = FALSE)
   if (file.exists(ameco_file)){
-    unlink("data-raw/ameco", recursive = TRUE)
+    unlink(ameco_file_dir, recursive = TRUE)
   }
-  unzip(tmp, exdir = "data-raw/ameco")
+  unzip(tmp, exdir = ameco_file_dir)
+  for (f in list.files(ameco_file_dir)){
+    R.utils::gzip(paste0(ameco_file_dir, "/", f),
+                  destname=paste0(ameco_file_dir, "/", f, ".gz"),
+                  overwrite = TRUE)
+  }
 }
 
 aggregates_2be_eliminated <- c(
@@ -358,7 +364,7 @@ aggregates_2be_eliminated <- c(
 # Remark: two observations exist for 1991 for Germany and West Germany;
 # Here the mean is used
 print("...ameco01...")
-ameco01 <- data.table::fread("data-raw/ameco/AMECO1.TXT",
+ameco01 <- data.table::fread("data-raw/ameco/AMECO1.TXT.gz",
                              fill = TRUE, header = TRUE,
                              stringsAsFactors = FALSE)
 ameco01 <- ameco01[
@@ -403,7 +409,7 @@ if (sum(duplicated(ameco01, by = c("COUNTRY", "year")))>0){
 
 # Harmonised consumer price index (All-items) (2015 = 100)-------------------
 print("...ameco02...")
-ameco02 <- data.table::fread("data-raw/ameco/AMECO2.TXT",
+ameco02 <- data.table::fread("data-raw/ameco/AMECO2.TXT.gz",
                              fill = TRUE, header = TRUE)
 ameco02 <- ameco02[
   TITLE=="Harmonised consumer price index (All-items)"][
@@ -428,7 +434,7 @@ if (sum(duplicated(ameco02, by = c("COUNTRY", "year")))>0){
 # capital_stock_real # 3
 # Remark: after 1990 the values for the united Germany are used
 print("...ameco03...")
-ameco03 <- data.table::fread("data-raw/ameco/AMECO3.TXT",
+ameco03 <- data.table::fread("data-raw/ameco/AMECO3.TXT.gz",
                              fill = TRUE, header = TRUE)
 ameco03 <- ameco03[
   TITLE%in%c("Gross fixed capital formation at current prices: total economy")
@@ -467,7 +473,7 @@ if (sum(duplicated(ameco03, by = c("COUNTRY", "year")))>0){
 # GDP growth-------------------------------------------------------------------
 # TODO: Einheiten noch fixen, aber vielleicht besser von Weltbank wg coverage
 print("..ameco06..")
-ameco06 <- data.table::fread("data-raw/ameco/AMECO6.TXT",
+ameco06 <- data.table::fread("data-raw/ameco/AMECO6.TXT.gz",
                              fill = TRUE, header = TRUE)
 gdp_vars <- c(
   "Gross domestic product at current prices",
@@ -483,7 +489,7 @@ ameco06_GDP <- ameco06[
 
 # Ameco 7--------------------------------------------------------------------
 print("...ameco07...")
-ameco07 <- data.table::fread("data-raw/ameco/AMECO7.TXT",
+ameco07 <- data.table::fread("data-raw/ameco/AMECO7.TXT.gz",
                              fill = TRUE, header = TRUE)
 
 # Wage share-----------------------------------------------------------------
@@ -592,7 +598,7 @@ if (sum(duplicated(ameco07_nulc, by = c("COUNTRY", "year")))>0){
 
 # Current account--------------------------------------------------------------
 print("...Current Account...")
-ameco10 <- data.table::fread("data-raw/ameco/AMECO10.TXT",
+ameco10 <- data.table::fread("data-raw/ameco/AMECO10.TXT.gz",
                              fill = TRUE, header = TRUE)
 ameco10 <- ameco10[
   TITLE=="Balance on current transactions with the rest of the world (National accounts)" &
