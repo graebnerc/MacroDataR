@@ -12,6 +12,7 @@ countries_considered <- countrycode::countrycode(strsplit(
 
 first_year <- 1962
 last_year <- 2018
+
 # OECD data====================================================================
 
 oecd_debt_file_name <- "data-raw/oecd_debt_data.csv"
@@ -37,9 +38,12 @@ if (download_data | !file.exists(oecd_debt_file_name)){
                                         "TIME_FORMAT", "UNIT", "POWERCODE")
   )
   data.table::fwrite(oecd_debt_data_raw, oecd_debt_file_name)
+  R.utils::gzip(paste0(oecd_debt_file_name),
+                destname=paste0(oecd_debt_file_name, ".gz"),
+                overwrite = TRUE)
   oecd_debt_data_raw <- data.table::as.data.table(oecd_debt_data_raw)
 } else {
-  oecd_debt_data_raw <- data.table::fread(oecd_debt_file_name)
+  oecd_debt_data_raw <- data.table::fread(paste0(oecd_debt_file_name, ".gz"))
 }
 
 oecd_debt_data <- data.table::dcast(oecd_debt_data_raw,
@@ -79,8 +83,13 @@ if (download_data | !file.exists(oecd_pub_debt_file_name)){
   oecd_pub_debt_data_raw <- data.table::as.data.table(oecd_pub_debt_data_raw)
   oecd_pub_debt_data <- oecd_pub_debt_data_raw[, .(LOCATION, obsTime, obsValue)]
   data.table::fwrite(oecd_pub_debt_data, oecd_pub_debt_file_name)
+  R.utils::gzip(paste0(oecd_pub_debt_file_name),
+                destname=paste0(oecd_pub_debt_file_name, ".gz"),
+                overwrite = TRUE)
 } else {
-  oecd_pub_debt_data <- data.table::fread(oecd_pub_debt_file_name)
+  oecd_pub_debt_data <- data.table::fread(
+    paste0(oecd_pub_debt_file_name, ".gz")
+    )
 }
 
 old_names <- c("LOCATION", "obsTime", "obsValue")
@@ -115,8 +124,11 @@ if (download_data | !file.exists(oecd_finance_file_name)){
                                              ]
   data.table::fwrite(oecd_finance_data,
                      oecd_finance_file_name)
+  R.utils::gzip(paste0(oecd_finance_file_name),
+                destname=paste0(oecd_finance_file_name, ".gz"),
+                overwrite = TRUE)
 } else {
-  oecd_finance_data <- data.table::fread(oecd_finance_file_name)
+  oecd_finance_data <- data.table::fread(paste0(oecd_finance_file_name, ".gz"))
 }
 
 old_names <- c("LOCATION", "obsTime", "obsValue")
@@ -151,8 +163,11 @@ if (download_data | !file.exists(oecd_wage_data_raw_file)){
   oecd_wage_data <- oecd_wage_data_raw[, .(COUNTRY, obsTime, obsValue)]
   data.table::fwrite(oecd_wage_data,
                      oecd_wage_data_raw_file)
+  R.utils::gzip(paste0(oecd_wage_data_raw_file),
+                destname=paste0(oecd_wage_data_raw_file, ".gz"),
+                overwrite = TRUE)
 } else {
-  oecd_wage_data <- data.table::fread(oecd_wage_data_raw_file)
+  oecd_wage_data <- data.table::fread(paste0(oecd_wage_data_raw_file, ".gz"))
 }
 
 old_names <- c("COUNTRY", "obsTime", "obsValue")
@@ -272,6 +287,9 @@ if (download_data){
              start = first_year, end = last_year)
     )
   data.table::fwrite(wb_raw_data, wb_file_name)
+  R.utils::gzip(paste0(wb_file_name),
+                destname=paste0(wb_file_name, ".gz"),
+                overwrite = TRUE)
 } else {# TODO Test whether file exists
   if (!file.exists(wb_file_name)){
     warning("File for world bank data does not exist. Download from www...")
@@ -282,7 +300,7 @@ if (download_data){
       )
     data.table::fwrite(wb_raw_data, wb_file_name)
   } else {
-    wb_raw_data <- data.table::fread(wb_file_name)
+    wb_raw_data <- data.table::fread(paste0(wb_file_name, ".gz"))
   }
 }
 
@@ -299,7 +317,7 @@ swiid_file <- "data-raw/swiid8_0_summary.csv"
 swiid_origin_zip_file <- "swiid8_0/swiid8_0_summary.csv"
 
 if (!download_data & file.exists(swiid_file)){
-  swiid_raw <- data.table::fread(swiid_file)
+  swiid_raw <- data.table::fread(paste0(swiid_file, ".gz"))
 } else {
   tmp <- tempfile(fileext = ".zip")
   download.file(swiid_link, tmp,
@@ -315,6 +333,9 @@ if (!download_data & file.exists(swiid_file)){
                         gini_post_tax=gini_disp, gini_pre_tax=gini_mkt)]
   swiid_raw <- unique(swiid_raw, by = c("iso3c", "year"))
   data.table::fwrite(swiid_raw, swiid_file)
+  R.utils::gzip(paste0(swiid_file),
+                destname=paste0(swiid_file, ".gz"),
+                overwrite = TRUE)
 }
 print("finished.")
 
@@ -654,8 +675,11 @@ if (download_data | !file.exists(barro_lee_file)){
   barro_lee_raw <- data.table::fread(tmp)
   barro_lee_raw <- barro_lee_raw[, .(year, WBcode, lsc, lhc, yr_sch)]
   data.table::fwrite(barro_lee_raw, barro_lee_file)
+  R.utils::gzip(paste0(barro_lee_file),
+                destname=paste0(barro_lee_file, ".gz"),
+                overwrite = TRUE)
 } else {
-  barro_lee_raw <- data.table::fread(barro_lee_file)
+  barro_lee_raw <- data.table::fread(paste0(barro_lee_file, ".gz"))
 }
 barro_lee <- barro_lee_raw[, .(iso3c=countrycode::countrycode(WBcode,
                                                               "wb", "iso3c"),
@@ -817,5 +841,9 @@ macro_data <- Reduce(function(...) merge(..., all=TRUE,
                           complexity_data, barro_lee)
                      )
 save(macro_data, file = "data/macro_data.rdata")
-data.table::fwrite(macro_data, file = "data/macro_data.csv")
+macro_data_csv_name <- "data/macro_data.csv"
+data.table::fwrite(macro_data, file = macro_data_csv_name)
+R.utils::gzip(paste0(macro_data_csv_name),
+              destname=paste0(macro_data_csv_name, ".gz"),
+              overwrite = TRUE)
 print("finished.")
