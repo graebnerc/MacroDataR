@@ -4,7 +4,7 @@ Title: A macroeconomic dataset
 Version: 0.0.0.9000
 Authors@R: person("Claudius", "Graebner", email = "claudius@claudius-graebner.com",
                   role = c("aut", "cre"))
-Description: Contains the most recent version of our macro dataset.
+Description: Contains a collection of macroeconomic data.
     Also provides to tools to automatically update the data.
 License: GPL-3
 Encoding: UTF-8
@@ -12,7 +12,8 @@ LazyData: true
 Imports: 
     data.table,
     WDI,
-    countrycode
+    countrycode,
+    OECD
 RoxygenNote: 6.1.1
 Suggests: 
     knitr,
