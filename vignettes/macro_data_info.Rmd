@@ -89,7 +89,6 @@ Here goes the documentation of the data set. Note that you can also look at `dat
 | school_agv_yrs | Average Years of Schooling Attained | Share of population over 15 | [Barro-Lee][44] |
 | school_share_sec | Percentage of Complete Secondary Schooling Attained | Share of population over 15 | [Barro-Lee][44] |
 | school_share_ter | Percentage of Complete Tertiary Schooling Attained | Share of population over 15 | [Barro-Lee][44] |
-
 | kof_G | KOF Globalisation Index | Index | [KOF Institute][45] |
 | kof_G_df | KOF Globalisation Index, de facto | Index | [KOF Institute][45] |
 | kof_G_dj | KOF Globalisation Index, de jure | Index | [KOF Institute][45] |

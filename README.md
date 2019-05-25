@@ -32,5 +32,8 @@ Please cite the original data sources.
 In case of the **Barro-Lee education data** (`school_agv_yrs`, `school_share_sec`, `school_share_sec`), please cite the following article: 
 Barro, Robert and Jong-Wha Lee, 2013, "A New Data Set of Educational Attainment in the World, 1950-2010." *Journal of Development Economics*, vol 104, pp.184-198, doi: [10.1016/j.jdeveco.2012.10.001](https://doi.org/10.1016/j.jdeveco.2012.10.001)
 
-In case of the **KOF Globalization data** (``), please cite:
+In case of the **KOF Globalization data** (`kof_G`, `kof_G_df`, `kof_G_dj`, `kof_EcG`, `kof_EcG_df`, `kof_EcG_dj`, `kof_trade`, `kof_trade_df`, `kof_trade_dj`, `kof_fin`, `kof_fin_df`, and `kof_fin_dj`), please cite:
 Gygli, Savina, Florian Haelg, Niklas Potrafke and Jan-Egbert Sturm (2019): The KOF Globalisation Index – Revisited, *Review of International Organizations*, doi: [10.1007/s11558-019-09344-2](https://doi.org/10.1007/s11558-019-09344-2)
+
+In case of the **Chinn-Ito index** (`chinn_ito` or `chinn_ito_normed`), please cite:
+Chinn, Menzie D. and Hiro Ito (2006). "What Matters for Financial Development? Capital Controls, Institutions, and Interactions", *Journal of Development Economics*, Vol. 81(1), p. 163-192, doi: [10.1016/j.jdeveco.2005.05.010](https://doi.org/10.1016/j.jdeveco.2005.05.010).
