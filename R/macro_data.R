@@ -643,7 +643,7 @@ ameco_full <- ameco_full[, .(year=as.double(as.character(year)),
 print("....finished.")
 # TODO check for duplicates
 
-# Add Barro Lee education data=================================================
+# Barro Lee education data=====================================================
 print("Barro-Lee educational data...")
 barro_lee_url <- "http://www.barrolee.com/data/BL_v2.2/BL2013_MF1599_v2.2.csv"
 barro_lee_file <- "data-raw/barro_lee.csv"
@@ -662,7 +662,7 @@ barro_lee <- barro_lee_raw[, .(iso3c=countrycode::countrycode(WBcode,
                                year=as.double(year),
                                school_agv_yrs=as.double(yr_sch),
                                school_share_sec=as.double(lsc),
-                               school_share_sec=as.double(lhc))
+                               school_share_ter=as.double(lhc))
                            ][
                              iso3c %in% countries_considered
                              ]

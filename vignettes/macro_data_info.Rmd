@@ -88,7 +88,7 @@ Here goes the documentation of the data set. Note that you can also look at `dat
 | debt_gen_gvt_gross | Government gross debt-to-GDP ratio (`DBTS13GDP`). | % of GDP | [OECD (NAAG)][43] |
 | school_agv_yrs | Average Years of Schooling Attained | Share of population over 15 | [Barro-Lee][44] |
 | school_share_sec | Percentage of Complete Secondary Schooling Attained | Share of population over 15 | [Barro-Lee][44] |
-| school_share_sec | Percentage of Complete Tertiary Schooling Attained | Share of population over 15 | [Barro-Lee][44] |
+| school_share_ter | Percentage of Complete Tertiary Schooling Attained | Share of population over 15 | [Barro-Lee][44] |
 
 [1]: https://unstats.un.org/unsd/tradekb/knowledgebase/country-code
 [2]: https://data.worldbank.org/indicator/ny.gdp.totl.rt.zs
