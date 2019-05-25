@@ -29,5 +29,8 @@ All input is highly appreciated.
 
 Please cite the original data sources. 
 
-In case of the Barro-Lee education data (`school_agv_yrs`, `school_share_sec`, `school_share_sec`), please cite the following article: 
-Barro, Robert and Jong-Wha Lee, 2013, "A New Data Set of Educational Attainment in the World, 1950-2010." *Journal of Development Economics*, vol 104, pp.184-198.
+In case of the **Barro-Lee education data** (`school_agv_yrs`, `school_share_sec`, `school_share_sec`), please cite the following article: 
+Barro, Robert and Jong-Wha Lee, 2013, "A New Data Set of Educational Attainment in the World, 1950-2010." *Journal of Development Economics*, vol 104, pp.184-198, doi: [10.1016/j.jdeveco.2012.10.001](https://doi.org/10.1016/j.jdeveco.2012.10.001)
+
+In case of the **KOF Globalization data** (``), please cite:
+Gygli, Savina, Florian Haelg, Niklas Potrafke and Jan-Egbert Sturm (2019): The KOF Globalisation Index – Revisited, *Review of International Organizations*, doi: [10.1007/s11558-019-09344-2](https://doi.org/10.1007/s11558-019-09344-2)
