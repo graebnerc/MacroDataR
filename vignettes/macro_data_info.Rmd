@@ -101,6 +101,8 @@ Here goes the documentation of the data set. Note that you can also look at `dat
 | kof_fin | KOF Financial Globalisation Index | Index | [KOF Institute][45] |
 | kof_fin_df | KOF Financial Globalisation Index, de facto | Index | [KOF Institute][45] |
 | kof_fin_dj | KOF Financial Globalisation Index, de jure | Index | [KOF Institute][45] |
+| chinn_ito |
+| chinn_ito_normed |
 
 [1]: https://unstats.un.org/unsd/tradekb/knowledgebase/country-code
 [2]: https://data.worldbank.org/indicator/ny.gdp.totl.rt.zs
@@ -147,6 +149,7 @@ Here goes the documentation of the data set. Note that you can also look at `dat
 [43]: https://stats.oecd.org/Index.aspx?DataSetCode=NAAG
 [44]: http://www.barrolee.com/
 [45]: https://www.kof.ethz.ch/en/forecasts-and-indicators/indicators/kof-globalisation-index.html
+[46]: http://web.pdx.edu/~ito/Chinn-Ito_website.htm
 
 ## Open issues
 
