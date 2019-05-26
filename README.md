@@ -37,3 +37,6 @@ Gygli, Savina, Florian Haelg, Niklas Potrafke and Jan-Egbert Sturm (2019): The K
 
 In case of the **Chinn-Ito index** (`chinn_ito` or `chinn_ito_normed`), please cite:
 Chinn, Menzie D. and Hiro Ito (2006). "What Matters for Financial Development? Capital Controls, Institutions, and Interactions", *Journal of Development Economics*, Vol. 81(1), p. 163-192, doi: [10.1016/j.jdeveco.2005.05.010](https://doi.org/10.1016/j.jdeveco.2005.05.010).
+
+In case of the data on foreign assets and foreign liabilities that comes from the **Lane-Milesi-Ferretti database** (), please cite:
+Philip R. Lane and Gian Maria Milesi-Ferretti (2007).  "The external wealth of nations mark II: Revised and extended estimates of foreign assets and liabilities, 1970–2004", *Journal of International Economics*, Vol. 73, p. 223-250. doi: [10.1016/j.jinteco.2007.02.003](https://doi.org/10.1016/j.jinteco.2007.02.003)
