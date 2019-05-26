@@ -15,7 +15,8 @@ Imports:
     countrycode,
     OECD,
     R.utils,
-    haven
+    haven,
+    dplyr
 RoxygenNote: 6.1.1
 Suggests: 
     knitr,

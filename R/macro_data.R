@@ -794,7 +794,8 @@ kof_url <- "https://www.ethz.ch/content/dam/ethz/special-interest/dual/kof-dam/d
 kof_file <- "data-raw/kof.csv"
 
 if (download_data | !file.exists((paste0(kof_file, ".gz")))){
-  warning("KOF data is not updated automatically. Currently downloading file Data_2018_2.dta (May 2019).")
+  warning("KOF data is not updated automatically.
+          Currently downloading file Data_2018_2.dta (May 2019).")
   tmp <- tempfile(fileext = ".dta")
   download.file(kof_url, tmp,
                 quiet = FALSE)
