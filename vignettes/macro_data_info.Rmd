@@ -102,8 +102,20 @@ Here goes the documentation of the data set. Note that you can also look at `dat
 | kof_fin | KOF Financial Globalisation Index | Index | [KOF Institute][45] |
 | kof_fin_df | KOF Financial Globalisation Index, de facto | Index | [KOF Institute][45] |
 | kof_fin_dj | KOF Financial Globalisation Index, de jure | Index | [KOF Institute][45] |
-| chinn_ito |
-| chinn_ito_normed |
+| chinn_ito | Measure for a country's degree of capital account openness.  | Index | [Chinn and Ito][46] |
+| chinn_ito_normed | `chinn_ito` normalized bwetween 0 and 1 | Index | [Chinn and Ito][46] |
+| lmf_port_eq_asst_stock| Portfolio equity assets (stock) | Current US dollars, millions | [LMF database][47] |
+| lmf_port_eq_liab_stock | Portfolio equity liabilities (stock) | Current US dollars, millions | [LMF database][47] |
+| lmf_port_dbt_asst | Portfolio debt assets | Current US dollars, millions | [LMF database][47] |
+| lmf_port_dbt_liab | Portfolio debt liabilities | Current US dollars, millions | [LMF database][47] |
+| lmf_fdi_asst_stock | FDI assets (stock) | Current US dollars, millions | [LMF database][47] |
+| lmf_fdi_asst_other | FDI assets (other) | Current US dollars, millions | [LMF database][47] |
+| lmf_fdi_liab_stock | FDI liabilities (stock) | Current US dollars, millions | [LMF database][47] |
+| lmf_fdi_liab_other | FDI liabilities (other) | Current US dollars, millions | [LMF database][47] |
+| lmf_debt_asst_stock | Debt assets (stock): sum of "portfolio debt securities" and "other investment" (but not FDI intercompany debt, which is in the FDI statistics). | Current US dollars, millions | [LMF database][47] | 
+| lmf_debt_liab_stock | Debt liabilities (stock): sum of "portfolio debt securities" and "other investment" (but not FDI intercompany debt, which is in the FDI statistics). | Current US dollars, millions | [LMF database][47] |
+| lmf_nfa | Alternative FDI or equity valuation: includes net foreign assets using FDI or equity assets and liabilities estimated using different methodologies. | Current US dollars, millions | [LMF database][47] |
+| lmf_nfa_gdp | NFA/GDP | % of GDP (current USD) | [LMF database][47] |
 
 [1]: https://unstats.un.org/unsd/tradekb/knowledgebase/country-code
 [2]: https://data.worldbank.org/indicator/ny.gdp.totl.rt.zs
@@ -151,6 +163,7 @@ Here goes the documentation of the data set. Note that you can also look at `dat
 [44]: http://www.barrolee.com/
 [45]: https://www.kof.ethz.ch/en/forecasts-and-indicators/indicators/kof-globalisation-index.html
 [46]: http://web.pdx.edu/~ito/Chinn-Ito_website.htm
+[47]: http://www.philiplane.org/EWN.html
 
 ## Open issues
 
