@@ -43,6 +43,7 @@ Here goes the documentation of the data set. Note that you can also look at `dat
 | gdp_nom_pc_ppp          | GDP, PPP per capita (current int $)                                                                         | current int $ per capita | [World Bank][16]     
 | cpi                     | Harmonised consumer price index (all items)                                                                 | 2015 = 100           | [AMECO][16]       |
 | unemp_rate              | Unemployment rate                                                                                           | % of active population | [AMECO][16]     |
+| unemp_rate_wb | Unemployment rate from World Bank (modeled ILO estimate) | % of total labor force | [World Bank][48] | 
 | cap_form                | Gross fixed capital formation, total economy                                                                | current prices       | [AMECO][16]       |
 | wage_share              | Adjusted wage share                                                                                         | % of GDP             | [AMECO][16]       |
 | rulc                    | Real unit labour costs: total economy (Ratio compensation per employee to nominal GDP per pers employed.)   | 2010=100             | [AMECO][16]       |
@@ -116,6 +117,7 @@ Here goes the documentation of the data set. Note that you can also look at `dat
 | lmf_debt_liab_stock | Debt liabilities (stock): sum of "portfolio debt securities" and "other investment" (but not FDI intercompany debt, which is in the FDI statistics). | Current US dollars, millions | [LMF database][47] |
 | lmf_nfa | Alternative FDI or equity valuation: includes net foreign assets using FDI or equity assets and liabilities estimated using different methodologies. | Current US dollars, millions | [LMF database][47] |
 | lmf_nfa_gdp | NFA/GDP | % of GDP (current USD) | [LMF database][47] |
+| labor_force_total | Labor force comprises people ages 15 and older who supply labor for the production of goods and services during a specified period. It includes people who are currently employed and people who are unemployed but seeking work as well as first-time job-seekers.| Nb of people | [World Bank][48]  
 
 [1]: https://unstats.un.org/unsd/tradekb/knowledgebase/country-code
 [2]: https://data.worldbank.org/indicator/ny.gdp.totl.rt.zs
@@ -164,6 +166,8 @@ Here goes the documentation of the data set. Note that you can also look at `dat
 [45]: https://www.kof.ethz.ch/en/forecasts-and-indicators/indicators/kof-globalisation-index.html
 [46]: http://web.pdx.edu/~ito/Chinn-Ito_website.htm
 [47]: http://www.philiplane.org/EWN.html
+[48]: https://data.worldbank.org/indicator/SL.UEM.TOTL.ZS
+[49]: https://data.worldbank.org/indicator/SL.TLF.TOTL.IN
 
 ## Open issues
 

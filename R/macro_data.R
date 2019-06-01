@@ -233,7 +233,9 @@ wb_vars <- c(
   "NY.GDP.MKTP.PP.KD", # GDP, PPP (constant 2011 int $): https://data.worldbank.org/indicator/NY.GDP.MKTP.PP.KD
   "NY.GDP.PCAP.PP.KD", # GDP, PPP per capita (constant 2011 int $): https://data.worldbank.org/indicator/NY.GDP.PCAP.PP.KD
   "NY.GDP.MKTP.PP.CD", # GDP, PPP (current int $): https://data.worldbank.org/indicator/NY.GDP.MKTP.PP.CD
-  "NY.GDP.PCAP.PP.CD" # GDP, PPP per capita (current int $): https://data.worldbank.org/indicator/NY.GDP.PCAP.PP.CD
+  "NY.GDP.PCAP.PP.CD", # GDP, PPP per capita (current int $): https://data.worldbank.org/indicator/NY.GDP.PCAP.PP.CD
+  "SL.UEM.TOTL.ZS", # Unemployment rate from World Bank: https://data.worldbank.org/indicator/SL.UEM.TOTL.ZS
+  "SL.TLF.TOTL.IN " # Total labor force:  https://data.worldbank.org/indicator/SL.TLF.TOTL.IN
 )
 
 wb_var_names <- c(
@@ -276,7 +278,9 @@ wb_var_names <- c(
   "gdp_real_ppp", # GDP, PPP (constant 2011 int $): https://data.worldbank.org/indicator/NY.GDP.MKTP.PP.KD
   "gdp_real_pc_ppp", # GDP, PPP per capita (constant 2011 int $): https://data.worldbank.org/indicator/NY.GDP.PCAP.PP.KD
   "gdp_nom_ppp", # GDP, PPP (current int $): https://data.worldbank.org/indicator/NY.GDP.MKTP.PP.CD
-  "gdp_nom_pc_ppp" # GDP, PPP per capita (current int $): https://data.worldbank.org/indicator/NY.GDP.PCAP.PP.CD
+  "gdp_nom_pc_ppp", # GDP, PPP per capita (current int $): https://data.worldbank.org/indicator/NY.GDP.PCAP.PP.CD
+  "unemp_rate_wb", # Unemployment rate from World Bank: https://data.worldbank.org/indicator/SL.UEM.TOTL.ZS
+  "labor_force_total" # Total labor force:  https://data.worldbank.org/indicator/SL.TLF.TOTL.IN
 )
 
 wb_file_name <- "data-raw/wb_data.csv"
