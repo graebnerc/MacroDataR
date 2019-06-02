@@ -11,9 +11,9 @@
 #' @return Returns the updated data set.
 #' TODO: Maybe only information?
 #' @export
-update_macro_data <- function(update_full=FALSE, vars="all") {
-  print("Updating data...")
+update_macro_data <- function(update_full=TRUE, vars="all") {
   download_data <- update_full
+  print(paste0("Downloading data: ", download_data))
   source("R/macro_data.R")
   print("...complete!")
 }
