@@ -1,10 +1,10 @@
 #' @import data.table
 
-if (!exists("download_data")){
-  download_data <- FALSE
-}
-download_data_exports_mit <- FALSE
-download_data_exports_harv <- FALSE
+# if (!exists("download_data")){
+#   download_data <- FALSE
+# }
+print(download_data)
+# download_data <- T
 
 countries_considered <- countrycode::countrycode(strsplit(
   "LU, SE, FI, DK, FR, NL, BE, SI, DE, AT, LV, EE, SK, CZ, PL, HU, GB, IE, PT, GR, ES, IT",
@@ -234,8 +234,7 @@ wb_vars <- c(
   "NY.GDP.PCAP.PP.KD", # GDP, PPP per capita (constant 2011 int $): https://data.worldbank.org/indicator/NY.GDP.PCAP.PP.KD
   "NY.GDP.MKTP.PP.CD", # GDP, PPP (current int $): https://data.worldbank.org/indicator/NY.GDP.MKTP.PP.CD
   "NY.GDP.PCAP.PP.CD", # GDP, PPP per capita (current int $): https://data.worldbank.org/indicator/NY.GDP.PCAP.PP.CD
-  "SL.UEM.TOTL.ZS", # Unemployment rate from World Bank: https://data.worldbank.org/indicator/SL.UEM.TOTL.ZS
-  "SL.TLF.TOTL.IN " # Total labor force:  https://data.worldbank.org/indicator/SL.TLF.TOTL.IN
+  "SL.UEM.TOTL.ZS" # Unemployment rate from World Bank: https://data.worldbank.org/indicator/SL.UEM.TOTL.ZS
 )
 
 wb_var_names <- c(
@@ -279,7 +278,14 @@ wb_var_names <- c(
   "gdp_real_pc_ppp", # GDP, PPP per capita (constant 2011 int $): https://data.worldbank.org/indicator/NY.GDP.PCAP.PP.KD
   "gdp_nom_ppp", # GDP, PPP (current int $): https://data.worldbank.org/indicator/NY.GDP.MKTP.PP.CD
   "gdp_nom_pc_ppp", # GDP, PPP per capita (current int $): https://data.worldbank.org/indicator/NY.GDP.PCAP.PP.CD
-  "unemp_rate_wb", # Unemployment rate from World Bank: https://data.worldbank.org/indicator/SL.UEM.TOTL.ZS
+  "unemp_rate_wb" # Unemployment rate from World Bank: https://data.worldbank.org/indicator/SL.UEM.TOTL.ZS
+)
+
+wb_vars_2 <- c(
+  "sl.tlf.totl.in" # Total labor force:  https://data.worldbank.org/indicator/SL.TLF.TOTL.IN
+)
+
+wb_var_names_2 <- c(
   "labor_force_total" # Total labor force:  https://data.worldbank.org/indicator/SL.TLF.TOTL.IN
 )
 
@@ -294,6 +300,14 @@ if (download_data | !file.exists(paste0(wb_file_name, ".gz"))){
              indicator = wb_vars,
              start = first_year, end = last_year)
   )
+  wb_raw_data_2 <- data.table::as.data.table(
+    WDI::WDI(country = countries_considered,
+             indicator = wb_vars_2,
+             start = first_year, end = last_year)
+  )
+
+  wb_raw_data <- wb_raw_data[wb_raw_data_2, on=c("iso2c", "country", "year")]
+
   data.table::fwrite(wb_raw_data, wb_file_name)
   R.utils::gzip(paste0(wb_file_name),
                 destname=paste0(wb_file_name, ".gz"),
