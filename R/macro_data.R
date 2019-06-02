@@ -316,7 +316,8 @@ if (download_data | !file.exists(paste0(wb_file_name, ".gz"))){
   wb_raw_data <- data.table::fread(paste0(wb_file_name, ".gz"))
 }
 
-data.table::setnames(wb_raw_data, old = wb_vars, new = wb_var_names)
+data.table::setnames(wb_raw_data, old = c(wb_vars, wb_vars_2),
+                     new = c(wb_var_names, wb_var_names_2))
 wb_data <- wb_raw_data[, iso3c:=countrycode::countrycode(iso2c,
                                                            "iso2c", "iso3c")
                          ][, c("iso2c", "country"):=NULL]
