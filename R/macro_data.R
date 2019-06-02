@@ -1,8 +1,8 @@
 #' @import data.table
 
-# if (!exists("download_data")){
-#   download_data <- FALSE
-# }
+if (!exists("download_data")){
+  download_data <- FALSE
+}
 print(download_data)
 # download_data <- T
 

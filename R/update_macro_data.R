@@ -12,8 +12,8 @@
 #' TODO: Maybe only information?
 #' @export
 update_macro_data <- function(update_full=TRUE, vars="all") {
-  download_data <- update_full
-  print(paste0("Downloading data: ", download_data))
+  data_download <- update_full
+  print(paste0("Downloading data: ", data_download))
   source("R/macro_data.R")
   print("...complete!")
 }
