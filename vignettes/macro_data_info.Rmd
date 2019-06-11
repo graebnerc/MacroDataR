@@ -119,7 +119,8 @@ Here goes the documentation of the data set. Note that you can also look at `dat
 | lmf_nfa_gdp | NFA/GDP | % of GDP (current USD) | [LMF database][47] |
 | labor_force_total | Labor force comprises people ages 15 and older who supply labor for the production of goods and services during a specified period. It includes people who are currently employed and people who are unemployed but seeking work as well as first-time job-seekers.| Nb of people | [World Bank][48]  
 | bond_yield | Central government bond yields on the secondary market, gross of tax, with a residual maturity of around 10 years, as outlined in Art 121 of the Maastricht Treaty, where it is used as a measure for convergence.| Interest rate | [Eurostat][50] |
-| sect_balance_foreign | Financial balance of foreign sector: Balances with RoW in % of GDP multiplied with -1 | % of GDP |  [AMECO][16] |
+| sect_balance_foreign | Financial balance of foreign sector: Balances with RoW in % of GDP (sheet 10) multiplied with -1 | % of GDP |  [AMECO][16] |
+| sect_balance_gvnt | Financial balance of government sector: net lending of general government (sheet 16) | % of GDP |  [AMECO][16] |
 
 [1]: https://unstats.un.org/unsd/tradekb/knowledgebase/country-code
 [2]: https://data.worldbank.org/indicator/ny.gdp.totl.rt.zs
