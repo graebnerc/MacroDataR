@@ -822,6 +822,7 @@ ameco10_sect_balances <- data.table::melt(ameco10_sect_balances,
 
 ameco10_sect_balances <- rbind(ameco10_sect_balances, ameco10_sect_balances_germany)
 ameco10_sect_balances[, sect_balance_foreign:=as.double(sect_balance_foreign)]
+ameco10_sect_balances[, sect_balance_foreign:=sect_balance_foreign*(-1)]
 ameco10_sect_balances[, year:=as.double(as.character(year))]
 ameco10_sect_balances <- ameco10_sect_balances[year<=last_year & year>=first_year]
 if (sum(duplicated(ameco10_sect_balances, by = c("COUNTRY", "year")))>0){
