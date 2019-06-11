@@ -14,6 +14,34 @@ first_year <- 1962
 last_year <- 2018
 skip_data <- c()
 
+# Eurostat data on government bond yields======================================
+eurostat_file_name <- "data-raw/eurostat_bond_data.csv"
+
+if (download_data | !file.exists((paste0(eurostat_file_name, ".gz")))){
+  if (!download_data){
+    warning("File for Eurostat data does not exist. Download from www...")
+  }
+  eurostat_id <- "irt_lt_mcby_a"
+  eurostat_bond_data_raw <- eurostat::get_eurostat(
+    eurostat_id,
+    time_format ="num",
+    filters = list(
+      geo=countrycode::countrycode(countries_considered, "iso3c", "eurostat"),
+      time=first_year:last_year)
+  )
+  eurostat_bond_data_raw <- data.table::as.data.table(eurostat_bond_data_raw)
+  eurostat_bond_data_raw <- eurostat_bond_data_raw[, .(
+    iso3c=countrycode::countrycode(geo, "eurostat", "iso3c"),
+    year=time,
+    bond_yield=values)]
+  data.table::fwrite(eurostat_bond_data_raw, eurostat_file_name)
+  R.utils::gzip(paste0(eurostat_file_name),
+                destname=paste0(eurostat_file_name, ".gz"),
+                overwrite = TRUE, remove = TRUE)
+} else {
+  eurostat_bond_data_raw <- data.table::fread(paste0(eurostat_file_name, ".gz"))
+}
+
 # OECD data====================================================================
 
 oecd_debt_file_name <- "data-raw/oecd_debt_data.csv"
@@ -22,9 +50,7 @@ oecd_debt_vars <- c("DBTS1GDP", "DBTS11GDP", "DBTS12GDP",
 
 if (download_data | !file.exists((paste0(oecd_debt_file_name, ".gz")))){
   if (!download_data){
-    warning(
-      warning("File for OECD debt data does not exist. Download from www...")
-    )
+    warning("File for OECD debt data does not exist. Download from www...")
   }
   filter_list <- list(countries_considered,
                       oecd_debt_vars
@@ -311,7 +337,7 @@ if (download_data | !file.exists(paste0(wb_file_name, ".gz"))){
   data.table::fwrite(wb_raw_data, wb_file_name)
   R.utils::gzip(paste0(wb_file_name),
                 destname=paste0(wb_file_name, ".gz"),
-                overwrite = TRUE)
+                overwrite = TRUE, remove = TRUE)
 } else {
   wb_raw_data <- data.table::fread(paste0(wb_file_name, ".gz"))
 }
@@ -1035,7 +1061,8 @@ print("Merging data...")
 macro_data <- Reduce(function(...) merge(..., all=TRUE,
                                          by = c("iso3c", "year")),
                      list(wb_data, swiid_raw, ameco_full, oecd_data, lmf,
-                          complexity_data, barro_lee, kof, chinn_ito)
+                          complexity_data, barro_lee, kof, chinn_ito,
+                          eurostat_bond_data_raw)
                      )
 save(macro_data, file = "data/macro_data.rdata")
 macro_data_csv_name <- "data/macro_data.csv"
