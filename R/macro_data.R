@@ -1037,8 +1037,8 @@ ameco_sect_balances <- ameco_sect_balances[, .(COUNTRY, year,
                                                sect_balance_foreign,
                                                sect_balance_corp_abs,
                                                sect_balance_HH_abs, GDP_cp)]
-ameco_sect_balances[, sect_balance_priv_corp:=sect_balance_corp_abs/GDP_cp]
-ameco_sect_balances[, sect_balance_priv_HH:=sect_balance_HH_abs/GDP_cp]
+ameco_sect_balances[, sect_balance_priv_corp:=(sect_balance_corp_abs/GDP_cp)*100]
+ameco_sect_balances[, sect_balance_priv_HH:=(sect_balance_HH_abs/GDP_cp)*100]
 ameco_sect_balances[, sect_balance_priv:=sect_balance_priv_corp+sect_balance_priv_HH]
 ameco_sect_balances[, balance_test:=sect_balance_priv+sect_balance_gvnt+sect_balance_foreign]
 ameco_sect_balances[, c("sect_balance_corp_abs", "balance_test",
