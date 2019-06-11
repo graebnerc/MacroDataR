@@ -1026,17 +1026,22 @@ if (sum(duplicated(ameco06_sect_balances, by = c("COUNTRY", "year")))>0){
 # Step 4: divide corporate and household value by GDP
 ameco_sect_balances <- Reduce(function(...) merge(..., all=TRUE,
                                          by = c("COUNTRY", "year")),
-                     list(ameco14_sect_balances,
+                     list(ameco16_sect_balances,
+                          ameco10_sect_balances,
+                          ameco14_sect_balances,
                           ameco15_sect_balances,
                           ameco06_sect_balances)
                      )
 ameco_sect_balances <- ameco_sect_balances[, .(COUNTRY, year,
+                                               sect_balance_gvnt,
+                                               sect_balance_foreign,
                                                sect_balance_corp_abs,
                                                sect_balance_HH_abs, GDP_cp)]
 ameco_sect_balances[, sect_balance_priv_corp:=sect_balance_corp_abs/GDP_cp]
 ameco_sect_balances[, sect_balance_priv_HH:=sect_balance_HH_abs/GDP_cp]
 ameco_sect_balances[, sect_balance_priv:=sect_balance_priv_corp+sect_balance_priv_HH]
-ameco_sect_balances[, c("sect_balance_corp_abs",
+ameco_sect_balances[, balance_test:=sect_balance_priv+sect_balance_gvnt+sect_balance_foreign]
+ameco_sect_balances[, c("sect_balance_corp_abs", "balance_test",
                         "sect_balance_HH_abs", "GDP_cp"):=NULL]
 
 
@@ -1048,7 +1053,7 @@ ameco_full <- Reduce(function(...) merge(..., all=TRUE,
                                          by = c("COUNTRY", "year")),
                      list(ameco01_pop, ameco01_unemp, ameco02, ameco03,
                           ameco07_wage_share, ameco07_rulc, ameco07_nulc,
-                          ameco10))
+                          ameco10, ameco_sect_balances))
 ameco_full <- ameco_full[, .(year=as.double(as.character(year)),
                              iso3c=COUNTRY,
                              cap_form,
@@ -1059,7 +1064,12 @@ ameco_full <- ameco_full[, .(year=as.double(as.character(year)),
                              population_ameco,
                              rulc,
                              unemp_rate,
-                             wage_share)
+                             wage_share,
+                             sect_balance_gvnt,
+                             sect_balance_foreign,
+                             sect_balance_priv_corp,
+                             sect_balance_priv_HH,
+                             sect_balance_priv)
                          ]
 print("....finished.")
 # TODO check for duplicates
