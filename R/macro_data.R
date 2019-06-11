@@ -1061,7 +1061,8 @@ print("Merging data...")
 macro_data <- Reduce(function(...) merge(..., all=TRUE,
                                          by = c("iso3c", "year")),
                      list(wb_data, swiid_raw, ameco_full, oecd_data, lmf,
-                          complexity_data, barro_lee, kof, chinn_ito)
+                          complexity_data, barro_lee, kof, chinn_ito,
+                          eurostat_bond_data_raw)
                      )
 save(macro_data, file = "data/macro_data.rdata")
 macro_data_csv_name <- "data/macro_data.csv"
