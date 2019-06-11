@@ -829,6 +829,56 @@ if (sum(duplicated(ameco10_sect_balances, by = c("COUNTRY", "year")))>0){
   warning("Duplicated rows in ameco10_sect_balances!")
 }
 
+# Government sector:
+ameco16_sect_balances <- data.table::fread("data-raw/ameco/AMECO16.TXT.gz",
+                                           fill = TRUE, header = TRUE)
+
+ameco16_sect_balances <- ameco16_sect_balances[
+  TITLE=="Net lending (+) or net borrowing (-): general government :- ESA 2010" &
+    UNIT=="(Percentage of GDP at current prices (excessive deficit procedure))"
+  ][
+    !COUNTRY%in%aggregates_2be_eliminated
+    ]
+
+ameco16_sect_balances_germany <-data.table::copy(ameco16_sect_balances)
+ameco16_sect_balances_germany <- ameco16_sect_balances_germany[
+  COUNTRY %in% c("Germany", "West Germany")]
+
+ameco16_sect_balances_germany[, c("CODE", "SUB-CHAPTER", "TITLE", "UNIT",  "V67"):=NULL]
+
+ameco16_sect_balances_germany <- data.table::melt(
+  ameco16_sect_balances_germany, id.vars=c("COUNTRY"),
+  variable.name="year",
+  value.name = "sect_balance_gvnt")
+
+ameco16_sect_balances_germany[, year:=as.double(as.character(year))]
+ameco16_sect_balances_germany[COUNTRY=="West Germany" & year>1990, sect_balance_gvnt:=NA]
+ameco16_sect_balances_germany <- ameco16_sect_balances_germany[, COUNTRY:=countrycode::countrycode(
+  COUNTRY, "country.name", "iso3c"
+)]
+ameco16_sect_balances_germany[, sect_balance_gvnt:=mean(sect_balance_gvnt, na.rm = T), year]
+ameco16_sect_balances_germany <- unique(ameco16_sect_balances_germany)
+
+ameco16_sect_balances[, c("CODE", "SUB-CHAPTER", "TITLE", "UNIT",  "V67"):=NULL]
+ameco16_sect_balances <- ameco16_sect_balances[, COUNTRY2:=countrycode::countrycode(COUNTRY, "country.name", "iso3c"
+)
+][!is.na(COUNTRY) & COUNTRY2 != "DEU"][, COUNTRY:=NULL]
+data.table::setnames(ameco16_sect_balances, old = "COUNTRY2", new = "COUNTRY")
+
+ameco16_sect_balances <- data.table::melt(ameco16_sect_balances,
+                                          id.vars=c("COUNTRY"),
+                                          variable.name="year",
+                                          value.name = "sect_balance_gvnt")
+
+ameco16_sect_balances <- rbind(ameco16_sect_balances, ameco16_sect_balances_germany)
+ameco16_sect_balances[, sect_balance_gvnt:=as.double(sect_balance_gvnt)]
+ameco16_sect_balances[, year:=as.double(as.character(year))]
+ameco16_sect_balances <- ameco16_sect_balances[year<=last_year & year>=first_year]
+if (sum(duplicated(ameco16_sect_balances, by = c("COUNTRY", "year")))>0){
+  warning("Duplicated rows in ameco16_sect_balances!")
+}
+
+
 # Merge all AMECO tables-------------------------------------------------------
 print("...merge all AMECO...")
 ameco_full <- Reduce(function(...) merge(..., all=TRUE,
