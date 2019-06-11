@@ -975,6 +975,55 @@ if (sum(duplicated(ameco15_sect_balances, by = c("COUNTRY", "year")))>0){
   warning("Duplicated rows in ameco15_sect_balances!")
 }
 
+# Step 3: get GDP at current prices for normalization--------------------------
+ameco06_sect_balance <- data.table::fread("data-raw/ameco/AMECO6.TXT.gz",
+                             fill = TRUE, header = TRUE)
+
+ameco06_sect_balance <- ameco06_sect_balance[
+  TITLE=="Gross domestic product at current prices" & UNIT=="Mrd ECU/EUR"
+  ][
+    !COUNTRY%in%aggregates_2be_eliminated
+    ]
+
+
+ameco06_sect_balances_germany <-data.table::copy(ameco06_sect_balances)
+ameco06_sect_balances_germany <- ameco06_sect_balances_germany[
+  COUNTRY %in% c("Germany", "West Germany")]
+
+ameco06_sect_balances_germany[, c("CODE", "SUB-CHAPTER", "TITLE", "UNIT",  "V67"):=NULL]
+
+ameco06_sect_balances_germany <- data.table::melt(
+  ameco06_sect_balances_germany, id.vars=c("COUNTRY"),
+  variable.name="year",
+  value.name = "GDP_cp")
+
+ameco06_sect_balances_germany[, year:=as.double(as.character(year))]
+ameco06_sect_balances_germany[COUNTRY=="West Germany" & year>1990, GDP_cp:=NA]
+ameco06_sect_balances_germany <- ameco06_sect_balances_germany[, COUNTRY:=countrycode::countrycode(
+  COUNTRY, "country.name", "iso3c"
+)]
+ameco06_sect_balances_germany[, GDP_cp:=mean(GDP_cp, na.rm = T), year]
+ameco06_sect_balances_germany <- unique(ameco06_sect_balances_germany)
+
+ameco06_sect_balances[, c("CODE", "SUB-CHAPTER", "TITLE", "UNIT",  "V67"):=NULL]
+ameco06_sect_balances <- ameco06_sect_balances[, COUNTRY2:=countrycode::countrycode(COUNTRY, "country.name", "iso3c"
+)
+][!is.na(COUNTRY) & COUNTRY2 != "DEU"][, COUNTRY:=NULL]
+data.table::setnames(ameco06_sect_balances, old = "COUNTRY2", new = "COUNTRY")
+
+ameco06_sect_balances <- data.table::melt(ameco06_sect_balances,
+                                          id.vars=c("COUNTRY"),
+                                          variable.name="year",
+                                          value.name = "GDP_cp")
+
+ameco06_sect_balances <- rbind(ameco06_sect_balances, ameco06_sect_balances_germany)
+ameco06_sect_balances[, GDP_cp:=as.double(GDP_cp)]
+ameco06_sect_balances[, year:=as.double(as.character(year))]
+ameco06_sect_balances <- ameco06_sect_balances[year<=last_year & year>=first_year]
+if (sum(duplicated(ameco06_sect_balances, by = c("COUNTRY", "year")))>0){
+  warning("Duplicated rows in ameco06_sect_balances!")
+}
+
 
 # Merge all AMECO tables-------------------------------------------------------
 print("...merge all AMECO...")
