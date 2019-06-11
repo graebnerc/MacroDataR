@@ -976,10 +976,10 @@ if (sum(duplicated(ameco15_sect_balances, by = c("COUNTRY", "year")))>0){
 }
 
 # Step 3: get GDP at current prices for normalization--------------------------
-ameco06_sect_balance <- data.table::fread("data-raw/ameco/AMECO6.TXT.gz",
+ameco06_sect_balances <- data.table::fread("data-raw/ameco/AMECO6.TXT.gz",
                              fill = TRUE, header = TRUE)
 
-ameco06_sect_balance <- ameco06_sect_balance[
+ameco06_sect_balances <- ameco06_sect_balances[
   TITLE=="Gross domestic product at current prices" & UNIT=="Mrd ECU/EUR"
   ][
     !COUNTRY%in%aggregates_2be_eliminated
@@ -1023,6 +1023,23 @@ ameco06_sect_balances <- ameco06_sect_balances[year<=last_year & year>=first_yea
 if (sum(duplicated(ameco06_sect_balances, by = c("COUNTRY", "year")))>0){
   warning("Duplicated rows in ameco06_sect_balances!")
 }
+# Step 4: divide corporate and household value by GDP
+ameco_sect_balances <- Reduce(function(...) merge(..., all=TRUE,
+                                         by = c("COUNTRY", "year")),
+                     list(ameco14_sect_balances,
+                          ameco15_sect_balances,
+                          ameco06_sect_balances)
+                     )
+ameco_sect_balances <- ameco_sect_balances[, .(COUNTRY, year,
+                                               sect_balance_corp_abs,
+                                               sect_balance_HH_abs, GDP_cp)]
+ameco_sect_balances[, sect_balance_priv_corp:=sect_balance_corp_abs/GDP_cp]
+ameco_sect_balances[, sect_balance_priv_HH:=sect_balance_HH_abs/GDP_cp]
+ameco_sect_balances[, sect_balance_priv:=sect_balance_priv_corp+sect_balance_priv_HH]
+ameco_sect_balances[, c("sect_balance_corp_abs",
+                        "sect_balance_HH_abs", "GDP_cp"):=NULL]
+
+
 
 
 # Merge all AMECO tables-------------------------------------------------------
