@@ -121,6 +121,9 @@ Here goes the documentation of the data set. Note that you can also look at `dat
 | bond_yield | Central government bond yields on the secondary market, gross of tax, with a residual maturity of around 10 years, as outlined in Art 121 of the Maastricht Treaty, where it is used as a measure for convergence.| Interest rate | [Eurostat][50] |
 | sect_balance_foreign | Financial balance of foreign sector: Balances with RoW in % of GDP (sheet 10) multiplied with -1 | % of GDP |  [AMECO][16] |
 | sect_balance_gvnt | Financial balance of government sector: net lending of general government (sheet 16) | % of GDP |  [AMECO][16] |
+| sect_balance_priv_corp | Financial balance of private corporate sector: Net lending of corporations (sheet 14) divided by GDP current prices (sheet 6) | % of GDP |  [AMECO][16] |
+| sect_balance_priv_HH | Financial balance of household sector: Net lending of households and NPISH (sheet 15) divided by GDP current prices (sheet 6) | % of GDP |  [AMECO][16] |
+| sect_balance_priv | Financial balance of private sector: sect_balance_priv_corp + sect_balance_priv_HH | % of GDP |  [AMECO][16] |
 
 [1]: https://unstats.un.org/unsd/tradekb/knowledgebase/country-code
 [2]: https://data.worldbank.org/indicator/ny.gdp.totl.rt.zs
