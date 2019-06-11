@@ -16,7 +16,8 @@ Imports:
     OECD,
     R.utils,
     haven,
-    dplyr
+    dplyr,
+    eurostat
 RoxygenNote: 6.1.1
 Suggests: 
     knitr,
