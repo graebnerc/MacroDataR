@@ -1381,6 +1381,7 @@ macro_data <- Reduce(function(...) merge(..., all=TRUE,
                           complexity_data, barro_lee, kof, chinn_ito,
                           eurostat_bond_data_raw)
                      )
+test_uniqueness(macro_data, c("iso3c", "year"))
 save(macro_data, file = "data/macro_data.rdata")
 macro_data_csv_name <- "data/macro_data.csv"
 data.table::fwrite(macro_data, file = macro_data_csv_name)
