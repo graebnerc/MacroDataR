@@ -1,5 +1,30 @@
 #' @import data.table
 
+#' Test uniqueness of data table
+#'
+#' Tests whether a data.table has unique rows.
+#'
+#' @param data_table A data frame of data table of which uniqueness should
+#'  be tested.
+#' @param index_vars Vector of strings, which specify the columns of
+#'  data_table according to which uniqueness should be tested
+#'  (e.g. country and year).
+#' @return TRUE if data_table is unique, FALSE and a warning if it is not.
+test_uniqueness <- function(data_table, index_vars, print_pos=TRUE){
+  data_table <- data.table::as.data.table(data_table)
+  if (nrow(data_table)!=data.table::uniqueN(data_table, by = index_vars)){
+    warning(paste0("Rows in the data.table: ", nrow(data_table),
+                   ", rows in the unique data.table:",
+                   data.table::uniqueN(data_table, by = index_vars)))
+    return(FALSE)
+  } else {
+    if (print_pos){
+      print(paste0("No duplicates in ", as.list(sys.call()[[2]])))
+    }
+    return(TRUE)
+  }
+}
+
 if (!exists("download_data")){
   download_data <- FALSE
 }
@@ -34,6 +59,9 @@ if (download_data | !file.exists((paste0(eurostat_file_name, ".gz")))){
     iso3c=countrycode::countrycode(geo, "eurostat", "iso3c"),
     year=time,
     bond_yield=values)]
+
+  test_uniqueness(eurostat_bond_data_raw, c("iso3c", "year"))
+
   data.table::fwrite(eurostat_bond_data_raw, eurostat_file_name)
   R.utils::gzip(paste0(eurostat_file_name),
                 destname=paste0(eurostat_file_name, ".gz"),
