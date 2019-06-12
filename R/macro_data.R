@@ -455,6 +455,7 @@ if (!download_data & file.exists(paste0(swiid_file, ".gz"))){
     country, "country.name", "iso3c", warn = FALSE
   )][!is.na(country), .(iso3c=country, year=as.double(year),
                         gini_post_tax=gini_disp, gini_pre_tax=gini_mkt)]
+  swiid_raw <- swiid_raw[iso3c%in%countries_considered]
   swiid_raw <- unique(swiid_raw, by = c("iso3c", "year"))
   stopifnot(test_uniqueness(swiid_raw, c("iso3c", "year")))
   data.table::fwrite(swiid_raw, swiid_file)
