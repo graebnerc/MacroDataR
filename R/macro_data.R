@@ -1,5 +1,43 @@
 #' @import data.table
 
+#' Test uniqueness of data table
+#'
+#' Tests whether a data.table has unique rows.
+#'
+#' @param data_table A data frame of data table of which uniqueness should
+#'  be tested.
+#' @param index_vars Vector of strings, which specify the columns of
+#'  data_table according to which uniqueness should be tested
+#'  (e.g. country and year).
+#' @return TRUE if data_table is unique, FALSE and a warning if it is not.
+test_uniqueness <- function(data_table, index_vars, print_pos=TRUE){
+  data_table <- data.table::as.data.table(data_table)
+  if (nrow(data_table)!=data.table::uniqueN(data_table, by = index_vars)){
+    warning(paste0("Rows in the data.table: ", nrow(data_table),
+                   ", rows in the unique data.table:",
+                   data.table::uniqueN(data_table, by = index_vars)))
+    return(FALSE)
+  } else {
+    if (print_pos){
+      print(paste0("No duplicates in ", as.list(sys.call()[[2]])))
+    }
+    return(TRUE)
+  }
+}
+
+#' Unfactor a factor
+#'
+#' Transforms a factor into an integer
+#'
+#' Transforms a factor into an integer by first transforming it into character
+#'
+#' @param x An input that is potentially a factor
+#' @return x as an integer
+unfactor <- function(x){
+  y <- as.integer(as.character(x))
+  return(y)
+}
+
 if (!exists("download_data")){
   download_data <- FALSE
 }
@@ -32,8 +70,11 @@ if (download_data | !file.exists((paste0(eurostat_file_name, ".gz")))){
   eurostat_bond_data_raw <- data.table::as.data.table(eurostat_bond_data_raw)
   eurostat_bond_data_raw <- eurostat_bond_data_raw[, .(
     iso3c=countrycode::countrycode(geo, "eurostat", "iso3c"),
-    year=time,
+    year=unfactor(time),
     bond_yield=values)]
+
+  test_uniqueness(eurostat_bond_data_raw, c("iso3c", "year"))
+
   data.table::fwrite(eurostat_bond_data_raw, eurostat_file_name)
   R.utils::gzip(paste0(eurostat_file_name),
                 destname=paste0(eurostat_file_name, ".gz"),
@@ -64,6 +105,7 @@ if (download_data | !file.exists((paste0(oecd_debt_file_name, ".gz")))){
                                       -dplyr::one_of(
                                         "TIME_FORMAT", "UNIT", "POWERCODE")
   )
+  test_uniqueness(oecd_debt_data_raw, c("LOCATION", "INDICATOR", "obsTime"))
   data.table::fwrite(oecd_debt_data_raw, oecd_debt_file_name)
   R.utils::gzip(paste0(oecd_debt_file_name),
                 destname=paste0(oecd_debt_file_name, ".gz"),
@@ -109,6 +151,7 @@ if (download_data | !file.exists(paste0(oecd_pub_debt_file_name, ".gz"))){
                                           filter = filter_list)
   oecd_pub_debt_data_raw <- data.table::as.data.table(oecd_pub_debt_data_raw)
   oecd_pub_debt_data <- oecd_pub_debt_data_raw[, .(LOCATION, obsTime, obsValue)]
+  test_uniqueness(oecd_pub_debt_data, c("LOCATION", "obsTime"))
   data.table::fwrite(oecd_pub_debt_data, oecd_pub_debt_file_name)
   R.utils::gzip(paste0(oecd_pub_debt_file_name),
                 destname=paste0(oecd_pub_debt_file_name, ".gz"),
@@ -149,6 +192,8 @@ if (download_data | !file.exists(paste0(oecd_finance_file_name, ".gz"))){
   oecd_finance_data <- oecd_finance_data_raw[,
                                              .(LOCATION, obsTime, obsValue)
                                              ]
+  test_uniqueness(oecd_finance_data, c("LOCATION", "obsTime"))
+
   data.table::fwrite(oecd_finance_data,
                      oecd_finance_file_name)
   R.utils::gzip(paste0(oecd_finance_file_name),
@@ -188,6 +233,8 @@ if (download_data | !file.exists(paste0(oecd_wage_data_raw_file, ".gz"))){
 
   oecd_wage_data_raw <- data.table::as.data.table(oecd_wage_data_raw)
   oecd_wage_data <- oecd_wage_data_raw[, .(COUNTRY, obsTime, obsValue)]
+  test_uniqueness(oecd_wage_data, c("COUNTRY", "obsTime"))
+
   data.table::fwrite(oecd_wage_data,
                      oecd_wage_data_raw_file)
   R.utils::gzip(paste0(oecd_wage_data_raw_file),
@@ -213,6 +260,7 @@ oecd_data <- Reduce(function(...) merge(..., all=TRUE,
                        list(oecd_finance_data, oecd_debt_data, oecd_wage_data,
                             oecd_pub_debt_data)
   )
+stopifnot(test_uniqueness(oecd_data, c("iso3c", "year")))
 
 # World Bank data==============================================================
 print("World Bank data...")
@@ -347,6 +395,7 @@ data.table::setnames(wb_raw_data, old = c(wb_vars, wb_vars_2),
 wb_data <- wb_raw_data[, iso3c:=countrycode::countrycode(iso2c,
                                                            "iso2c", "iso3c")
                          ][, c("iso2c", "country"):=NULL]
+stopifnot(test_uniqueness(wb_data, c("year", "iso3c")))
 print("finished.")
 
 # Lane-Milesi-Ferreti data on financial openness===============================
@@ -395,6 +444,7 @@ if (!file.exists(lmf_file)){
       .SDcols = setdiff(lmf_new_names, "iso3c")
       ]
 }
+stopifnot(test_uniqueness(lmf, c("iso3c", "year")))
 print("finished.")
 
 # Gini data from Solt==========================================================
@@ -418,7 +468,9 @@ if (!download_data & file.exists(paste0(swiid_file, ".gz"))){
     country, "country.name", "iso3c", warn = FALSE
   )][!is.na(country), .(iso3c=country, year=as.double(year),
                         gini_post_tax=gini_disp, gini_pre_tax=gini_mkt)]
+  swiid_raw <- swiid_raw[iso3c%in%countries_considered]
   swiid_raw <- unique(swiid_raw, by = c("iso3c", "year"))
+  stopifnot(test_uniqueness(swiid_raw, c("iso3c", "year")))
   data.table::fwrite(swiid_raw, swiid_file)
   R.utils::gzip(paste0(swiid_file),
                 destname=paste0(swiid_file, ".gz"),
@@ -497,9 +549,8 @@ ameco01_unemp <- data.table::melt(ameco01_unemp, id.vars=c("COUNTRY"),
 
 ameco01_unemp <- rbind(ameco01_unemp, ameco01_unemp_germany)
 ameco01_unemp[, unemp_rate:=as.double(as.character(unemp_rate))]
-if (sum(duplicated(ameco01_unemp, by = c("COUNTRY", "year")))>0){
-  warning("Duplicated rows in ameco01_unemp!")
-}
+ameco01_unemp[, year:=unfactor(year)]
+ameco01_unemp <- ameco01_unemp[COUNTRY%in%countries_considered]
 
 # Population-------------------------------------------------------------------
 ameco01_pop <- ameco01[
@@ -538,9 +589,8 @@ ameco01_pop <- data.table::melt(ameco01_pop, id.vars=c("COUNTRY"),
 
 ameco01_pop <- rbind(ameco01_pop, ameco01_pop_germany)
 ameco01_pop[, population_ameco:=as.double(as.character(population_ameco))]
-if (sum(duplicated(ameco01_pop, by = c("COUNTRY", "year")))>0){
-  warning("Duplicated rows in ameco01_pop!")
-}
+ameco01_pop[, year:=unfactor(year)]
+ameco01_pop <- ameco01_pop[COUNTRY%in%countries_considered]
 
 # Harmonised consumer price index (All-items) (2015 = 100)---------------------
 print("...ameco02...")
@@ -559,9 +609,8 @@ ameco02[, c("CODE", "SUB-CHAPTER", "TITLE", "UNIT",  "V67"):=NULL]
 ameco02 <- data.table::melt(ameco02, id.vars=c("COUNTRY"),
                             variable.name="year",
                             value.name = "cpi")
-if (sum(duplicated(ameco02, by = c("COUNTRY", "year")))>0){
-  warning("Duplicated rows in ameco02!")
-}
+ameco02 <- ameco02[, year:=unfactor(year)]
+ameco02 <- ameco02[COUNTRY%in%countries_considered]
 
 # Capital formation----------------------------------------------------------
 # TODO Wir hatten: Real gross fixed capital formation / real net capital stock; aber welche Werte sind das?
@@ -601,9 +650,8 @@ ameco03 <- data.table::melt(ameco03, id.vars=c("COUNTRY"),
                             variable.name="year",
                             value.name = "cap_form")
 ameco03 <- rbind(ameco03, ameco03_germany)
-if (sum(duplicated(ameco03, by = c("COUNTRY", "year")))>0){
-  warning("Duplicated rows in ameco03!")
-}
+ameco03 <- ameco03[, year:=unfactor(year)]
+ameco03 <- ameco03[COUNTRY%in%countries_considered]
 
 # GDP growth-------------------------------------------------------------------
 # TODO: Einheiten noch fixen, aber vielleicht besser von Weltbank wg coverage
@@ -669,9 +717,8 @@ ameco07_wage_share <- data.table::melt(ameco07_wage_share,
 
 ameco07_wage_share <- rbind(ameco07_wage_share, ameco07_wage_share_germany)
 ameco07_wage_share[, wage_share:=as.double(wage_share)]
-if (sum(duplicated(ameco07_wage_share, by = c("COUNTRY", "year")))>0){
-  warning("Duplicated rows in ameco07_wage_share!")
-}
+ameco07_wage_share[, year:=unfactor(year)]
+ameco07_wage_share <- ameco07_wage_share[COUNTRY%in%countries_considered]
 
 # RULC-----------------------------------------------------------------------
 print("...RULC...")
@@ -696,9 +743,8 @@ ameco07_rulc <- data.table::melt(ameco07_rulc,
                                  id.vars=c("COUNTRY"),
                                  variable.name="year",
                                  value.name = "rulc")
-if (sum(duplicated(ameco07_rulc, by = c("COUNTRY", "year")))>0){
-  warning("Duplicated rows in ameco07_rulc!")
-}
+ameco07_rulc <- ameco07_rulc[COUNTRY%in%countries_considered]
+ameco07_rulc[, year:=unfactor(year)]
 
 # NULC-----------------------------------------------------------------------
 print("...NULC...")
@@ -727,9 +773,8 @@ data.table::setnames(ameco07_nulc,
                              "(National currency: 2010 = 100)"),
                      new = c("COUNTRY", "year", "nulc_eur", "nulc_lcu")
                      )
-if (sum(duplicated(ameco07_nulc, by = c("COUNTRY", "year")))>0){
-  warning("Duplicated rows in ameco07_nulc!")
-}
+ameco07_nulc <- ameco07_nulc[COUNTRY%in%countries_considered]
+ameco07_nulc[, year:=unfactor(year)]
 
 # Current account--------------------------------------------------------------
 print("...Current Account...")
@@ -774,9 +819,8 @@ ameco10 <- data.table::melt(ameco10,
 
 ameco10 <- rbind(ameco10, ameco10_germany)
 ameco10[, current_account_GDP_ameco:=as.double(current_account_GDP_ameco)]
-if (sum(duplicated(ameco10, by = c("COUNTRY", "year")))>0){
-  warning("Duplicated rows in ameco10!")
-}
+ameco10 <- ameco10[COUNTRY%in%countries_considered]
+ameco10[, year:=unfactor(year)]
 
 # Sectoral balances from AMECO-------------------------------------------------
 # Foreign sector:
@@ -823,11 +867,8 @@ ameco10_sect_balances <- data.table::melt(ameco10_sect_balances,
 ameco10_sect_balances <- rbind(ameco10_sect_balances, ameco10_sect_balances_germany)
 ameco10_sect_balances[, sect_balance_foreign:=as.double(sect_balance_foreign)]
 ameco10_sect_balances[, sect_balance_foreign:=sect_balance_foreign*(-1)]
-ameco10_sect_balances[, year:=as.double(as.character(year))]
+ameco10_sect_balances[, year:=as.integer(as.character(year))]
 ameco10_sect_balances <- ameco10_sect_balances[year<=last_year & year>=first_year]
-if (sum(duplicated(ameco10_sect_balances, by = c("COUNTRY", "year")))>0){
-  warning("Duplicated rows in ameco10_sect_balances!")
-}
 
 # Government sector:
 ameco16_sect_balances <- data.table::fread("data-raw/ameco/AMECO16.TXT.gz",
@@ -874,9 +915,6 @@ ameco16_sect_balances <- rbind(ameco16_sect_balances, ameco16_sect_balances_germ
 ameco16_sect_balances[, sect_balance_gvnt:=as.double(sect_balance_gvnt)]
 ameco16_sect_balances[, year:=as.double(as.character(year))]
 ameco16_sect_balances <- ameco16_sect_balances[year<=last_year & year>=first_year]
-if (sum(duplicated(ameco16_sect_balances, by = c("COUNTRY", "year")))>0){
-  warning("Duplicated rows in ameco16_sect_balances!")
-}
 
 # Private sector:
 # Step 1: get balance for corporations
@@ -923,9 +961,6 @@ ameco14_sect_balances <- rbind(ameco14_sect_balances, ameco14_sect_balances_germ
 ameco14_sect_balances[, sect_balance_corp_abs:=as.double(sect_balance_corp_abs)]
 ameco14_sect_balances[, year:=as.double(as.character(year))]
 ameco14_sect_balances <- ameco14_sect_balances[year<=last_year & year>=first_year]
-if (sum(duplicated(ameco14_sect_balances, by = c("COUNTRY", "year")))>0){
-  warning("Duplicated rows in ameco14_sect_balances!")
-}
 
 # Step 2: get balances for households
 ameco15_sect_balances <- data.table::fread("data-raw/ameco/AMECO15.TXT.gz",
@@ -971,9 +1006,6 @@ ameco15_sect_balances <- rbind(ameco15_sect_balances, ameco15_sect_balances_germ
 ameco15_sect_balances[, sect_balance_HH_abs:=as.double(sect_balance_HH_abs)]
 ameco15_sect_balances[, year:=as.double(as.character(year))]
 ameco15_sect_balances <- ameco15_sect_balances[year<=last_year & year>=first_year]
-if (sum(duplicated(ameco15_sect_balances, by = c("COUNTRY", "year")))>0){
-  warning("Duplicated rows in ameco15_sect_balances!")
-}
 
 # Step 3: get GDP at current prices for normalization--------------------------
 ameco06_sect_balances <- data.table::fread("data-raw/ameco/AMECO6.TXT.gz",
@@ -1020,9 +1052,7 @@ ameco06_sect_balances <- rbind(ameco06_sect_balances, ameco06_sect_balances_germ
 ameco06_sect_balances[, GDP_cp:=as.double(GDP_cp)]
 ameco06_sect_balances[, year:=as.double(as.character(year))]
 ameco06_sect_balances <- ameco06_sect_balances[year<=last_year & year>=first_year]
-if (sum(duplicated(ameco06_sect_balances, by = c("COUNTRY", "year")))>0){
-  warning("Duplicated rows in ameco06_sect_balances!")
-}
+
 # Step 4: divide corporate and household value by GDP
 ameco_sect_balances <- Reduce(function(...) merge(..., all=TRUE,
                                          by = c("COUNTRY", "year")),
@@ -1044,17 +1074,27 @@ ameco_sect_balances[, balance_test:=sect_balance_priv+sect_balance_gvnt+sect_bal
 ameco_sect_balances[, year:=as.integer(year)]
 ameco_sect_balances[, c("sect_balance_corp_abs", "balance_test",
                         "sect_balance_HH_abs", "GDP_cp"):=NULL]
+ameco_sect_balances <- ameco_sect_balances[COUNTRY%in%countries_considered]
+stopifnot(test_uniqueness(ameco_sect_balances, c("COUNTRY", "year")))
 
 
 
 
 # Merge all AMECO tables-------------------------------------------------------
 print("...merge all AMECO...")
+print("...test for duplicates in individual ameco parts...")
+lapply(list(ameco01_pop, ameco01_unemp, ameco02, ameco03,
+            ameco07_wage_share, ameco07_rulc, ameco07_nulc,
+            ameco10, ameco_sect_balances), test_uniqueness, c("COUNTRY", "year"))
+
 ameco_full <- Reduce(function(...) merge(..., all=TRUE,
                                          by = c("COUNTRY", "year")),
                      list(ameco01_pop, ameco01_unemp, ameco02, ameco03,
                           ameco07_wage_share, ameco07_rulc, ameco07_nulc,
-                          ameco10, ameco_sect_balances))
+                          ameco10, ameco_sect_balances)
+)
+
+
 ameco_full <- ameco_full[, .(year=as.double(as.character(year)),
                              iso3c=COUNTRY,
                              cap_form,
@@ -1072,8 +1112,10 @@ ameco_full <- ameco_full[, .(year=as.double(as.character(year)),
                              sect_balance_priv_HH,
                              sect_balance_priv)
                          ]
+print("...test for uniqueness of ameco_full...")
+stopifnot(test_uniqueness(ameco_full, c("iso3c", "year")))
 print("....finished.")
-# TODO check for duplicates
+
 # Chinn-Ito index==============================================================
 print("Chinn-Ito index...")
 chinn_ito_url <- "http://web.pdx.edu/~ito/kaopen_2016.dta"
@@ -1339,6 +1381,7 @@ macro_data <- Reduce(function(...) merge(..., all=TRUE,
                           complexity_data, barro_lee, kof, chinn_ito,
                           eurostat_bond_data_raw)
                      )
+test_uniqueness(macro_data, c("iso3c", "year"))
 save(macro_data, file = "data/macro_data.rdata")
 macro_data_csv_name <- "data/macro_data.csv"
 data.table::fwrite(macro_data, file = macro_data_csv_name)
