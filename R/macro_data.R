@@ -92,6 +92,7 @@ if (download_data | !file.exists((paste0(oecd_debt_file_name, ".gz")))){
                                       -dplyr::one_of(
                                         "TIME_FORMAT", "UNIT", "POWERCODE")
   )
+  test_uniqueness(oecd_debt_data_raw, c("LOCATION", "INDICATOR", "obsTime"))
   data.table::fwrite(oecd_debt_data_raw, oecd_debt_file_name)
   R.utils::gzip(paste0(oecd_debt_file_name),
                 destname=paste0(oecd_debt_file_name, ".gz"),
@@ -137,6 +138,7 @@ if (download_data | !file.exists(paste0(oecd_pub_debt_file_name, ".gz"))){
                                           filter = filter_list)
   oecd_pub_debt_data_raw <- data.table::as.data.table(oecd_pub_debt_data_raw)
   oecd_pub_debt_data <- oecd_pub_debt_data_raw[, .(LOCATION, obsTime, obsValue)]
+  test_uniqueness(oecd_pub_debt_data, c("LOCATION", "obsTime"))
   data.table::fwrite(oecd_pub_debt_data, oecd_pub_debt_file_name)
   R.utils::gzip(paste0(oecd_pub_debt_file_name),
                 destname=paste0(oecd_pub_debt_file_name, ".gz"),
@@ -177,6 +179,8 @@ if (download_data | !file.exists(paste0(oecd_finance_file_name, ".gz"))){
   oecd_finance_data <- oecd_finance_data_raw[,
                                              .(LOCATION, obsTime, obsValue)
                                              ]
+  test_uniqueness(oecd_finance_data, c("LOCATION", "obsTime"))
+
   data.table::fwrite(oecd_finance_data,
                      oecd_finance_file_name)
   R.utils::gzip(paste0(oecd_finance_file_name),
@@ -216,6 +220,8 @@ if (download_data | !file.exists(paste0(oecd_wage_data_raw_file, ".gz"))){
 
   oecd_wage_data_raw <- data.table::as.data.table(oecd_wage_data_raw)
   oecd_wage_data <- oecd_wage_data_raw[, .(COUNTRY, obsTime, obsValue)]
+  test_uniqueness(oecd_wage_data, c("COUNTRY", "obsTime"))
+
   data.table::fwrite(oecd_wage_data,
                      oecd_wage_data_raw_file)
   R.utils::gzip(paste0(oecd_wage_data_raw_file),
