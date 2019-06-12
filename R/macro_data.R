@@ -25,6 +25,19 @@ test_uniqueness <- function(data_table, index_vars, print_pos=TRUE){
   }
 }
 
+#' Unfactor a factor
+#'
+#' Transforms a factor into an integer
+#'
+#' Transforms a factor into an integer by first transforming it into character
+#'
+#' @param x An input that is potentially a factor
+#' @return x as an integer
+unfactor <- function(x){
+  y <- as.integer(as.character(x))
+  return(y)
+}
+
 if (!exists("download_data")){
   download_data <- FALSE
 }
@@ -57,7 +70,7 @@ if (download_data | !file.exists((paste0(eurostat_file_name, ".gz")))){
   eurostat_bond_data_raw <- data.table::as.data.table(eurostat_bond_data_raw)
   eurostat_bond_data_raw <- eurostat_bond_data_raw[, .(
     iso3c=countrycode::countrycode(geo, "eurostat", "iso3c"),
-    year=time,
+    year=unfactor(time),
     bond_yield=values)]
 
   test_uniqueness(eurostat_bond_data_raw, c("iso3c", "year"))
@@ -536,6 +549,7 @@ ameco01_unemp <- data.table::melt(ameco01_unemp, id.vars=c("COUNTRY"),
 
 ameco01_unemp <- rbind(ameco01_unemp, ameco01_unemp_germany)
 ameco01_unemp[, unemp_rate:=as.double(as.character(unemp_rate))]
+ameco01_unemp[, year:=as.integer(as.character(year))]
 ameco01_unemp <- ameco01_unemp[COUNTRY%in%countries_considered]
 
 # Population-------------------------------------------------------------------
@@ -1065,11 +1079,15 @@ print("...test for duplicates in individual ameco parts...")
 lapply(list(ameco01_pop, ameco01_unemp, ameco02, ameco03,
             ameco07_wage_share, ameco07_rulc, ameco07_nulc,
             ameco10, ameco_sect_balances), test_uniqueness, c("COUNTRY", "year"))
+
 ameco_full <- Reduce(function(...) merge(..., all=TRUE,
                                          by = c("COUNTRY", "year")),
                      list(ameco01_pop, ameco01_unemp, ameco02, ameco03,
                           ameco07_wage_share, ameco07_rulc, ameco07_nulc,
-                          ameco10, ameco_sect_balances))
+                          ameco10, ameco_sect_balances)
+)
+
+
 ameco_full <- ameco_full[, .(year=as.double(as.character(year)),
                              iso3c=COUNTRY,
                              cap_form,
