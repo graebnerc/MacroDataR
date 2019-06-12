@@ -247,6 +247,7 @@ oecd_data <- Reduce(function(...) merge(..., all=TRUE,
                        list(oecd_finance_data, oecd_debt_data, oecd_wage_data,
                             oecd_pub_debt_data)
   )
+stopifnot(test_uniqueness(oecd_data, c("iso3c", "year")))
 
 # World Bank data==============================================================
 print("World Bank data...")
@@ -381,6 +382,7 @@ data.table::setnames(wb_raw_data, old = c(wb_vars, wb_vars_2),
 wb_data <- wb_raw_data[, iso3c:=countrycode::countrycode(iso2c,
                                                            "iso2c", "iso3c")
                          ][, c("iso2c", "country"):=NULL]
+stopifnot(test_uniqueness(wb_data, c("year", "iso3c")))
 print("finished.")
 
 # Lane-Milesi-Ferreti data on financial openness===============================
