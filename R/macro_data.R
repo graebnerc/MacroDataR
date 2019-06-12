@@ -1089,6 +1089,10 @@ stopifnot(test_uniqueness(ameco_sect_balances, c("COUNTRY", "year")))
 
 # Merge all AMECO tables-------------------------------------------------------
 print("...merge all AMECO...")
+print("...test for duplicates in individual ameco parts...")
+lapply(list(ameco01_pop, ameco01_unemp, ameco02, ameco03,
+            ameco07_wage_share, ameco07_rulc, ameco07_nulc,
+            ameco10, ameco_sect_balances), test_uniqueness, c("COUNTRY", "year"))
 ameco_full <- Reduce(function(...) merge(..., all=TRUE,
                                          by = c("COUNTRY", "year")),
                      list(ameco01_pop, ameco01_unemp, ameco02, ameco03,
@@ -1111,8 +1115,9 @@ ameco_full <- ameco_full[, .(year=as.double(as.character(year)),
                              sect_balance_priv_HH,
                              sect_balance_priv)
                          ]
-print("....finished.")
+print("...test for uniqueness of ameco_full...")
 stopifnot(test_uniqueness(ameco_full, c("iso3c", "year")))
+print("....finished.")
 
 # Chinn-Ito index==============================================================
 print("Chinn-Ito index...")
