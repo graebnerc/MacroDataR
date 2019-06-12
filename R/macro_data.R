@@ -431,6 +431,7 @@ if (!file.exists(lmf_file)){
       .SDcols = setdiff(lmf_new_names, "iso3c")
       ]
 }
+stopifnot(test_uniqueness(lmf, c("iso3c", "year")))
 print("finished.")
 
 # Gini data from Solt==========================================================
@@ -455,6 +456,7 @@ if (!download_data & file.exists(paste0(swiid_file, ".gz"))){
   )][!is.na(country), .(iso3c=country, year=as.double(year),
                         gini_post_tax=gini_disp, gini_pre_tax=gini_mkt)]
   swiid_raw <- unique(swiid_raw, by = c("iso3c", "year"))
+  stopifnot(test_uniqueness(swiid_raw, c("iso3c", "year")))
   data.table::fwrite(swiid_raw, swiid_file)
   R.utils::gzip(paste0(swiid_file),
                 destname=paste0(swiid_file, ".gz"),
@@ -1080,6 +1082,7 @@ ameco_sect_balances[, balance_test:=sect_balance_priv+sect_balance_gvnt+sect_bal
 ameco_sect_balances[, year:=as.integer(year)]
 ameco_sect_balances[, c("sect_balance_corp_abs", "balance_test",
                         "sect_balance_HH_abs", "GDP_cp"):=NULL]
+stopifnot(test_uniqueness(ameco_sect_balances, c("COUNTRY", "year")))
 
 
 
@@ -1109,7 +1112,8 @@ ameco_full <- ameco_full[, .(year=as.double(as.character(year)),
                              sect_balance_priv)
                          ]
 print("....finished.")
-# TODO check for duplicates
+stopifnot(test_uniqueness(ameco_full, c("iso3c", "year")))
+
 # Chinn-Ito index==============================================================
 print("Chinn-Ito index...")
 chinn_ito_url <- "http://web.pdx.edu/~ito/kaopen_2016.dta"
