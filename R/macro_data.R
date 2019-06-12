@@ -536,9 +536,7 @@ ameco01_unemp <- data.table::melt(ameco01_unemp, id.vars=c("COUNTRY"),
 
 ameco01_unemp <- rbind(ameco01_unemp, ameco01_unemp_germany)
 ameco01_unemp[, unemp_rate:=as.double(as.character(unemp_rate))]
-if (sum(duplicated(ameco01_unemp, by = c("COUNTRY", "year")))>0){
-  warning("Duplicated rows in ameco01_unemp!")
-}
+ameco01_unemp <- ameco01_unemp[COUNTRY%in%countries_considered]
 
 # Population-------------------------------------------------------------------
 ameco01_pop <- ameco01[
@@ -577,9 +575,7 @@ ameco01_pop <- data.table::melt(ameco01_pop, id.vars=c("COUNTRY"),
 
 ameco01_pop <- rbind(ameco01_pop, ameco01_pop_germany)
 ameco01_pop[, population_ameco:=as.double(as.character(population_ameco))]
-if (sum(duplicated(ameco01_pop, by = c("COUNTRY", "year")))>0){
-  warning("Duplicated rows in ameco01_pop!")
-}
+ameco01_pop <- ameco01_pop[COUNTRY%in%countries_considered]
 
 # Harmonised consumer price index (All-items) (2015 = 100)---------------------
 print("...ameco02...")
@@ -598,9 +594,7 @@ ameco02[, c("CODE", "SUB-CHAPTER", "TITLE", "UNIT",  "V67"):=NULL]
 ameco02 <- data.table::melt(ameco02, id.vars=c("COUNTRY"),
                             variable.name="year",
                             value.name = "cpi")
-if (sum(duplicated(ameco02, by = c("COUNTRY", "year")))>0){
-  warning("Duplicated rows in ameco02!")
-}
+ameco02 <- ameco02[COUNTRY%in%countries_considered]
 
 # Capital formation----------------------------------------------------------
 # TODO Wir hatten: Real gross fixed capital formation / real net capital stock; aber welche Werte sind das?
@@ -640,9 +634,7 @@ ameco03 <- data.table::melt(ameco03, id.vars=c("COUNTRY"),
                             variable.name="year",
                             value.name = "cap_form")
 ameco03 <- rbind(ameco03, ameco03_germany)
-if (sum(duplicated(ameco03, by = c("COUNTRY", "year")))>0){
-  warning("Duplicated rows in ameco03!")
-}
+ameco03 <- ameco03[COUNTRY%in%countries_considered]
 
 # GDP growth-------------------------------------------------------------------
 # TODO: Einheiten noch fixen, aber vielleicht besser von Weltbank wg coverage
@@ -708,9 +700,7 @@ ameco07_wage_share <- data.table::melt(ameco07_wage_share,
 
 ameco07_wage_share <- rbind(ameco07_wage_share, ameco07_wage_share_germany)
 ameco07_wage_share[, wage_share:=as.double(wage_share)]
-if (sum(duplicated(ameco07_wage_share, by = c("COUNTRY", "year")))>0){
-  warning("Duplicated rows in ameco07_wage_share!")
-}
+ameco07_wage_share <- ameco07_wage_share[COUNTRY%in%countries_considered]
 
 # RULC-----------------------------------------------------------------------
 print("...RULC...")
@@ -735,9 +725,7 @@ ameco07_rulc <- data.table::melt(ameco07_rulc,
                                  id.vars=c("COUNTRY"),
                                  variable.name="year",
                                  value.name = "rulc")
-if (sum(duplicated(ameco07_rulc, by = c("COUNTRY", "year")))>0){
-  warning("Duplicated rows in ameco07_rulc!")
-}
+ameco07_rulc <- ameco07_rulc[COUNTRY%in%countries_considered]
 
 # NULC-----------------------------------------------------------------------
 print("...NULC...")
@@ -766,9 +754,7 @@ data.table::setnames(ameco07_nulc,
                              "(National currency: 2010 = 100)"),
                      new = c("COUNTRY", "year", "nulc_eur", "nulc_lcu")
                      )
-if (sum(duplicated(ameco07_nulc, by = c("COUNTRY", "year")))>0){
-  warning("Duplicated rows in ameco07_nulc!")
-}
+ameco07_nulc <- ameco07_nulc[COUNTRY%in%countries_considered]
 
 # Current account--------------------------------------------------------------
 print("...Current Account...")
@@ -813,9 +799,7 @@ ameco10 <- data.table::melt(ameco10,
 
 ameco10 <- rbind(ameco10, ameco10_germany)
 ameco10[, current_account_GDP_ameco:=as.double(current_account_GDP_ameco)]
-if (sum(duplicated(ameco10, by = c("COUNTRY", "year")))>0){
-  warning("Duplicated rows in ameco10!")
-}
+ameco10 <- ameco10[COUNTRY%in%countries_considered]
 
 # Sectoral balances from AMECO-------------------------------------------------
 # Foreign sector:
@@ -864,9 +848,6 @@ ameco10_sect_balances[, sect_balance_foreign:=as.double(sect_balance_foreign)]
 ameco10_sect_balances[, sect_balance_foreign:=sect_balance_foreign*(-1)]
 ameco10_sect_balances[, year:=as.double(as.character(year))]
 ameco10_sect_balances <- ameco10_sect_balances[year<=last_year & year>=first_year]
-if (sum(duplicated(ameco10_sect_balances, by = c("COUNTRY", "year")))>0){
-  warning("Duplicated rows in ameco10_sect_balances!")
-}
 
 # Government sector:
 ameco16_sect_balances <- data.table::fread("data-raw/ameco/AMECO16.TXT.gz",
@@ -913,9 +894,6 @@ ameco16_sect_balances <- rbind(ameco16_sect_balances, ameco16_sect_balances_germ
 ameco16_sect_balances[, sect_balance_gvnt:=as.double(sect_balance_gvnt)]
 ameco16_sect_balances[, year:=as.double(as.character(year))]
 ameco16_sect_balances <- ameco16_sect_balances[year<=last_year & year>=first_year]
-if (sum(duplicated(ameco16_sect_balances, by = c("COUNTRY", "year")))>0){
-  warning("Duplicated rows in ameco16_sect_balances!")
-}
 
 # Private sector:
 # Step 1: get balance for corporations
@@ -962,9 +940,6 @@ ameco14_sect_balances <- rbind(ameco14_sect_balances, ameco14_sect_balances_germ
 ameco14_sect_balances[, sect_balance_corp_abs:=as.double(sect_balance_corp_abs)]
 ameco14_sect_balances[, year:=as.double(as.character(year))]
 ameco14_sect_balances <- ameco14_sect_balances[year<=last_year & year>=first_year]
-if (sum(duplicated(ameco14_sect_balances, by = c("COUNTRY", "year")))>0){
-  warning("Duplicated rows in ameco14_sect_balances!")
-}
 
 # Step 2: get balances for households
 ameco15_sect_balances <- data.table::fread("data-raw/ameco/AMECO15.TXT.gz",
@@ -1010,9 +985,6 @@ ameco15_sect_balances <- rbind(ameco15_sect_balances, ameco15_sect_balances_germ
 ameco15_sect_balances[, sect_balance_HH_abs:=as.double(sect_balance_HH_abs)]
 ameco15_sect_balances[, year:=as.double(as.character(year))]
 ameco15_sect_balances <- ameco15_sect_balances[year<=last_year & year>=first_year]
-if (sum(duplicated(ameco15_sect_balances, by = c("COUNTRY", "year")))>0){
-  warning("Duplicated rows in ameco15_sect_balances!")
-}
 
 # Step 3: get GDP at current prices for normalization--------------------------
 ameco06_sect_balances <- data.table::fread("data-raw/ameco/AMECO6.TXT.gz",
@@ -1059,9 +1031,7 @@ ameco06_sect_balances <- rbind(ameco06_sect_balances, ameco06_sect_balances_germ
 ameco06_sect_balances[, GDP_cp:=as.double(GDP_cp)]
 ameco06_sect_balances[, year:=as.double(as.character(year))]
 ameco06_sect_balances <- ameco06_sect_balances[year<=last_year & year>=first_year]
-if (sum(duplicated(ameco06_sect_balances, by = c("COUNTRY", "year")))>0){
-  warning("Duplicated rows in ameco06_sect_balances!")
-}
+
 # Step 4: divide corporate and household value by GDP
 ameco_sect_balances <- Reduce(function(...) merge(..., all=TRUE,
                                          by = c("COUNTRY", "year")),
@@ -1083,6 +1053,7 @@ ameco_sect_balances[, balance_test:=sect_balance_priv+sect_balance_gvnt+sect_bal
 ameco_sect_balances[, year:=as.integer(year)]
 ameco_sect_balances[, c("sect_balance_corp_abs", "balance_test",
                         "sect_balance_HH_abs", "GDP_cp"):=NULL]
+ameco_sect_balances <- ameco_sect_balances[COUNTRY%in%countries_considered]
 stopifnot(test_uniqueness(ameco_sect_balances, c("COUNTRY", "year")))
 
 
