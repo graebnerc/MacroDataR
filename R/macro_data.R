@@ -549,7 +549,7 @@ ameco01_unemp <- data.table::melt(ameco01_unemp, id.vars=c("COUNTRY"),
 
 ameco01_unemp <- rbind(ameco01_unemp, ameco01_unemp_germany)
 ameco01_unemp[, unemp_rate:=as.double(as.character(unemp_rate))]
-ameco01_unemp[, year:=as.integer(as.character(year))]
+ameco01_unemp[, year:=unfactor(year)]
 ameco01_unemp <- ameco01_unemp[COUNTRY%in%countries_considered]
 
 # Population-------------------------------------------------------------------
@@ -589,6 +589,7 @@ ameco01_pop <- data.table::melt(ameco01_pop, id.vars=c("COUNTRY"),
 
 ameco01_pop <- rbind(ameco01_pop, ameco01_pop_germany)
 ameco01_pop[, population_ameco:=as.double(as.character(population_ameco))]
+ameco01_pop[, year:=unfactor(year)]
 ameco01_pop <- ameco01_pop[COUNTRY%in%countries_considered]
 
 # Harmonised consumer price index (All-items) (2015 = 100)---------------------
@@ -608,6 +609,7 @@ ameco02[, c("CODE", "SUB-CHAPTER", "TITLE", "UNIT",  "V67"):=NULL]
 ameco02 <- data.table::melt(ameco02, id.vars=c("COUNTRY"),
                             variable.name="year",
                             value.name = "cpi")
+ameco02 <- ameco02[, year:=unfactor(year)]
 ameco02 <- ameco02[COUNTRY%in%countries_considered]
 
 # Capital formation----------------------------------------------------------
@@ -648,6 +650,7 @@ ameco03 <- data.table::melt(ameco03, id.vars=c("COUNTRY"),
                             variable.name="year",
                             value.name = "cap_form")
 ameco03 <- rbind(ameco03, ameco03_germany)
+ameco03 <- ameco03[, year:=unfactor(year)]
 ameco03 <- ameco03[COUNTRY%in%countries_considered]
 
 # GDP growth-------------------------------------------------------------------
@@ -714,6 +717,7 @@ ameco07_wage_share <- data.table::melt(ameco07_wage_share,
 
 ameco07_wage_share <- rbind(ameco07_wage_share, ameco07_wage_share_germany)
 ameco07_wage_share[, wage_share:=as.double(wage_share)]
+ameco07_wage_share[, year:=unfactor(year)]
 ameco07_wage_share <- ameco07_wage_share[COUNTRY%in%countries_considered]
 
 # RULC-----------------------------------------------------------------------
@@ -740,6 +744,7 @@ ameco07_rulc <- data.table::melt(ameco07_rulc,
                                  variable.name="year",
                                  value.name = "rulc")
 ameco07_rulc <- ameco07_rulc[COUNTRY%in%countries_considered]
+ameco07_rulc[, year:=unfactor(year)]
 
 # NULC-----------------------------------------------------------------------
 print("...NULC...")
@@ -769,6 +774,7 @@ data.table::setnames(ameco07_nulc,
                      new = c("COUNTRY", "year", "nulc_eur", "nulc_lcu")
                      )
 ameco07_nulc <- ameco07_nulc[COUNTRY%in%countries_considered]
+ameco07_nulc[, year:=unfactor(year)]
 
 # Current account--------------------------------------------------------------
 print("...Current Account...")
@@ -814,6 +820,7 @@ ameco10 <- data.table::melt(ameco10,
 ameco10 <- rbind(ameco10, ameco10_germany)
 ameco10[, current_account_GDP_ameco:=as.double(current_account_GDP_ameco)]
 ameco10 <- ameco10[COUNTRY%in%countries_considered]
+ameco10[, year:=unfactor(year)]
 
 # Sectoral balances from AMECO-------------------------------------------------
 # Foreign sector:
@@ -860,7 +867,7 @@ ameco10_sect_balances <- data.table::melt(ameco10_sect_balances,
 ameco10_sect_balances <- rbind(ameco10_sect_balances, ameco10_sect_balances_germany)
 ameco10_sect_balances[, sect_balance_foreign:=as.double(sect_balance_foreign)]
 ameco10_sect_balances[, sect_balance_foreign:=sect_balance_foreign*(-1)]
-ameco10_sect_balances[, year:=as.double(as.character(year))]
+ameco10_sect_balances[, year:=as.integer(as.character(year))]
 ameco10_sect_balances <- ameco10_sect_balances[year<=last_year & year>=first_year]
 
 # Government sector:
