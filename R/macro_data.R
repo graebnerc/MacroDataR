@@ -356,11 +356,17 @@ wb_var_names <- c(
 )
 
 wb_vars_2 <- c(
-  "sl.tlf.totl.in" # Total labor force:  https://data.worldbank.org/indicator/SL.TLF.TOTL.IN
+  "sl.tlf.totl.in", # Total labor force:  https://data.worldbank.org/indicator/SL.TLF.TOTL.IN
+  "FP.CPI.TOTL", # https://data.worldbank.org/indicator/FP.CPI.TOTL
+  "FP.CPI.TOTL.ZG", # Inflation: https://data.worldbank.org/indicator/FP.CPI.TOTL.ZG
+  "FR.INR.RINR" # https://data.worldbank.org/indicator/FR.INR.RINR
 )
 
 wb_var_names_2 <- c(
-  "labor_force_total" # Total labor force:  https://data.worldbank.org/indicator/SL.TLF.TOTL.IN
+  "labor_force_total", # Total labor force:  https://data.worldbank.org/indicator/SL.TLF.TOTL.IN
+  "cpi_wb", # https://data.worldbank.org/indicator/FP.CPI.TOTL
+  "cpi_change_wb", # Inflation: https://data.worldbank.org/indicator/FP.CPI.TOTL.ZG
+  "interest_real" # https://data.worldbank.org/indicator/FR.INR.RINR
 )
 
 wb_file_name <- "data-raw/wb_data.csv"
@@ -608,7 +614,7 @@ ameco02[, c("CODE", "SUB-CHAPTER", "TITLE", "UNIT",  "V67"):=NULL]
 
 ameco02 <- data.table::melt(ameco02, id.vars=c("COUNTRY"),
                             variable.name="year",
-                            value.name = "cpi")
+                            value.name = "cpi_harm")
 ameco02 <- ameco02[, year:=unfactor(year)]
 ameco02 <- ameco02[COUNTRY%in%countries_considered]
 
@@ -1098,7 +1104,7 @@ ameco_full <- Reduce(function(...) merge(..., all=TRUE,
 ameco_full <- ameco_full[, .(year=as.double(as.character(year)),
                              iso3c=COUNTRY,
                              cap_form,
-                             cpi,
+                             cpi_harm,
                              current_account_GDP_ameco,
                              nulc_eur,
                              nulc_lcu,
