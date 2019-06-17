@@ -608,7 +608,7 @@ ameco02[, c("CODE", "SUB-CHAPTER", "TITLE", "UNIT",  "V67"):=NULL]
 
 ameco02 <- data.table::melt(ameco02, id.vars=c("COUNTRY"),
                             variable.name="year",
-                            value.name = "cpi")
+                            value.name = "cpi_harm")
 ameco02 <- ameco02[, year:=unfactor(year)]
 ameco02 <- ameco02[COUNTRY%in%countries_considered]
 
@@ -1098,7 +1098,7 @@ ameco_full <- Reduce(function(...) merge(..., all=TRUE,
 ameco_full <- ameco_full[, .(year=as.double(as.character(year)),
                              iso3c=COUNTRY,
                              cap_form,
-                             cpi,
+                             cpi_harm,
                              current_account_GDP_ameco,
                              nulc_eur,
                              nulc_lcu,
