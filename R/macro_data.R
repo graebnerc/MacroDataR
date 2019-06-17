@@ -356,11 +356,17 @@ wb_var_names <- c(
 )
 
 wb_vars_2 <- c(
-  "sl.tlf.totl.in" # Total labor force:  https://data.worldbank.org/indicator/SL.TLF.TOTL.IN
+  "sl.tlf.totl.in", # Total labor force:  https://data.worldbank.org/indicator/SL.TLF.TOTL.IN
+  "FP.CPI.TOTL", # https://data.worldbank.org/indicator/FP.CPI.TOTL
+  "FP.CPI.TOTL.ZG", # Inflation: https://data.worldbank.org/indicator/FP.CPI.TOTL.ZG
+  "FR.INR.RINR" # https://data.worldbank.org/indicator/FR.INR.RINR
 )
 
 wb_var_names_2 <- c(
-  "labor_force_total" # Total labor force:  https://data.worldbank.org/indicator/SL.TLF.TOTL.IN
+  "labor_force_total", # Total labor force:  https://data.worldbank.org/indicator/SL.TLF.TOTL.IN
+  "cpi_wb", # https://data.worldbank.org/indicator/FP.CPI.TOTL
+  "cpi_change_wb", # Inflation: https://data.worldbank.org/indicator/FP.CPI.TOTL.ZG
+  "interest_real" # https://data.worldbank.org/indicator/FR.INR.RINR
 )
 
 wb_file_name <- "data-raw/wb_data.csv"
