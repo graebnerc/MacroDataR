@@ -1,5 +1,3 @@
-#' @import data.table
-
 #' Update data
 #'
 #' \code{update_data} function updates the data.
@@ -14,12 +12,13 @@
 #' @param vars Specifies the variables to be updated as strings. Default is all.
 #' @param countries The iso3c codes of the countries to be considered. Uses
 #'  \code{\link{get_countries}}, so pre-defined lists there can be used.
-#' @param start_year
-#' @param end_year
+#' @param start_year The first year to be considered (as numeric).
+#' @param end_year The last year to be considered (as numeric).
 #' @return Returns the updated data set.
 #' @seealso \code{\link{get_countries}} to see which pre-defined country sets
 #'  are available.
 #' @family update_dataset
+#' @import data.table
 #' @export
 update_macro_data <- function(
   download_data=FALSE,
