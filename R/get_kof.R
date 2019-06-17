@@ -6,6 +6,13 @@
 #'  Since the KOF institute does not provide for an API the data is downloaded
 #'  directly from their homepage. This means that whenever a new version of the
 #'  KOF is availbale, this code must be updated. Latest update: May 2019.
+#'
+#' @param download_data If TRUE, data will be downloaded from the internet
+#' @param countries_considered Vector of iso3c codes of the countries for
+#'  which data should be assembled.
+#' @param first_year First year for which data is to be collected (numeric).
+#' @param last_year Last year for which data is to be collected (numeric).
+#' @family download_helpers
 get_kof <- function(download_data, countries_considered,
                     first_year, last_year){
   print("KOF Globalization Index...")

@@ -10,6 +10,8 @@
 #'  data_table according to which uniqueness should be tested
 #'  (e.g. country and year).
 #' @return TRUE if data_table is unique, FALSE and a warning if it is not.
+#' @family update_dataset_helpers
+#' @export
 test_uniqueness <- function(data_table, index_vars, print_pos=TRUE){
   data_table <- data.table::as.data.table(data_table)
   if (nrow(data_table)!=data.table::uniqueN(data_table, by = index_vars)){
@@ -33,6 +35,7 @@ test_uniqueness <- function(data_table, index_vars, print_pos=TRUE){
 #'
 #' @param x An input that is potentially a factor
 #' @return x as an integer
+#' @family update_dataset_helpers
 unfactor <- function(x){
   y <- as.integer(as.character(x))
   return(y)
@@ -44,6 +47,8 @@ unfactor <- function(x){
 #'
 #' @param countries_to_get A code for a pre-specified country list
 #' @return A vector with country codes
+#' @family update_dataset_helpers
+#' @export
 get_countries <- function(countries_to_get){
 
   pre_spec_country_lists <- list(

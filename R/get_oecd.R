@@ -1,6 +1,13 @@
 #' Gets OECD data
 #'
 #' Calls all functions to collect and merge OECD data
+#'
+#' @param download_data If TRUE, data will be downloaded from the internet
+#' @param countries_considered Vector of iso3c codes of the countries for
+#'  which data should be assembled.
+#' @param first_year First year for which data is to be collected (numeric).
+#' @param last_year Last year for which data is to be collected (numeric).
+#' @family download_helpers
 get_oecd_data <- function(download_data, countries_considered,
                           first_year, last_year){
   print("Start getting OECD data...")

@@ -5,12 +5,21 @@
 #' \code{update_data} function updates the data.
 #'
 #'  \code{update_data} function updates the data set. To function properly it
-#'  requires access to the internet. The data can also be updated selectively.
+#'  requires access to the internet, but an offline update is possible with
+#'  \code{download_data=FALSE}. The data can also be updated selectively, but
+#'  this functionality is not well tested.
 #'
-#' @param updata_full Should all data be downloaded anew (if true), or should
+#' @param download_data Should all data be downloaded anew (if true), or should
 #'     previously downloaded data be used (if false)?
 #' @param vars Specifies the variables to be updated as strings. Default is all.
+#' @param countries The iso3c codes of the countries to be considered. Uses
+#'  \code{\link{get_countries}}, so pre-defined lists there can be used.
+#' @param start_year
+#' @param end_year
 #' @return Returns the updated data set.
+#' @seealso \code{\link{get_countries}} to see which pre-defined country sets
+#'  are available.
+#' @family update_dataset
 #' @export
 update_macro_data <- function(
   download_data=FALSE,
@@ -23,9 +32,6 @@ update_macro_data <- function(
   print(paste0("Downloading data: ", data_download))
 
   countries_used <- get_countries(countries) # countries_considered
-
-  # first_year <- start_year
-  # last_year <- end_year
 
   ameco_data <- get_ameco(data_download,
                           countries_used,

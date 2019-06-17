@@ -7,6 +7,12 @@
 #'  manually and placed in the data-raw folder. It then can be processed using
 #'  this function. This is done to avoid any functions that rely on JAVA, since
 #'  this often becomes problematic in practice.
+#' @param download_data If TRUE, data will be downloaded from the internet
+#' @param countries_considered Vector of iso3c codes of the countries for
+#'  which data should be assembled.
+#' @param first_year First year for which data is to be collected (numeric).
+#' @param last_year Last year for which data is to be collected (numeric).
+#' @family download_helpers
 get_lmf <- function(download_data, countries_considered,
                     first_year, last_year){
   print("LMF data...")

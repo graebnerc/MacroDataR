@@ -4,6 +4,13 @@
 #'
 #' Downloads data on country and product complexity from the MIT Observatory
 #'  of Economic Complexity, and the Harvard Atlas of Economic Complexity.
+#'
+#' @param download_data If TRUE, data will be downloaded from the internet
+#' @param countries_considered Vector of iso3c codes of the countries for
+#'  which data should be assembled.
+#' @param first_year First year for which data is to be collected (numeric).
+#' @param last_year Last year for which data is to be collected (numeric).
+#' @family download_helpers
 get_complexity <- function(download_data, countries_considered,
                            first_year, last_year){
   print("Complexity data...")
