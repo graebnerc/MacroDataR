@@ -52,6 +52,10 @@ update_macro_data <- function(download_data=FALSE, vars="all", countries="EU",
                       countries_used,
                       start_year, end_year)
 
+  barro_lee_data <- get_barro_lee(data_download,
+                                  countries_used,
+                                  start_year, end_year)
+
   complexity_data <- get_complexity(data_download,
                                     countries_used,
                                     start_year, end_year)
