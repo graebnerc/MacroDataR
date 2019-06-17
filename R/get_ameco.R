@@ -618,7 +618,6 @@ get_ameco <- function(download_data, countries_considered,
                             ameco10, ameco_sect_balances)
   )
 
-
   ameco_full <- ameco_full[, .(year=as.double(as.character(year)),
                                iso3c=COUNTRY,
                                cap_form,
@@ -639,5 +638,6 @@ get_ameco <- function(download_data, countries_considered,
   print("...test for uniqueness of ameco_full...")
   stopifnot(test_uniqueness(ameco_full, c("iso3c", "year")))
   print("....finished.")
+  return(ameco_full)
 }
 
