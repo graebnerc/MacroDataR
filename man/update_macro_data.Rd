@@ -2,24 +2,38 @@
 % Please edit documentation in R/update_macro_data.R
 \name{update_macro_data}
 \alias{update_macro_data}
-\title{Updata data}
+\title{Update data}
 \usage{
-update_macro_data(update_full = FALSE, vars = "all")
+update_macro_data(download_data = FALSE, vars = "all",
+  countries = "EU", start_year = 1962, end_year = 2018)
 }
 \arguments{
+\item{download_data}{Should all data be downloaded anew (if true), or should
+previously downloaded data be used (if false)?}
+
 \item{vars}{Specifies the variables to be updated as strings. Default is all.}
 
-\item{updata_full}{Should all data be downloaded anew (if true), or should
-previously downloaded data be used (if false)?}
+\item{countries}{The iso3c codes of the countries to be considered. Uses
+\code{\link{get_countries}}, so pre-defined lists there can be used.}
+
+\item{start_year}{The first year to be considered (as numeric).}
+
+\item{end_year}{The last year to be considered (as numeric).}
 }
 \value{
 Returns the updated data set.
-TODO: Maybe only information?
 }
 \description{
 \code{update_data} function updates the data.
 }
 \details{
 \code{update_data} function updates the data set. To function properly it
- requires access to the internet. The data can also be updated selectively.
+ requires access to the internet, but an offline update is possible with
+ \code{download_data=FALSE}. The data can also be updated selectively, but
+ this functionality is not well tested.
 }
+\seealso{
+\code{\link{get_countries}} to see which pre-defined country sets
+ are available.
+}
+\concept{update_dataset}
