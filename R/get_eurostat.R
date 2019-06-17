@@ -1,5 +1,6 @@
 get_eurostat_bond_data <- function(download_data, countries_considered,
                                    first_year, last_year){
+  print("Getting eurostat bond data...")
   eurostat_file_name <- "data-raw/eurostat_bond_data.csv"
 
   if (download_data | !file.exists((paste0(eurostat_file_name, ".gz")))){
@@ -29,7 +30,6 @@ get_eurostat_bond_data <- function(download_data, countries_considered,
   } else {
     eurostat_bond_data_raw <- data.table::fread(paste0(eurostat_file_name, ".gz"))
   }
+  print("finished.")
   return(eurostat_bond_data_raw)
 }
-
-
