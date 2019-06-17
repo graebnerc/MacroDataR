@@ -48,6 +48,10 @@ update_macro_data <- function(download_data=FALSE, vars="all", countries="EU",
                                   countries_used,
                                   start_year, end_year)
 
+  kof_data <- get_kof(data_download,
+                      countries_used,
+                      start_year, end_year)
+
   #-----
 
   print("Merging data...")
