@@ -42,6 +42,8 @@ Here goes the documentation of the data set. Note that you can also look at `dat
 | gdp_nom_ppp             | GDP, PPP (current int $)                                                                                    | current int $ | [World Bank][15]
 | gdp_nom_pc_ppp          | GDP, PPP per capita (current int $)                                                                         | current int $ per capita | [World Bank][16]     
 | cpi_harm                     | Harmonised consumer price index (all items)                                                                 | 2015 = 100           | [AMECO][16]       |
+| cpi_wb                     | Harmonised consumer price index (all items)                                                                 | 2010 = 100           | [World Bank][51]       |
+| cpi_change_wb                     | Inflation                                                                 | 2015 = 100           | [World Bank][52]       |
 | unemp_rate              | Unemployment rate                                                                                           | % of active population | [AMECO][16]     |
 | unemp_rate_wb | Unemployment rate from World Bank (modeled ILO estimate) | % of total labor force | [World Bank][48] | 
 | cap_form                | Gross fixed capital formation, total economy                                                                | current prices       | [AMECO][16]       |
@@ -124,6 +126,8 @@ Here goes the documentation of the data set. Note that you can also look at `dat
 | sect_balance_priv_corp | Financial balance of private corporate sector: Net lending of corporations (sheet 14) divided by GDP current prices (sheet 6) | % of GDP |  [AMECO][16] |
 | sect_balance_priv_HH | Financial balance of household sector: Net lending of households and NPISH (sheet 15) divided by GDP current prices (sheet 6) | % of GDP |  [AMECO][16] |
 | sect_balance_priv | Financial balance of private sector: sect_balance_priv_corp + sect_balance_priv_HH | % of GDP |  [AMECO][16] |
+| interest_real | Lending interest rate adjusted for inflation as measured by the GDP deflator. Terms and conditions attached to lending rates differ by country, however, limiting their comparability. | Percent |  [World Bank][53] |
+
 
 [1]: https://unstats.un.org/unsd/tradekb/knowledgebase/country-code
 [2]: https://data.worldbank.org/indicator/ny.gdp.totl.rt.zs
@@ -175,6 +179,9 @@ Here goes the documentation of the data set. Note that you can also look at `dat
 [48]: https://data.worldbank.org/indicator/SL.UEM.TOTL.ZS
 [49]: https://data.worldbank.org/indicator/SL.TLF.TOTL.IN
 [50]: http://appsso.eurostat.ec.europa.eu/nui/show.do?dataset=irt_lt_mcby_a&lang=en
+[51]: https://data.worldbank.org/indicator/FP.CPI.TOTL
+[52]: https://data.worldbank.org/indicator/FP.CPI.TOTL.ZG
+[53]: https://data.worldbank.org/indicator/FR.INR.RINR
 
 ## Open issues
 

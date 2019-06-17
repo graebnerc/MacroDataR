@@ -1,0 +1,1323 @@
+\documentclass[]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\hypersetup{unicode=true,
+            pdftitle={Macroeconomic data},
+            pdfauthor={Claudius Gräbner},
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage{longtable,booktabs}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+%%% Use protect on footnotes to avoid problems with footnotes in titles
+\let\rmarkdownfootnote\footnote%
+\def\footnote{\protect\rmarkdownfootnote}
+
+%%% Change title format to be more compact
+\usepackage{titling}
+
+% Create subtitle command for use in maketitle
+\newcommand{\subtitle}[1]{
+  \posttitle{
+    \begin{center}\large#1\end{center}
+    }
+}
+
+\setlength{\droptitle}{-2em}
+
+  \title{Macroeconomic data}
+    \pretitle{\vspace{\droptitle}\centering\huge}
+  \posttitle{\par}
+    \author{Claudius Gräbner}
+    \preauthor{\centering\large\emph}
+  \postauthor{\par}
+      \predate{\centering\large\emph}
+  \postdate{\par}
+    \date{2019-06-17}
+
+
+\begin{document}
+\maketitle
+
+\section{Information about the data
+set}\label{information-about-the-data-set}
+
+\subsection{Meta data}\label{meta-data}
+
+Here goes the documentation of the data set. Note that you can also look
+at \texttt{data-raw/macro\_data.R} to see how the data gets constructed.
+
+\begin{longtable}[]{@{}lccc@{}}
+\toprule
+\begin{minipage}[b]{0.14\columnwidth}\raggedright\strut
+Variable\strut
+\end{minipage} & \begin{minipage}[b]{0.36\columnwidth}\centering\strut
+Description\strut
+\end{minipage} & \begin{minipage}[b]{0.24\columnwidth}\centering\strut
+Unit\strut
+\end{minipage} & \begin{minipage}[b]{0.15\columnwidth}\centering\strut
+Source\strut
+\end{minipage}\tabularnewline
+\midrule
+\endhead
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+iso3c\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+The iso3 country code\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+iso3c\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+\href{https://unstats.un.org/unsd/tradekb/knowledgebase/country-code}{Info}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+year\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+The year of observation\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+NA\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+res\_rents\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+Natural ressource rents\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+\% of GDP\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+\href{https://data.worldbank.org/indicator/ny.gdp.totl.rt.zs}{World
+Bank}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+gdp\_real\_lcu\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+Real GDP in constant LCU\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+constant LCU\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+\href{https://data.worldbank.org/indicator/NY.GDP.MKTP.KN}{World
+Bank}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+gdp\_real\_lcu\_growth\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+Real GDP growth (constant LCU)\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+\% change\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+\href{https://data.worldbank.org/indicator/NY.GDP.PCAP.KN}{World
+Bank}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+gdp\_real\_pc\_lcu\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+Real GDP per capita (constant LCU)\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+constant LCU per capita\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+\href{https://data.worldbank.org/indicator/NY.GDP.PCAP.KD.ZG}{World
+Bank}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+gdp\_real\_pc\_lcu\_growth\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+Real GDP per capita growth (constant LCU)\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+\% change\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+\href{https://data.worldbank.org/indicator/NY.GDP.MKTP.KD}{World
+Bank}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+gdp\_real\_usd\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+Real GDP (constant 2010 US\$)\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+constant 2010 US\$\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+\href{https://data.worldbank.org/indicator/NY.GDP.PCAP.KD}{World
+Bank}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+gdp\_real\_pc\_usd\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+Real GDP per capita (constant 2010 US\$)\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+constant 2010 US\$ per capita\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+\href{https://data.worldbank.org/indicator/NY.GDP.MKTP.CN}{World
+Bank}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+gdp\_nom\_lcu\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+Nominal GDP (current LCU)\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+current LCU\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+\href{https://data.worldbank.org/indicator/NY.GDP.PCAP.CN}{World
+Bank}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+gdp\_nom\_pc\_lcu\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+Nominal GDP per capita (current LCU)\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+current LCU per capita\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+\href{https://data.worldbank.org/indicator/NY.GDP.MKTP.CD}{World
+Bank}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+gdp\_nom\_usd\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+Nominal GDP (current US\$)\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+current US\$\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+\href{https://data.worldbank.org/indicator/NY.GDP.PCAP.CD}{World
+Bank}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+gdp\_nom\_pc\_usd\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+Nominal GDP per capita (current US\$)\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+current US\$ per capita\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+\href{https://data.worldbank.org/indicator/NY.GDP.MKTP.PP.KD}{World
+Bank}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+gdp\_real\_ppp\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+GDP, PPP (constant 2011 int \$)\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+constant 2011 int \$\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+\href{https://data.worldbank.org/indicator/NY.GDP.PCAP.PP.KD}{World
+Bank}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+gdp\_real\_pc\_ppp\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+GDP, PPP per capita (constant 2011 int \$)\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+constant 2011 int \$ per capita\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+\href{https://data.worldbank.org/indicator/NY.GDP.MKTP.PP.CD}{World
+Bank}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+gdp\_nom\_ppp\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+GDP, PPP (current int \$)\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+current int \$\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+\href{https://data.worldbank.org/indicator/NY.GDP.PCAP.PP.CD}{World
+Bank}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+gdp\_nom\_pc\_ppp\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+GDP, PPP per capita (current int \$)\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+current int \$ per capita\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+\href{https://ec.europa.eu/info/business-economy-euro/indicators-statistics/economic-databases/macro-economic-database-ameco/download-annual-data-set-macro-economic-database-ameco_en}{World
+Bank}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+cpi\_harm\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+Harmonised consumer price index (all items)\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+2015 = 100\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+\href{https://ec.europa.eu/info/business-economy-euro/indicators-statistics/economic-databases/macro-economic-database-ameco/download-annual-data-set-macro-economic-database-ameco_en}{AMECO}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+cpi\_wb\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+Harmonised consumer price index (all items)\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+2010 = 100\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+\href{https://data.worldbank.org/indicator/FP.CPI.TOTL}{World
+Bank}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+cpi\_change\_wb\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+Inflation\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+2015 = 100\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+\href{https://data.worldbank.org/indicator/FP.CPI.TOTL.ZG}{World
+Bank}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+unemp\_rate\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+Unemployment rate\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+\% of active population\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+\href{https://ec.europa.eu/info/business-economy-euro/indicators-statistics/economic-databases/macro-economic-database-ameco/download-annual-data-set-macro-economic-database-ameco_en}{AMECO}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+unemp\_rate\_wb\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+Unemployment rate from World Bank (modeled ILO estimate)\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+\% of total labor force\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+\href{https://data.worldbank.org/indicator/SL.UEM.TOTL.ZS}{World
+Bank}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+cap\_form\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+Gross fixed capital formation, total economy\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+current prices\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+\href{https://ec.europa.eu/info/business-economy-euro/indicators-statistics/economic-databases/macro-economic-database-ameco/download-annual-data-set-macro-economic-database-ameco_en}{AMECO}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+wage\_share\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+Adjusted wage share\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+\% of GDP\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+\href{https://ec.europa.eu/info/business-economy-euro/indicators-statistics/economic-databases/macro-economic-database-ameco/download-annual-data-set-macro-economic-database-ameco_en}{AMECO}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+rulc\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+Real unit labour costs: total economy (Ratio compensation per employee
+to nominal GDP per pers employed.)\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+2010=100\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+\href{https://ec.europa.eu/info/business-economy-euro/indicators-statistics/economic-databases/macro-economic-database-ameco/download-annual-data-set-macro-economic-database-ameco_en}{AMECO}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+nulc\_nac\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+Nominal unit labour costs: total economy (Ratio compensation per
+employee to real GDP per pers employed.)\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+Loc curr: 2010 = 100\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+\href{https://ec.europa.eu/info/business-economy-euro/indicators-statistics/economic-databases/macro-economic-database-ameco/download-annual-data-set-macro-economic-database-ameco_en}{AMECO}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+nulc\_eur\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+Nominal unit labour costs: total economy (Ratio compensation per
+employee to real GDP per pers employed.)\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+EUR: 2010 = 100\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+\href{https://ec.europa.eu/info/business-economy-euro/indicators-statistics/economic-databases/macro-economic-database-ameco/download-annual-data-set-macro-economic-database-ameco_en}{AMECO}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+eci\_harv\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+Economic Complexity Index (ECI)\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+Index\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+\href{http://atlas.cid.harvard.edu/downloads}{Harvard}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+eci\_rank\_harv\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+Rank of the country according to the ECI\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+Index\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+\href{http://atlas.cid.harvard.edu/downloads}{Harvard}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+eci\_mit\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+Economic Complexity Index (ECI)\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+Index\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+\href{https://atlas.media.mit.edu/en/resources/data/}{MIT}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+eci\_rank\_mit\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+Rank of the country according to the ECI\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+Index\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+\href{https://atlas.media.mit.edu/en/resources/data/}{MIT}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+current\_account\_GDP\_WB\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+Sum of net exports of goods and services, net primary income, and net
+secondary income.\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+\% of GDP\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+\href{https://data.worldbank.org/indicator/BN.CAB.XOKA.GD.ZS}{World
+Bank}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+current\_account\_GDP\_ameco\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+Sum of net exports of goods and services, net primary income, and net
+secondary income.\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+\% of GDP\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+\href{https://ec.europa.eu/info/business-economy-euro/indicators-statistics/economic-databases/macro-economic-database-ameco/download-annual-data-set-macro-economic-database-ameco_en}{AMECO}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+population\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+Total population (midyear estimates).\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+People\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+\href{https://data.worldbank.org/indicator/SP.POP.TOTL}{World
+Bank}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+population\_ameco\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+Total population (more years but less countries than WB).\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+1000 people\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+\href{https://ec.europa.eu/info/business-economy-euro/indicators-statistics/economic-databases/macro-economic-database-ameco/download-annual-data-set-macro-economic-database-ameco_en}{AMECO}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+debt\_corp\_nf\_percGDP\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+Debt of non-financial corporations (\texttt{DBTS11GDP}).\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+\% of GDP\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+\href{https://stats.oecd.org/Index.aspx?DataSetCode=FIN_IND_FBS}{OECD
+(FIN\_IND\_FBS)}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+debt\_corp\_f\_percGDP\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+Debt of financial corporations (\texttt{DBTS12GDP}).\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+\% of GDP\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+\href{https://stats.oecd.org/Index.aspx?DataSetCode=FIN_IND_FBS}{OECD
+(FIN\_IND\_FBS)}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+debt\_gen\_gov\_percGDP\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+Debt of general government (\texttt{DBTS13GDP}).\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+\% of GDP\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+\href{https://stats.oecd.org/Index.aspx?DataSetCode=FIN_IND_FBS}{OECD
+(FIN\_IND\_FBS)}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+debt\_hh\_npish\_percGDI\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+Debts of households and NPISHs (\texttt{DBTS14\_S15GDI}).\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+\% of GDI\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+\href{https://stats.oecd.org/Index.aspx?DataSetCode=FIN_IND_FBS}{OECD
+(FIN\_IND\_FBS)}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+total\_debt\_percGDP\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+Debt of the total economy (\texttt{DBTS1GDP}).\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+\% of GDP\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+\href{https://stats.oecd.org/Index.aspx?DataSetCode=FIN_IND_FBS}{OECD
+(FIN\_IND\_FBS)}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+empl\_ind\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+Employment in industry\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+\% of total employment\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+\href{https://data.worldbank.org/indicator/sl.ind.empl.zs}{World
+Bank}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+empl\_agr\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+Employment in agriculture\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+\% of total employment\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+\href{https://data.worldbank.org/indicator/SL.AGR.EMPL.ZS}{World
+Bank}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+empl\_serv\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+Employment in services\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+\% of total employment\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+\href{https://data.worldbank.org/indicator/SL.SRV.EMPL.ZS}{World
+Bank}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+empl\_self\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+Self-employed\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+\% of total employment\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+\href{https://data.worldbank.org/indicator/SL.EMP.SELF.ZS}{World
+Bank}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+unemp\_youth\_neet\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+Share of youth not in education, employment of training\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+\% of youth population\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+\href{https://data.worldbank.org/indicator/SL.UEM.NEET.ZS}{World
+Bank}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+VA\_industry\_gdp\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+Value added of industry (including construction)\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+\% of GDP\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+\href{https://data.worldbank.org/indicator/NV.IND.TOTL.ZS}{World
+Bank}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+VA\_manufct\_gdp\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+Value added of manufacturing\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+\% of GDP\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+\href{https://data.worldbank.org/indicator/NV.IND.MANF.ZS}{World
+Bank}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+wgi\_accountability\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+Voice and Accountability captures perceptions of the extent to which a
+country's citizens are able to participate in selecting their
+government, as well as freedom of expression, freedom of association,
+and a free media (this is the estimate, errors and percentiles are also
+\href{https://info.worldbank.org/governance/wgi/\#home}{available}).\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+Index (-2.5 to 2.5)\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+WGI \href{https://info.worldbank.org/governance/wgi/\#home}{home}
+\href{https://api.worldbank.org/v2/sources/3/indicators}{API}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+wgi\_control\_corrupt\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+Control of Corruption captures perceptions of the extent to which public
+power is exercised for private gain, including both petty and grand
+forms of corruption, as well as ``capture'' of the state by elites and
+private interests (this is the estimate, errors and percentiles are also
+\href{https://info.worldbank.org/governance/wgi/\#home}{available}).\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+Index (-2.5 to 2.5)\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+WGI \href{https://info.worldbank.org/governance/wgi/\#home}{home}
+\href{https://api.worldbank.org/v2/sources/3/indicators}{API}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+wgi\_gov\_effectvn\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+Government Effectiveness captures perceptions of the quality of public
+services, the quality of the civil service and the degree of its
+independence from political pressures, the quality of policy formulation
+and implementation, and the credibility of the government's commitment
+to such policies (this is the estimate, errors and percentiles are also
+\href{https://info.worldbank.org/governance/wgi/\#home}{available}).\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+Index (-2.5 to 2.5)\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+WGI \href{https://info.worldbank.org/governance/wgi/\#home}{home}
+\href{https://api.worldbank.org/v2/sources/3/indicators}{API}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+wgi\_pol\_stability\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+Political Stability and Absence of Violence/Terrorism captures
+perceptions of the likelihood that the government will be destabilized
+or overthrown by unconstitutional or violent means, including
+politically-motivated violence and terrorism (this is the estimate,
+errors and percentiles are also
+\href{https://info.worldbank.org/governance/wgi/\#home}{available}).\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+Index (-2.5 to 2.5)\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+WGI \href{https://info.worldbank.org/governance/wgi/\#home}{home}
+\href{https://api.worldbank.org/v2/sources/3/indicators}{API}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+wgi\_rule\_of\_law\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+Rule of Law captures perceptions of the extent to which agents have
+confidence in and abide by the rules of society, and in particular the
+quality of contract enforcement, property rights, the police, and the
+courts, as well as the likelihood of crime and violence. (this is the
+estimate, errors and percentiles are also
+\href{https://info.worldbank.org/governance/wgi/\#home}{available}).\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+Index (-2.5 to 2.5)\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+WGI \href{https://info.worldbank.org/governance/wgi/\#home}{home}
+\href{https://api.worldbank.org/v2/sources/3/indicators}{API}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+wgi\_regul\_quality\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+Regulatory Quality captures perceptions of the ability of the government
+to formulate and implement sound policies and regulations that permit
+and promote private sector development (this is the estimate, errors and
+percentiles are also
+\href{https://info.worldbank.org/governance/wgi/\#home}{available}).\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+Index (-2.5 to 2.5)\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+WGI \href{https://info.worldbank.org/governance/wgi/\#home}{home}
+\href{https://api.worldbank.org/v2/sources/3/indicators}{API}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+fdi\_net\_inflow\_GDP\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+Foreign direct investment, net inflows\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+\% of GDP\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+\href{https://data.worldbank.org/indicator/BX.KLT.DINV.WD.GD.ZS}{World
+Bank}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+fdi\_net\_outflow\_GDP\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+Foreign direct investment, net outflows\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+\% of GDP\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+\href{https://data.worldbank.org/indicator/BM.KLT.DINV.WD.GD.ZS}{World
+Bank}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+tax\_rev\_total\_GDP\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+Tax revenue\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+\% of GDP\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+\href{https://data.worldbank.org/indicator/GC.TAX.TOTL.GD.ZS}{World
+Bank}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+tax\_rev\_trade\_TAX\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+Taxes on international trade\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+\% of revenue\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+\href{https://data.worldbank.org/indicator/GC.TAX.INTT.RV.ZS}{World
+Bank}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+tax\_rev\_inc\_profits\_TAX\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+Taxes on income, profits and capital gains\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+\% of revenue\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+\href{https://data.worldbank.org/indicator/GC.TAX.YPKG.RV.ZS}{World
+Bank}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+trade\_total\_GDP\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+Trade is the sum of exports and imports of goods and services measured
+as a share of gross domestic product\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+\% of GDP\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+\href{https://data.worldbank.org/indicator/NE.TRD.GNFS.ZS}{World
+Bank}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+trade\_exp\_GDP\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+Exports of goods and services\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+\% of GDP\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+\href{https://data.worldbank.org/indicator/NE.EXP.GNFS.ZS}{World
+Bank}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+trade\_imp\_GDP\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+Imports of goods and services\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+\% of GDP\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+\href{https://data.worldbank.org/indicator/NE.IMP.GNFS.ZS}{World
+Bank}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+RD\_expend\_GDP\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+Research and development expenditure\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+\% of GDP\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+\href{https://data.worldbank.org/indicator/GB.XPD.RSDV.GD.ZS}{World
+Bank}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+RD\_scientists\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+The number of researchers engaged in Research \&Development (R\&D)\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+Persons per per million people\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+\href{https://data.worldbank.org/indicator/SP.POP.SCIE.RD.P6}{World
+Bank}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+interest\_long\_term\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+Interest rates of long term (in most cases 10 year) government bonds
+(\texttt{IRLT}).\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+Per cent\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+\href{https://stats.oecd.org/Index.aspx?DataSetCode=MEI_FIN}{OECD
+(MEI\_FIN)}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+average\_wages\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+Average annual wages per full-time and full-year equivalent employee in
+the total economy.\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+2017 USD PPPs\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+\href{https://stats.oecd.org/Index.aspx?DataSetCode=AV_AN_WAGE}{OECD
+(AV\_AN\_WAGE)}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+debt\_gen\_gvt\_gross\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+Government gross debt-to-GDP ratio (\texttt{DBTS13GDP}).\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+\% of GDP\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+\href{https://stats.oecd.org/Index.aspx?DataSetCode=NAAG}{OECD
+(NAAG)}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+school\_agv\_yrs\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+Average Years of Schooling Attained\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+Share of population over 15\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+\href{http://www.barrolee.com/}{Barro-Lee}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+school\_share\_sec\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+Percentage of Complete Secondary Schooling Attained\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+Share of population over 15\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+\href{http://www.barrolee.com/}{Barro-Lee}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+school\_share\_ter\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+Percentage of Complete Tertiary Schooling Attained\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+Share of population over 15\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+\href{http://www.barrolee.com/}{Barro-Lee}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+kof\_G\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+KOF Globalisation Index\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+Index\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+\href{https://www.kof.ethz.ch/en/forecasts-and-indicators/indicators/kof-globalisation-index.html}{KOF
+Institute}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+kof\_G\_df\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+KOF Globalisation Index, de facto\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+Index\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+\href{https://www.kof.ethz.ch/en/forecasts-and-indicators/indicators/kof-globalisation-index.html}{KOF
+Institute}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+kof\_G\_dj\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+KOF Globalisation Index, de jure\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+Index\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+\href{https://www.kof.ethz.ch/en/forecasts-and-indicators/indicators/kof-globalisation-index.html}{KOF
+Institute}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+kof\_EcG\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+KOF Economic Globalisation Index\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+Index\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+\href{https://www.kof.ethz.ch/en/forecasts-and-indicators/indicators/kof-globalisation-index.html}{KOF
+Institute}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+kof\_EcG\_df\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+KOF Economic Globalisation Index, de facto\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+Index\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+\href{https://www.kof.ethz.ch/en/forecasts-and-indicators/indicators/kof-globalisation-index.html}{KOF
+Institute}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+kof\_EcG\_dj\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+KOF Economic Globalisation Index, de jure\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+Index\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+\href{https://www.kof.ethz.ch/en/forecasts-and-indicators/indicators/kof-globalisation-index.html}{KOF
+Institute}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+kof\_trade\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+KOF Trade Globalisation Index\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+Index\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+\href{https://www.kof.ethz.ch/en/forecasts-and-indicators/indicators/kof-globalisation-index.html}{KOF
+Institute}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+kof\_trade\_df\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+KOF Trade Globalisation Index, de facto\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+Index\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+\href{https://www.kof.ethz.ch/en/forecasts-and-indicators/indicators/kof-globalisation-index.html}{KOF
+Institute}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+kof\_trade\_dj\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+KOF Trade Globalisation Index, de jure\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+Index\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+\href{https://www.kof.ethz.ch/en/forecasts-and-indicators/indicators/kof-globalisation-index.html}{KOF
+Institute}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+kof\_fin\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+KOF Financial Globalisation Index\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+Index\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+\href{https://www.kof.ethz.ch/en/forecasts-and-indicators/indicators/kof-globalisation-index.html}{KOF
+Institute}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+kof\_fin\_df\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+KOF Financial Globalisation Index, de facto\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+Index\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+\href{https://www.kof.ethz.ch/en/forecasts-and-indicators/indicators/kof-globalisation-index.html}{KOF
+Institute}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+kof\_fin\_dj\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+KOF Financial Globalisation Index, de jure\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+Index\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+\href{https://www.kof.ethz.ch/en/forecasts-and-indicators/indicators/kof-globalisation-index.html}{KOF
+Institute}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+chinn\_ito\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+Measure for a country's degree of capital account openness.\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+Index\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+\href{http://web.pdx.edu/~ito/Chinn-Ito_website.htm}{Chinn and
+Ito}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+chinn\_ito\_normed\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+\texttt{chinn\_ito} normalized bwetween 0 and 1\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+Index\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+\href{http://web.pdx.edu/~ito/Chinn-Ito_website.htm}{Chinn and
+Ito}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+lmf\_port\_eq\_asst\_stock\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+Portfolio equity assets (stock)\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+Current US dollars, millions\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+\href{http://www.philiplane.org/EWN.html}{LMF database}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+lmf\_port\_eq\_liab\_stock\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+Portfolio equity liabilities (stock)\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+Current US dollars, millions\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+\href{http://www.philiplane.org/EWN.html}{LMF database}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+lmf\_port\_dbt\_asst\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+Portfolio debt assets\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+Current US dollars, millions\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+\href{http://www.philiplane.org/EWN.html}{LMF database}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+lmf\_port\_dbt\_liab\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+Portfolio debt liabilities\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+Current US dollars, millions\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+\href{http://www.philiplane.org/EWN.html}{LMF database}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+lmf\_fdi\_asst\_stock\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+FDI assets (stock)\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+Current US dollars, millions\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+\href{http://www.philiplane.org/EWN.html}{LMF database}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+lmf\_fdi\_asst\_other\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+FDI assets (other)\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+Current US dollars, millions\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+\href{http://www.philiplane.org/EWN.html}{LMF database}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+lmf\_fdi\_liab\_stock\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+FDI liabilities (stock)\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+Current US dollars, millions\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+\href{http://www.philiplane.org/EWN.html}{LMF database}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+lmf\_fdi\_liab\_other\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+FDI liabilities (other)\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+Current US dollars, millions\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+\href{http://www.philiplane.org/EWN.html}{LMF database}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+lmf\_debt\_asst\_stock\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+Debt assets (stock): sum of ``portfolio debt securities'' and ``other
+investment'' (but not FDI intercompany debt, which is in the FDI
+statistics).\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+Current US dollars, millions\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+\href{http://www.philiplane.org/EWN.html}{LMF database}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+lmf\_debt\_liab\_stock\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+Debt liabilities (stock): sum of ``portfolio debt securities'' and
+``other investment'' (but not FDI intercompany debt, which is in the FDI
+statistics).\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+Current US dollars, millions\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+\href{http://www.philiplane.org/EWN.html}{LMF database}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+lmf\_nfa\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+Alternative FDI or equity valuation: includes net foreign assets using
+FDI or equity assets and liabilities estimated using different
+methodologies.\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+Current US dollars, millions\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+\href{http://www.philiplane.org/EWN.html}{LMF database}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+lmf\_nfa\_gdp\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+NFA/GDP\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+\% of GDP (current USD)\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+\href{http://www.philiplane.org/EWN.html}{LMF database}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+labor\_force\_total\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+Labor force comprises people ages 15 and older who supply labor for the
+production of goods and services during a specified period. It includes
+people who are currently employed and people who are unemployed but
+seeking work as well as first-time job-seekers.\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+Nb of people\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+\href{https://data.worldbank.org/indicator/SL.UEM.TOTL.ZS}{World
+Bank}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+bond\_yield\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+Central government bond yields on the secondary market, gross of tax,
+with a residual maturity of around 10 years, as outlined in Art 121 of
+the Maastricht Treaty, where it is used as a measure for
+convergence.\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+Interest rate\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+\href{http://appsso.eurostat.ec.europa.eu/nui/show.do?dataset=irt_lt_mcby_a\&lang=en}{Eurostat}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+sect\_balance\_foreign\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+Financial balance of foreign sector: Balances with RoW in \% of GDP
+(sheet 10) multiplied with -1\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+\% of GDP\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+\href{https://ec.europa.eu/info/business-economy-euro/indicators-statistics/economic-databases/macro-economic-database-ameco/download-annual-data-set-macro-economic-database-ameco_en}{AMECO}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+sect\_balance\_gvnt\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+Financial balance of government sector: net lending of general
+government (sheet 16)\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+\% of GDP\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+\href{https://ec.europa.eu/info/business-economy-euro/indicators-statistics/economic-databases/macro-economic-database-ameco/download-annual-data-set-macro-economic-database-ameco_en}{AMECO}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+sect\_balance\_priv\_corp\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+Financial balance of private corporate sector: Net lending of
+corporations (sheet 14) divided by GDP current prices (sheet 6)\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+\% of GDP\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+\href{https://ec.europa.eu/info/business-economy-euro/indicators-statistics/economic-databases/macro-economic-database-ameco/download-annual-data-set-macro-economic-database-ameco_en}{AMECO}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+sect\_balance\_priv\_HH\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+Financial balance of household sector: Net lending of households and
+NPISH (sheet 15) divided by GDP current prices (sheet 6)\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+\% of GDP\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+\href{https://ec.europa.eu/info/business-economy-euro/indicators-statistics/economic-databases/macro-economic-database-ameco/download-annual-data-set-macro-economic-database-ameco_en}{AMECO}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+sect\_balance\_priv\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+Financial balance of private sector: sect\_balance\_priv\_corp +
+sect\_balance\_priv\_HH\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+\% of GDP\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+\href{https://ec.europa.eu/info/business-economy-euro/indicators-statistics/economic-databases/macro-economic-database-ameco/download-annual-data-set-macro-economic-database-ameco_en}{AMECO}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright\strut
+interest\_real\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\centering\strut
+Lending interest rate adjusted for inflation as measured by the GDP
+deflator. Terms and conditions attached to lending rates differ by
+country, however, limiting their comparability.\strut
+\end{minipage} & \begin{minipage}[t]{0.24\columnwidth}\centering\strut
+Percent\strut
+\end{minipage} & \begin{minipage}[t]{0.15\columnwidth}\centering\strut
+\href{https://data.worldbank.org/indicator/FR.INR.RINR}{World
+Bank}\strut
+\end{minipage}\tabularnewline
+\bottomrule
+\end{longtable}
+
+\subsection{Open issues}\label{open-issues}
+
+\begin{itemize}
+\tightlist
+\item
+  Add more tests for duplicated rows, just as with AMECO
+\end{itemize}
+
+\subsection{Descriptive statistics}\label{descriptive-statistics}
+
+Here is more information about the data.
+
+\begin{longtable}[]{@{}lrrr@{}}
+\caption{The descriptive statistics}\tabularnewline
+\toprule
+variable & mean & sd & obs\tabularnewline
+\midrule
+\endfirsthead
+\toprule
+variable & mean & sd & obs\tabularnewline
+\midrule
+\endhead
+average\_wages & 3.482449e+04 & 1.187282e+04 & 570\tabularnewline
+bond\_yield & 6.109006e+00 & 3.890869e+00 & 674\tabularnewline
+cap\_form & 7.400317e+01 & 1.200996e+02 & 1143\tabularnewline
+chinn\_ito & 1.257337e+00 & 1.349416e+00 & 819\tabularnewline
+chinn\_ito\_normed & 7.417914e-01 & 3.159909e-01 & 819\tabularnewline
+cpi\_change\_wb & 1.016041e+01 & 5.611226e+01 & 1072\tabularnewline
+cpi\_harm & 8.383500e+01 & 1.675395e+01 & 632\tabularnewline
+cpi\_wb & 5.840867e+01 & 3.603998e+01 & 1079\tabularnewline
+current\_account\_GDP\_ameco & -5.580494e-01 & 4.440652e+00 &
+1083\tabularnewline
+current\_account\_GDP\_WB & -5.801584e-01 & 4.606344e+00 &
+733\tabularnewline
+debt\_corp\_f\_percGDP & 5.345272e+02 & 1.222250e+03 &
+503\tabularnewline
+debt\_corp\_nf\_percGDP & 1.317964e+02 & 5.724615e+01 &
+503\tabularnewline
+debt\_gen\_gov\_percGDP & 6.880335e+01 & 3.575374e+01 &
+507\tabularnewline
+debt\_gen\_gvt\_gross & 6.880335e+01 & 3.575374e+01 & 507\tabularnewline
+debt\_hh\_npish\_percGDI & 9.560289e+01 & 6.303779e+01 &
+494\tabularnewline
+eci\_harc\_coi\_hs & 7.238397e-01 & 1.021782e+00 & 480\tabularnewline
+eci\_harc\_coi\_sitc & 8.914932e-01 & 1.188616e+00 & 1021\tabularnewline
+eci\_harv\_hs & 1.281993e+00 & 5.192609e-01 & 480\tabularnewline
+eci\_harv\_sitc & 1.338742e+00 & 5.426136e-01 & 1021\tabularnewline
+eci\_mit & 1.311625e+00 & 5.340857e-01 & 989\tabularnewline
+eci\_mit\_plus & 1.134707e+00 & 3.495672e-01 & 949\tabularnewline
+empl\_agr & 6.374046e+00 & 4.858520e+00 & 616\tabularnewline
+empl\_ind & 2.772955e+01 & 6.615437e+00 & 616\tabularnewline
+empl\_self & 1.610849e+01 & 7.530074e+00 & 616\tabularnewline
+empl\_serv & 6.589642e+01 & 9.148009e+00 & 616\tabularnewline
+fdi\_net\_inflow\_GDP & 4.282146e+00 & 1.265412e+01 & 824\tabularnewline
+fdi\_net\_outflow\_GDP & 4.231619e+00 & 1.165608e+01 &
+824\tabularnewline
+gdp\_nom\_lcu & 1.070035e+12 & 3.632065e+12 & 1012\tabularnewline
+gdp\_nom\_pc\_lcu & 9.247323e+04 & 3.658569e+05 & 1012\tabularnewline
+gdp\_nom\_pc\_ppp & 2.870353e+04 & 1.504384e+04 & 598\tabularnewline
+gdp\_nom\_pc\_usd & 1.928975e+04 & 1.845562e+04 & 1012\tabularnewline
+gdp\_nom\_ppp & 6.050902e+11 & 8.018594e+11 & 598\tabularnewline
+gdp\_nom\_usd & 4.149332e+11 & 6.995337e+11 & 1012\tabularnewline
+gdp\_real\_lcu & 1.420163e+12 & 4.050062e+12 & 1002\tabularnewline
+gdp\_real\_lcu\_growth & 2.921126e+00 & 3.127344e+00 &
+993\tabularnewline
+gdp\_real\_pc\_lcu & 1.230659e+05 & 4.066080e+05 & 1002\tabularnewline
+gdp\_real\_pc\_lcu\_growth & 2.511200e+00 & 3.133174e+00 &
+993\tabularnewline
+gdp\_real\_pc\_ppp & 3.325649e+04 & 1.452085e+04 & 598\tabularnewline
+gdp\_real\_pc\_usd & 2.945176e+04 & 1.705887e+04 & 1002\tabularnewline
+gdp\_real\_ppp & 6.977720e+11 & 8.737992e+11 & 598\tabularnewline
+gdp\_real\_usd & 6.195019e+11 & 8.009846e+11 & 1002\tabularnewline
+gini\_post\_tax & 2.824194e+01 & 4.282905e+00 & 930\tabularnewline
+gini\_pre\_tax & 4.454849e+01 & 4.960755e+00 & 930\tabularnewline
+interest\_long\_term & 6.037222e+00 & 3.570034e+00 & 698\tabularnewline
+interest\_real & 3.179152e+00 & 3.295836e+00 & 158\tabularnewline
+kof\_EcG & 6.826566e+01 & 1.512263e+01 & 926\tabularnewline
+kof\_EcG\_df & 5.963684e+01 & 1.936568e+01 & 926\tabularnewline
+kof\_EcG\_dj & 7.691221e+01 & 1.479206e+01 & 926\tabularnewline
+kof\_fin & 6.825611e+01 & 1.883040e+01 & 926\tabularnewline
+kof\_fin\_df & 6.518397e+01 & 2.310748e+01 & 926\tabularnewline
+kof\_fin\_dj & 7.121789e+01 & 1.857130e+01 & 926\tabularnewline
+kof\_G & 7.546839e+01 & 1.100691e+01 & 926\tabularnewline
+kof\_G\_df & 7.245519e+01 & 1.088731e+01 & 926\tabularnewline
+kof\_G\_dj & 7.849435e+01 & 1.259912e+01 & 926\tabularnewline
+kof\_trade & 6.829445e+01 & 1.282840e+01 & 926\tabularnewline
+kof\_trade\_df & 5.408971e+01 & 1.902936e+01 & 926\tabularnewline
+kof\_trade\_dj & 8.257585e+01 & 1.187440e+01 & 926\tabularnewline
+labor\_force\_total & 9.843727e+06 & 1.145189e+07 & 638\tabularnewline
+lmf\_debt\_asst\_stock & 1.558368e+02 & 2.328264e+02 &
+673\tabularnewline
+lmf\_debt\_liab\_stock & 1.699135e+02 & 2.205404e+02 &
+670\tabularnewline
+lmf\_fdi\_asst\_other & 2.019153e+02 & 2.425833e+02 & 81\tabularnewline
+lmf\_fdi\_asst\_stock & 1.883401e+02 & 2.413064e+02 & 741\tabularnewline
+lmf\_fdi\_liab\_other & 2.010452e+02 & 2.829810e+02 & 88\tabularnewline
+lmf\_fdi\_liab\_stock & 1.395978e+02 & 2.210145e+02 & 756\tabularnewline
+lmf\_nfa & -3.925397e+01 & 1.881579e+02 & 758\tabularnewline
+lmf\_nfa\_gdp & NaN & NA & 0\tabularnewline
+lmf\_port\_dbt\_asst & 1.630123e+02 & 2.244507e+02 & 508\tabularnewline
+lmf\_port\_dbt\_liab & 1.598543e+02 & 2.217842e+02 & 501\tabularnewline
+lmf\_port\_eq\_asst\_stock & 1.670565e+02 & 2.258434e+02 &
+756\tabularnewline
+lmf\_port\_eq\_liab\_stock & 1.607547e+02 & 2.341049e+02 &
+734\tabularnewline
+nulc\_eur & 6.623785e+01 & 3.364977e+01 & 1107\tabularnewline
+nulc\_lcu & 6.427318e+01 & 3.565298e+01 & 1107\tabularnewline
+population & 1.976719e+07 & 2.299377e+07 & 1232\tabularnewline
+population\_ameco & 1.957106e+04 & 2.253180e+04 & 1342\tabularnewline
+RD\_expend\_GDP & 1.608288e+00 & 8.337851e-01 & 445\tabularnewline
+RD\_scientists & 3.140586e+03 & 1.535799e+03 & 424\tabularnewline
+res\_rents & 4.628165e-01 & 5.182169e-01 & 900\tabularnewline
+rulc & 1.040787e+02 & 9.516946e+00 & 1107\tabularnewline
+school\_agv\_yrs & 8.096014e+00 & 2.312813e+00 & 286\tabularnewline
+school\_share\_sec & 2.091318e+01 & 1.514680e+01 & 286\tabularnewline
+school\_share\_ter & 5.860839e+00 & 4.779374e+00 & 286\tabularnewline
+sect\_balance\_foreign & 6.829969e-01 & 4.486588e+00 &
+1011\tabularnewline
+sect\_balance\_gvnt & -2.348230e+00 & 3.645584e+00 & 590\tabularnewline
+sect\_balance\_priv & 2.351190e+00 & 5.153029e+00 & 711\tabularnewline
+sect\_balance\_priv\_corp & 5.348790e-01 & 4.526948e+00 &
+711\tabularnewline
+sect\_balance\_priv\_HH & 1.816311e+00 & 3.918756e+00 &
+711\tabularnewline
+tax\_rev\_inc\_profits\_TAX & 2.490449e+01 & 9.332486e+00 &
+810\tabularnewline
+tax\_rev\_total\_GDP & 2.108720e+01 & 4.959340e+00 & 805\tabularnewline
+tax\_rev\_trade\_TAX & 1.515835e+00 & 2.691640e+00 & 475\tabularnewline
+total\_debt\_percGDP & 7.967861e+02 & 1.261850e+03 & 503\tabularnewline
+trade\_exp\_GDP & 4.321252e+01 & 2.948889e+01 & 1007\tabularnewline
+trade\_imp\_GDP & 4.226116e+01 & 2.455558e+01 & 1007\tabularnewline
+trade\_total\_GDP & 8.547369e+01 & 5.379680e+01 & 1007\tabularnewline
+unemp\_rate & 6.899639e+00 & 4.517599e+00 & 1109\tabularnewline
+unemp\_rate\_wb & 8.858721e+00 & 4.456263e+00 & 616\tabularnewline
+unemp\_youth\_neet & 1.077576e+01 & 4.020563e+00 & 323\tabularnewline
+VA\_industry\_gdp & 2.551180e+01 & 5.100148e+00 & 660\tabularnewline
+VA\_manufct\_gdp & 1.645300e+01 & 4.436667e+00 & 660\tabularnewline
+wage\_share & 5.687632e+01 & 6.552628e+00 & 1107\tabularnewline
+wgi\_accountability & 1.223702e+00 & 2.685152e-01 & 418\tabularnewline
+wgi\_control\_corrupt & 1.236671e+00 & 7.473791e-01 & 418\tabularnewline
+wgi\_gov\_effectvn & 1.297896e+00 & 5.396178e-01 & 418\tabularnewline
+wgi\_pol\_stability & 8.588920e-01 & 4.180943e-01 & 418\tabularnewline
+wgi\_regul\_quality & 1.294658e+00 & 4.024164e-01 & 418\tabularnewline
+wgi\_rule\_of\_law & 1.281833e+00 & 5.266454e-01 & 418\tabularnewline
+\bottomrule
+\end{longtable}
+
+\section{Information about the
+package}\label{information-about-the-package}
+
+The package can be used to automatically update the whole dataset. This
+way, it is straightforward to use newly published data.
+
+To this end, you can use the function \texttt{update\_macro\_data},
+which automatically recompiles the whole dataset. See
+\texttt{help("update\_macro\_data",\ package\ =\ "MacroDataR")} for more
+details.
+
+
+\end{document}
