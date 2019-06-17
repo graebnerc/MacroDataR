@@ -1,25 +1,45 @@
+#' Gets OECD data
+#'
+#' Calls all functions to collect and merge OECD data
 get_oecd_data <- function(download_data, countries_considered,
                           first_year, last_year){
+  print("Start getting OECD data...")
   oecd_full_data <- merge_oecd_data(
-    list(get_oecd_debt_data(),
-         get_oecd_pub_debt_data(),
-         get_oecd_finance_data(),
-         get_oecd_av_wages()
+    list(get_oecd_debt_data(download_data, countries_considered,
+                            first_year, last_year),
+         get_oecd_pub_debt_data(download_data, countries_considered,
+                                first_year, last_year),
+         get_oecd_finance_data(download_data, countries_considered,
+                               first_year, last_year),
+         get_oecd_av_wages(download_data, countries_considered,
+                           first_year, last_year)
          )
     )
+  print("finished.")
   return(oecd_full_data)
 
 }
+
 #' Merges OECD data
+#'
+#' Merges the OECD data provided in a list and tests for duplicates
 merge_oecd_data <- function(oecd_data_list){
   oecd_data <- Reduce(function(...) merge(..., all=TRUE,
-                                          by = c("iso3c", "year")),
+                                          by = c("iso3c", "year")
+                                          ),
                       oecd_data_list
   )
   stopifnot(test_uniqueness(oecd_data, c("iso3c", "year")))
   return(oecd_data)
 }
 
+#' Get OECD debt data
+#'
+#' Get variables from OECD dataset 'FIN_IND_FBS' on debt.
+#'
+#' Access to the OECD debt dataset 'FIN_IND_FBS'. From this dataset, the
+#'  following five variables are retrieved: "DBTS1GDP", "DBTS11GDP",
+#'  "DBTS12GDP", "DBTS13GDP", "DBTS14_S15GDI".
 get_oecd_debt_data <- function(download_data, countries_considered,
                                first_year, last_year){
   oecd_debt_file_name <- "data-raw/oecd_debt_data.csv"
@@ -68,8 +88,12 @@ get_oecd_debt_data <- function(download_data, countries_considered,
                  .SDcols = setdiff(new_names, "iso3c")
                  ]
 
+  return(oecd_debt_data)
 }
 
+#' Get OECD public debt data
+#'
+#' Gets data on public debt from OECD dataset 'NAAG'.
 get_oecd_pub_debt_data <- function(download_data, countries_considered,
                                    first_year, last_year){
   oecd_pub_debt_file_name <- "data-raw/oecd_pub_debt_data.csv"
@@ -109,9 +133,15 @@ get_oecd_pub_debt_data <- function(download_data, countries_considered,
                      (setdiff(new_names, "iso3c")):= lapply(.SD, as.double),
                      .SDcols = setdiff(new_names, "iso3c")
                      ]
-
+  return(oecd_pub_debt_data)
 }
 
+#' Get OECD finance data
+#'
+#' Get data on finance from OECD dataset 'MEI_FIN'.
+#'
+#' Retrieves the following finance-related variables from the OECD dataset
+#'  'MEI_FIN': IRLT in its annual version.
 get_oecd_finance_data <- function(download_data, countries_considered,
                                   first_year, last_year){
   oecd_finance_file_name <- "data-raw/oecd_finance_data.csv"
@@ -154,8 +184,15 @@ get_oecd_finance_data <- function(download_data, countries_considered,
                     (setdiff(new_names, "iso3c")):= lapply(.SD, as.double),
                     .SDcols = setdiff(new_names, "iso3c")
                     ]
+  return(oecd_finance_data)
 }
 
+#' OECD data on average wages
+#'
+#' Gets data on average wages from OECD dataset 'AV_AN_WAGE'
+#'
+#' Gets data on average wages from OECD dataset 'AV_AN_WAGE'. Only download
+#'  average wages in PPP dollar ('USDPPP').
 get_oecd_av_wages <- function(download_data, countries_considered,
                               first_year, last_year){
   oecd_wage_data_raw_file <- "data-raw/oecd_wage_data.csv"
@@ -197,8 +234,5 @@ get_oecd_av_wages <- function(download_data, countries_considered,
                  (setdiff(new_names, "iso3c")):= lapply(.SD, as.double),
                  .SDcols = setdiff(new_names, "iso3c")
                  ]
-
+  return(oecd_wage_data)
 }
-
-
-
