@@ -28,6 +28,14 @@ update_macro_data <- function(download_data=FALSE, vars="all", countries="EU",
                              countries_used,
                              start_year, end_year)
 
+  ameco_data <- get_ameco(data_download,
+                          countries_used,
+                          start_year, end_year)
+
+  world_bank_data <- get_worldbank(data_download,
+                                   countries_used,
+                                   start_year, end_year)
+
   #-----
 
   print("Merging data...")
