@@ -24,10 +24,10 @@ previously downloaded data be used (if false)?}
 Returns the updated data set.
 }
 \description{
-\code{update_data} function updates the data.
+\code{update_macro_data} function updates the data.
 }
 \details{
-\code{update_data} function updates the data set. To function properly it
+\code{update_macro_data} function updates the data set. To function properly it
  requires access to the internet, but an offline update is possible with
  \code{download_data=FALSE}. The data can also be updated selectively, but
  this functionality is not well tested.
