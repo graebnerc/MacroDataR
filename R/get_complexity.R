@@ -1,3 +1,9 @@
+#' Get economic complexity data
+#'
+#' Gets data from MIT and Harvard on economic complexity
+#'
+#' Downloads data on country and product complexity from the MIT Observatory
+#'  of Economic Complexity, and the Harvard Atlas of Economic Complexity.
 get_complexity <- function(download_data, countries_considered,
                            first_year, last_year){
   print("Complexity data...")
