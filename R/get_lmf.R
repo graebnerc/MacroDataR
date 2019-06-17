@@ -48,8 +48,35 @@ get_lmf <- function(download_data, countries_considered,
     lmf[, lmf_nfa_gdp:=gsub(pattern = "%",
                             replacement = "",
                             x = lmf_nfa_gdp)]
+
+    #' Transforms cols with characters into doubles explicitly
+    #'
+    #' Conducts the following cleaning procedures:
+    #'  1. NA values remain NA.
+    #'  2. If the string contains the substring 'NA', set to NA
+    #'  3. Remove points from strings
+    #'  4. Convert to double
+    clear_lmf_chars <- Vectorize(
+      function(x_old){
+        if (is.na(x_old) | (grepl("NA", x_old))){
+          x_new <- NA
+          return(x_new)
+        }
+        x_sub <- gsub(pattern = ",",
+                      replacement = ".",
+                      x = gsub(
+                        pattern = "\\.",
+                        replacement = "",
+                        x = x_old)
+                      )
+        x_new <- as.double(x_sub)
+        return(x_sub)
+      },
+      SIMPLIFY = T, USE.NAMES = F
+    )
+
     lmf[,
-        (setdiff(lmf_new_names, "iso3c")):= lapply(.SD, as.double),
+        (setdiff(lmf_new_names, "iso3c")):= lapply(.SD, clear_lmf_chars),
         .SDcols = setdiff(lmf_new_names, "iso3c")
         ]
   }
