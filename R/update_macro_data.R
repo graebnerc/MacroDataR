@@ -44,6 +44,10 @@ update_macro_data <- function(download_data=FALSE, vars="all", countries="EU",
                         countries_used,
                         start_year, end_year)
 
+  chinn_ito_data <- get_chinn_ito(data_download,
+                                  countries_used,
+                                  start_year, end_year)
+
   #-----
 
   print("Merging data...")
