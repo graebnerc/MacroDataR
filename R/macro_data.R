@@ -38,6 +38,33 @@ unfactor <- function(x){
   return(y)
 }
 
+#' Get countries
+#'
+#' Returns a pre-specified country list
+#'
+#' @param countries_to_get A code for a pre-specified country list
+#' @return A vector with country codes
+get_countries <- function(countries_to_get){
+
+  pre_spec_country_lists <- list(
+    "EU" = c("AUT", "BEL", "CZE", "DEU", "DNK", "ESP", "EST", "FIN", "FRA",
+             "GBR", "GRC", "HUN", "IRL", "ITA", "LUX", "LVA", "NLD", "POL",
+             "PRT", "SVK", "SVN", "SWE")
+  )
+
+  if (length(countries_to_get)==1 &
+      countries_to_get %in% names(pre_spec_country_lists)
+      ){
+    return(pre_spec_country_lists[[countries_to_get]])
+  } else{
+    warning(
+      paste0("No pre-spec country list found. Use country codes provided: ",
+             countries_to_get)
+      )
+    return(countries_to_get)
+  }
+
+}
 if (!exists("download_data")){
   download_data <- FALSE
 }
