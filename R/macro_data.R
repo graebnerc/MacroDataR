@@ -1400,23 +1400,23 @@ if (!exists("download_data")){
 # TODO Das noch kombinieren und Exportdatan separat speichern
 # weiter unten dann nur Komplexitätswerte nehmen
 # Die aber vielleicht sowieso immer erheben
-
-
-# Merge data===================================================================
-# TODO Testen ob es keine Dopplungen gibt
-
-print("Merging data...")
-macro_data <- Reduce(function(...) merge(..., all=TRUE,
-                                         by = c("iso3c", "year")),
-                     list(wb_data, swiid_raw, ameco_full, oecd_data, lmf,
-                          complexity_data, barro_lee, kof, chinn_ito,
-                          eurostat_bond_data_raw)
-                     )
-test_uniqueness(macro_data, c("iso3c", "year"))
-save(macro_data, file = "data/macro_data.rdata")
-macro_data_csv_name <- "data/macro_data.csv"
-data.table::fwrite(macro_data, file = macro_data_csv_name)
-R.utils::gzip(paste0(macro_data_csv_name),
-              destname=paste0(macro_data_csv_name, ".gz"),
-              overwrite = TRUE)
-print("finished.")
+#
+#
+# # Merge data===================================================================
+# # TODO Testen ob es keine Dopplungen gibt
+#
+# print("Merging data...")
+# macro_data <- Reduce(function(...) merge(..., all=TRUE,
+#                                          by = c("iso3c", "year")),
+#                      list(wb_data, swiid_raw, ameco_full, oecd_data, lmf,
+#                           complexity_data, barro_lee, kof, chinn_ito,
+#                           eurostat_bond_data_raw)
+#                      )
+# test_uniqueness(macro_data, c("iso3c", "year"))
+# save(macro_data, file = "data/macro_data.rdata")
+# macro_data_csv_name <- "data/macro_data.csv"
+# data.table::fwrite(macro_data, file = macro_data_csv_name)
+# R.utils::gzip(paste0(macro_data_csv_name),
+#               destname=paste0(macro_data_csv_name, ".gz"),
+#               overwrite = TRUE)
+# print("finished.")
