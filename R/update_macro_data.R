@@ -1,3 +1,5 @@
+#' @import data.table
+
 #' Update data
 #'
 #' \code{update_data} function updates the data.
